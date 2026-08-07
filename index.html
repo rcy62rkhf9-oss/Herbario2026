@@ -363,6 +363,27 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 #badgeVerbos{background:var(--ambar);color:var(--escuro)}
 #badgeDiario{background:var(--cinza);color:var(--escuro)}
 
+/* ---- busca e acréscimo de verbo ---- */
+.v-busca{padding:18px 0 0}
+.v-busca .campo{margin-top:0}
+.v-tronos{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.v-chipT{padding:6px 11px;border-radius:99px;background:var(--carvao);color:var(--cinza);
+  font-size:11.5px;font-weight:600;transition:.15s}
+.v-chipT[aria-pressed="true"]{background:var(--marfim);color:var(--escuro)}
+.v-res{margin-top:11px}
+.v-item{display:block;position:relative;width:100%;text-align:left;margin-bottom:6px;
+  padding:12px 42px 12px 14px;border-radius:var(--r2);background:var(--carvao);transition:.15s}
+.v-item[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--seiva)}
+.vi-nome{display:block;font-size:15px;font-weight:200;letter-spacing:.004em;color:var(--marfim)}
+.vi-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:10px}
+.vi-ico{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--cinza)}
+.v-item[aria-pressed="true"] .vi-ico{color:var(--seiva)}
+.v-novo{display:flex;align-items:center;gap:8px;width:100%;padding:13px 14px;border-radius:var(--r2);
+  background:rgba(134,164,94,.13);color:var(--seiva-txt);font-size:13px;font-weight:500;text-align:left}
+.v-novo b{font-weight:700}
+.vchip.esc.proprio{background:transparent;color:var(--marfim);
+  box-shadow:inset 0 0 0 1.5px var(--linha2)}
+
 /* ---- verbos clicáveis ---- */
 .verbos{display:flex;flex-wrap:wrap;gap:6px;margin:13px 0 0}
 .vchip{padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.05);
@@ -749,6 +770,19 @@ DADOS.forEach(e=>{
   IDX[e.n] = { v: vs, k: sacode(vs.join(" ")), o: sacode(os) };
 });
 const termo = () => sacode(busca.trim());
+
+/* de onde vem cada verbo: pares (orixá, temperatura) */
+const VERBO_ORIGEM = {};
+Object.keys(VERBOS).forEach(cod=>{
+  Object.keys(VERBOS[cod]).forEach(t=>{
+    VERBOS[cod][t].forEach(v=>{
+      (VERBO_ORIGEM[v] = VERBO_ORIGEM[v] || []).push([cod, t]);
+    });
+  });
+});
+const TODOS_VERBOS = Object.keys(VERBO_ORIGEM).sort((a,b)=>sacode(a).localeCompare(sacode(b)));
+const verboDaCasa = v => !!VERBO_ORIGEM[v];
+let vBusca = "", vTrono = null;
 
 const nivelDe = n => estado.status[n] || 0;
 const ICONE = {
@@ -1244,7 +1278,9 @@ function alternaVerbo(v){
 function ervasPorVerbo(){
   if(!estado.verbos.length) return [];
   return DADOS.map(e=>{
-      const casam = estado.verbos.filter(v=>IDX[e.n].v.includes(v));
+      const casam = estado.verbos.filter(v=>
+        IDX[e.n].v.includes(v) ||
+        (!verboDaCasa(v) && IDX[e.n].k.includes(sacode(v))));
       return {e, n: casam.length, casam};
     })
     .filter(x=>x.n>0)
@@ -1283,6 +1319,71 @@ function telaVerbos(alvo){
   });
   alvo.appendChild(selV);
 
+  /* ---- escolher verbo digitando ---- */
+  const cx = document.createElement("div"); cx.className="v-busca";
+  const campo = document.createElement("div"); campo.className="campo";
+  campo.innerHTML = sv(D.lupa);
+  const inp = document.createElement("input");
+  inp.type="text"; inp.placeholder="Escreva um verbo…"; inp.value=vBusca;
+  inp.setAttribute("aria-label","Escreva um verbo");
+  campo.appendChild(inp);
+  cx.appendChild(campo);
+
+  const tr = document.createElement("div"); tr.className="v-tronos";
+  const chipT = (cod, rot, cor)=>{
+    const b=document.createElement("button"); b.className="v-chipT";
+    b.setAttribute("aria-pressed", vTrono===cod);
+    b.textContent = rot;
+    if(cor){ b.style.color = vTrono===cod ? "#1A1917" : cor;
+             b.style.background = vTrono===cod ? cor : rgba(cor,.13); }
+    b.onclick = ()=>{ vTrono = (vTrono===cod ? null : cod); render(); };
+    return b;
+  };
+  tr.appendChild(chipT(null, "todos os tronos", null));
+  TRONOS.forEach(t=>tr.appendChild(chipT(t.c, t.nome, COR_TRONO[t.c])));
+  cx.appendChild(tr);
+
+  const res = document.createElement("div"); res.className="v-res";
+  cx.appendChild(res);
+  alvo.appendChild(cx);
+
+  function resultados(){
+    const b = sacode(inp.value.trim());
+    res.innerHTML = "";
+    let lista = TODOS_VERBOS;
+    if(vTrono) lista = lista.filter(v=>VERBO_ORIGEM[v].some(([c])=>orixasDoTrono(vTrono).includes(c)));
+    if(b) lista = lista.filter(v=>sacode(v).includes(b));
+
+    if(!b && !vTrono){ return; }
+
+    lista.slice(0,24).forEach(v=>{
+      const b2=document.createElement("button"); b2.className="v-item";
+      b2.setAttribute("aria-pressed", verboEscolhido(v));
+      const orix = [...new Set(VERBO_ORIGEM[v].map(([c])=>c))]
+        .map(c=>'<i class="ox" style="color:'+corOrixa(c)+'">'+c+'</i>').join(" ");
+      const temps = [...new Set(VERBO_ORIGEM[v].map(([,t])=>t))]
+        .map(t=>'<i class="tp '+(t==="Q"?"q":"m")+'">'+sv(t==="Q"?D.chama:D.folha,"ico-sm")+(t==="Q"?"quente":"morna")+'</i>').join("");
+      b2.innerHTML = '<span class="vi-nome">'+v+'</span>'
+        + '<span class="vi-meta">'+temps+orix+'</span>'
+        + '<span class="vi-ico">'+sv(verboEscolhido(v)?D.visto:D.mais,"ico-sm")+'</span>';
+      b2.onclick = ()=>{ alternaVerbo(v); render(); };
+      res.appendChild(b2);
+    });
+
+    if(b && !lista.some(v=>sacode(v)===b)){
+      const novo=document.createElement("button"); novo.className="v-novo";
+      novo.innerHTML = sv(D.mais,"ico-sm")+'Acrescentar <b>'+inp.value.trim()+'</b> como verbo seu';
+      novo.onclick = ()=>{ const t=inp.value.trim(); if(t){ vBusca=""; alternaVerbo(t); render(); } };
+      res.appendChild(novo);
+    } else if(b && !lista.length){
+      const p=document.createElement("p"); p.className="dica-vazia";
+      p.textContent = "Nenhum verbo desse trono com essa escrita.";
+      res.appendChild(p);
+    }
+  }
+  inp.oninput = ()=>{ vBusca = inp.value; resultados(); };
+  resultados();
+
   const nv = estado.verbos.length, metaV = estado.alvoV;
   const cv = document.createElement("div"); cv.className="contagem";
   cv.dataset.situacao = nv===metaV ? "ok" : (nv<metaV ? "falta" : "excesso");
@@ -1293,11 +1394,9 @@ function telaVerbos(alvo){
   alvo.appendChild(cv);
 
   if(!nv){
-    const v=document.createElement("div"); v.className="vazio";
-    v.innerHTML = '<div class="vazioIco">'+sv(D.raio,"ico-lg")+'</div>'
-      + "<strong>Nenhum verbo escolhido</strong>"
-      + "<span>Abra qualquer erva no herbário, toque em <b>verbos de poder</b> e escolha ali. "
-      + "Os verbos são da coluna do orixá — por isso vivem na ficha de cada erva.</span>";
+    const v=document.createElement("p"); v.className="dica-vazia";
+    v.innerHTML = "Escreva um verbo acima, ou escolha um trono para ver os verbos dele. "
+      + "Também dá para escolher pela ficha de cada erva, em <b>verbos de poder</b>.";
     alvo.appendChild(v);
     return;
   }
