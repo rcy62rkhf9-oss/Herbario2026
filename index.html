@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1A1917">
+<title>Herbário — Cabana de Pai Joaquim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* --- paleta ---------------------------------------------------------
+     fundo: verde militar profundo, levemente quente
+     acentos suavizados um grau para acolher em vez de alarmar          */
+  --breu:#1A1917; --carvao:#252220; --carvao2:#302C29;
+  --linha:#343029; --linha2:#4A433B;
+  --marfim:#F0EBE3; --cinza:#9B9288;
+  /* três acentos sobre a base cinza-quente, só em detalhes e menus */
+  --seiva:#86A45E;        /* verde     — tenho      */
+  --seiva-txt:#9EBA79;
+  --ambar:#D2A03C;        /* mostarda  — acabando   */
+  --brasa:#C4492F;        /* vermelho  — falta      */
+  --brasa-luz:#E08A72;    /* vermelho clareado, para texto sobre o escuro */
+  --escuro:#1A1917;       /* texto sobre preenchimentos claros */
+  --claro:#FBF2EE;        /* texto sobre o vermelho */
+  --quente:#C7B7A6;       /* etiqueta quente — permanece neutra */
+  --morna:#8D857C;        /* etiqueta morna  — permanece neutra */
+  --sans:"Articulat CF","ArticulatCF","Articulat","Hanken Grotesk",system-ui,-apple-system,sans-serif;
+  --serif:var(--sans); --mono:var(--sans);
+  --r:18px;   /* raio grande, cantos macios */
+  --r2:12px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--breu)}
+body{margin:0;background:var(--breu);color:var(--marfim);font-family:var(--sans);
+  font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--seiva);outline-offset:3px;border-radius:6px}
+.mono{font-family:var(--mono)}
+svg{flex:0 0 auto}
+.ico{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+.ico-sm{width:12px;height:12px;stroke-width:1.8}
+.ico-lg{width:21px;height:21px;stroke-width:1.5}
+
+/* ============ cabeçalho ============ */
+.capa{padding:16px 18px 2px}
+.top{position:sticky;top:0;z-index:20;background:var(--breu);border-bottom:1px solid var(--linha)}
+.top-in{padding:10px 18px 0}
+.eyebrow{display:flex;align-items:center;gap:7px;font-size:9.5px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--cinza)}
+h1{font-family:var(--sans);font-weight:600;font-size:27px;line-height:1;margin:6px 0 0;
+  letter-spacing:-.028em}
+h1 em{font-style:normal;color:var(--cinza)}
+
+.barra{display:flex;gap:2px;height:5px;margin:12px 0 8px;background:var(--carvao);
+  border-radius:99px;overflow:hidden;padding:0}
+.barra i{display:block;height:100%;border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.b-cheio{background:var(--seiva)} .b-acab{background:var(--ambar)} .b-falta{background:var(--brasa)}
+.legenda{display:flex;flex-wrap:wrap;gap:7px}
+.legenda span{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:99px;
+  background:var(--carvao);font-size:10px;font-weight:500;letter-spacing:.02em;color:var(--cinza)}
+.legenda b{font-weight:600}
+.legenda span::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.l-cheio{color:var(--seiva-txt)!important} .l-acab{color:var(--ambar)!important}
+.l-falta{color:var(--brasa-luz)!important}
+
+.campo{display:flex;align-items:center;gap:9px;margin-top:0;padding:10px 14px;
+  background:var(--carvao);border-radius:99px;color:var(--cinza)}
+.campo input{flex:1;min-width:0;border:0;background:transparent;color:var(--marfim);
+  font-family:var(--sans);font-size:15.5px}
+.campo input::placeholder{color:var(--cinza)}
+.campo input:focus{outline:none}
+
+.chips{display:flex;gap:7px;overflow-x:auto;padding:10px 18px 11px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:8px 13px;
+  border-radius:99px;background:var(--carvao);font-size:12px;font-weight:500;
+  color:var(--cinza);white-space:nowrap;transition:.16s}
+.chip[aria-pressed="true"]{background:var(--marfim);color:var(--breu);font-weight:600}
+.chip[aria-pressed="false"][data-cor="cheio"] svg{color:var(--seiva)}
+.chip[aria-pressed="false"][data-cor="acabando"] svg{color:var(--ambar)}
+.chip[aria-pressed="false"][data-cor="falta"] svg{color:var(--brasa-luz)}
+
+/* ---- filtro por trono / orixá ---- */
+.linhaFiltro{display:none}
+.btnTrono{gap:6px}
+.btnTrono .seta{width:9px;height:9px}
+.btnTrono[data-ativo="1"]{background:var(--seiva);color:var(--escuro);font-weight:600}
+.btnTrono .seta{width:9px;height:9px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round}
+.limpar{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
+  color:var(--brasa-luz);white-space:nowrap;flex:0 0 auto}
+.limpar[hidden]{display:none}
+
+/* ============ lista ============ */
+main{min-height:60vh;padding:0 14px}
+.letra{display:flex;align-items:center;gap:10px;padding:16px 4px 8px}
+.letra span{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;
+  padding:0 7px;border-radius:99px;background:var(--carvao);font-size:12.5px;font-weight:600;
+  letter-spacing:-.01em;color:var(--marfim)}
+.letra i{flex:1;height:1px;background:var(--linha)}
+.letra em{font-style:normal;font-size:10px;font-weight:500;color:var(--cinza);letter-spacing:.08em}
+
+.linha{position:relative;display:flex;align-items:center;gap:8px;margin-bottom:7px;
+  padding:12px 10px 12px 17px;background:var(--carvao);border-radius:var(--r);overflow:hidden;
+  transition:background .16s}
+.linha::before{content:"";position:absolute;left:6px;top:50%;transform:translateY(-50%);
+  width:4px;height:0;border-radius:99px;transition:height .3s cubic-bezier(.4,0,.2,1)}
+.linha[data-nv="3"]::before{height:62%;background:var(--seiva)}
+.linha[data-nv="2"]::before{height:34%;background:var(--ambar)}
+.linha[data-nv="1"]::before{height:16%;background:var(--brasa)}
+.linha[data-nv="1"]{background:#2C2320}
+.linha[data-nv="3"]{background:#22241C}
+
+.info{display:block;text-align:left;width:100%;flex:1;min-width:0;background:none;border:0;padding:0}
+.nome{font-size:15.5px;font-weight:600;letter-spacing:-.014em;color:var(--marfim)}
+.linha[data-nv="0"] .nome{font-weight:500;color:#D3CEC6}
+.sub{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:5px;
+  font-size:10px;font-weight:500;letter-spacing:.06em}
+.sub .tag{display:inline-flex;align-items:center;gap:4px;padding:2px 7px 2px 5px;border-radius:99px;
+  background:rgba(255,255,255,.05)}
+.sub .q{color:var(--quente)} .sub .m{color:var(--morna)}
+.sub .orx{letter-spacing:.09em;font-weight:600;padding:2px 7px}
+.sub .sep{display:none}
+.lupa{display:inline-flex;align-items:center;gap:4px;color:#867D73;font-size:9.5px;
+  letter-spacing:.09em;text-transform:uppercase}
+
+.niveis{display:flex;gap:2px;flex:0 0 auto}
+.nv{width:40px;height:40px;border-radius:var(--r2);color:#7E7568;
+  display:flex;align-items:center;justify-content:center;transition:.16s ease}
+.nv svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;
+  stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nv-3[aria-pressed="true"]{background:var(--seiva);color:var(--escuro)}
+.nv-2[aria-pressed="true"]{background:var(--ambar);color:var(--escuro)}
+.nv-1[aria-pressed="true"]{background:var(--brasa);color:var(--claro)}
+.nv[aria-pressed="true"] svg{stroke-width:2.1}
+
+/* ============ painel de tronos ============ */
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(13,12,11,.78);backdrop-filter:blur(5px);
+  display:flex;align-items:flex-end}
+.sheet[hidden]{display:none}
+.sheet-in{width:100%;max-height:86vh;overflow-y:auto;background:var(--breu);
+  border-radius:26px 26px 0 0;padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  -webkit-overflow-scrolling:touch}
+.sheet-top{position:sticky;top:0;z-index:2;background:var(--breu);padding:20px 18px 13px;
+  display:flex;align-items:center;gap:10px}
+.sheet-top h3{flex:1;font-size:20px;font-weight:600;letter-spacing:-.022em;margin:0}
+.sheet-top button{width:34px;height:34px;border-radius:50%;background:var(--carvao);
+  display:flex;align-items:center;justify-content:center;color:var(--cinza);font-size:0}
+.sheet-dica{margin:0;padding:0 18px 6px;font-size:12.5px;color:var(--cinza)}
+
+.trono{margin:8px 14px;padding:15px 15px 16px;background:var(--carvao);border-radius:var(--r);
+  transition:.16s}
+.trono[data-ativo="1"]{background:var(--carvao2)}
+.trono-cab{display:flex;align-items:center;gap:10px;width:100%;text-align:left}
+.trono-cab .el{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;color:var(--cinza)}
+
+.trono-cab .txt{flex:1;min-width:0}
+.trono-cab h4{font-size:17px;font-weight:600;letter-spacing:-.018em;margin:0;color:var(--marfim)}
+.trono-cab u{display:block;text-decoration:none;font-size:9.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;margin-top:2px}
+.trono-cab i{display:none}
+.trono-cab em{font-style:normal;font-size:10.5px;font-weight:600;color:var(--cinza)}
+.trono-cab .mk{display:none}
+.orixas{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.oq{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;
+  background:rgba(255,255,255,.05);font-size:12.5px;font-weight:500;color:var(--cinza);transition:.15s}
+.oq em{font-style:normal;font-size:9.5px;font-weight:600;opacity:.7}
+.oq[aria-pressed="true"]{font-weight:600}
+
+.sheet-pe{position:sticky;bottom:0;display:flex;align-items:center;gap:12px;
+  padding:13px 18px calc(13px + env(safe-area-inset-bottom));background:var(--breu);
+  border-top:1px solid var(--linha)}
+.sheet-pe span{flex:1;font-size:11.5px;font-weight:500;color:var(--cinza)}
+.sheet-pe button{font-size:11.5px;font-weight:600;color:var(--brasa-luz)}
+.sheet-pe button[hidden]{display:none}
+.sheet-pe .ver{padding:10px 18px;border-radius:99px;background:var(--seiva);color:var(--escuro)}
+
+/* ============ comprar ============ */
+.alerta{margin:12px 14px 0;padding:12px 15px;background:rgba(196,73,47,.16);
+  border-radius:var(--r2);font-size:11.5px;font-weight:500;color:var(--brasa-luz);text-align:center;
+  box-shadow:inset 0 0 0 1px rgba(196,73,47,.4)}
+.alerta[hidden]{display:none}
+.abertura{padding:22px 4px 4px}
+.abertura h2{display:flex;align-items:center;gap:9px;font-size:23px;font-weight:600;
+  letter-spacing:-.024em;margin:0;line-height:1.1}
+.abertura p{margin:8px 0 0;font-size:13.5px;color:var(--cinza)}
+.recorte{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:14px;
+  padding:12px 14px;background:rgba(210,160,60,.13);border-radius:var(--r2)}
+.recorte span{flex:1;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:500;
+  color:var(--ambar)}
+.recorte button{font-size:10.5px;font-weight:600;color:var(--cinza);white-space:nowrap}
+.grupo{display:flex;align-items:center;gap:9px;padding:24px 4px 10px}
+.grupo h3{display:flex;align-items:center;gap:7px;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;margin:0;font-weight:600}
+.g-falta h3{color:var(--brasa-luz)} .g-acab h3{color:var(--ambar)}
+.grupo i{flex:1;height:1px;background:var(--linha)}
+.grupo em{font-style:normal;font-size:10px;font-weight:500;color:var(--cinza)}
+
+.acao{padding:24px 0 8px}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px;
+  border-radius:99px;font-size:14.5px;font-weight:600;letter-spacing:-.008em}
+.btn-urg{background:var(--brasa);color:var(--claro)}
+.btn-urg:active{background:#A93B24}
+.btn-sec{margin-top:9px;background:var(--carvao);color:var(--cinza)}
+.saida{display:none;margin:11px 0 0;width:100%;height:200px;padding:14px;border:0;
+  border-radius:var(--r2);background:var(--carvao);color:var(--marfim);
+  font-family:var(--sans);font-size:12.5px;line-height:1.65;resize:vertical}
+
+.vazio{padding:56px 26px;text-align:center}
+.vazioIco{width:52px;height:52px;margin:0 auto 16px;border-radius:50%;background:var(--carvao);
+  display:flex;align-items:center;justify-content:center;color:var(--cinza)}
+.vazio strong{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
+.vazio span{font-size:13.5px;color:var(--cinza);line-height:1.6}
+.rodape{display:flex;align-items:center;justify-content:center;gap:7px;
+  padding:22px 10px 26px;font-size:10.5px;font-weight:500;color:var(--cinza);text-align:center}
+
+.backup{margin:6px 0 34px;padding:17px;background:var(--carvao);border-radius:var(--r)}
+.backup h4{display:flex;align-items:center;gap:7px;font-size:10.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--cinza);margin:0 0 8px;font-weight:600}
+.backup h4 svg{color:var(--seiva)}
+.backup p{margin:0 0 13px;font-size:12.5px;color:var(--cinza);line-height:1.55}
+.backup .btn{padding:12px;font-size:13px;background:rgba(255,255,255,.06)}
+.cola{width:100%;margin:9px 0;padding:12px;border:0;border-radius:var(--r2);
+  background:rgba(0,0,0,.22);color:var(--marfim);font-family:var(--sans);font-size:12px;resize:vertical}
+.cola::placeholder{color:#736A61}
+
+/* ============ ficha ============ */
+.ficha-cab{padding:4px 18px 4px}
+.ficha-cab h3{font-size:25px;font-weight:600;letter-spacing:-.026em;margin:0;line-height:1.1}
+.ficha-est{display:inline-flex;align-items:center;gap:6px;margin:9px 0 0;padding:5px 11px;
+  border-radius:99px;background:var(--carvao);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--cinza)}
+.ficha-est.est-3{color:var(--seiva-txt)} .ficha-est.est-2{color:var(--ambar)}
+.ficha-est.est-1{color:var(--brasa-luz)}
+.bloco{margin:12px 14px;padding:16px 16px 16px 18px;background:var(--carvao);
+  border-radius:var(--r);overflow:hidden}
+.bloco-cab{display:flex;align-items:center;gap:10px}
+.bloco-cab .el{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;color:var(--cinza)}
+.bloco-cab h4{flex:1;font-size:17px;font-weight:600;letter-spacing:-.018em;margin:0}
+.sub .tag.orx{background:rgba(255,255,255,.05)}
+.bloco-cab .tmp{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;
+  background:rgba(255,255,255,.05);font-size:9.5px;font-weight:600;letter-spacing:.1em}
+.bloco-cab .q{color:var(--quente)} .bloco-cab .m{color:var(--morna)}
+.bloco-tr{margin:9px 0 0;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cinza)}
+.verbos{margin:13px 0 0;font-size:17px;font-weight:200;line-height:1.9;letter-spacing:.004em;
+  color:var(--marfim)}
+.ficha-pe{display:flex;gap:10px;margin:0;padding:6px 18px 30px;font-size:12.5px;line-height:1.6;
+  color:var(--cinza)}
+
+/* ============ abas ============ */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:6px;padding:8px 14px;
+  padding-bottom:calc(8px + env(safe-area-inset-bottom));
+  background:rgba(26,25,23,.95);backdrop-filter:blur(14px);border-top:1px solid var(--linha)}
+.tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 6px;
+  border-radius:99px;font-size:12.5px;font-weight:500;color:var(--cinza);transition:.16s}
+.tab[aria-selected="true"]{background:var(--carvao2);color:var(--marfim);font-weight:600}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;
+  padding:0 6px;border-radius:99px;background:var(--brasa);color:var(--claro);font-size:10.5px;
+  font-weight:600}
+.badge[hidden]{display:none}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="capa">
+  <div class="eyebrow" id="eyebrow">Cabana de Pai Joaquim</div>
+  <h1>Herbário</h1>
+  <div class="barra" id="barra" aria-hidden="true"></div>
+  <div class="legenda" id="legenda"></div>
+</div>
+
+<header class="top">
+  <div class="top-in">
+    <div class="campo">
+      <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.6" cy="8.6" r="5.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12.6 12.6L17 17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input id="busca" type="search" placeholder="Buscar erva…" autocomplete="off" aria-label="Buscar erva">
+      <button class="limpar" id="limpar" hidden><svg class="ico ico-sm" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>limpar</button>
+    </div>
+  </div>
+  <div class="chips" id="chips" role="group" aria-label="Filtros"></div>
+</header>
+
+<p class="alerta" id="alerta" hidden></p>
+<main id="conteudo"></main>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Filtrar por trono ou orixá">
+  <div class="sheet-in">
+    <div class="sheet-top"><h3>Os sete tronos</h3><button id="fecharSheet" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <p class="sheet-dica">Toque em quantos quiser — os recortes se somam.</p>
+    <div id="tronos"></div>
+    <div class="sheet-pe" id="sheetPe">
+      <button id="sheetLimpar" hidden>limpar</button>
+      <span id="sheetConta"></span>
+      <button id="sheetVer" class="ver">ver ervas</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="ficha" hidden role="dialog" aria-modal="true" aria-label="Verbos atuantes">
+  <div class="sheet-in">
+    <div class="sheet-top"><h3>Verbos atuantes</h3><button id="fecharFicha" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div id="fichaCorpo"></div>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" data-aba="estoque" aria-selected="true"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 3.4h7.6v2.2l-1 1.2v9.6a1 1 0 01-1 1H8.2a1 1 0 01-1-1V6.8l-1-1.2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.2 11h5.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Herbário</button>
+  <button class="tab" role="tab" data-aba="comprar" aria-selected="false"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M1.7 2.6h2.4l2.3 9.5h8.5l1.9-6.9H5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.6" cy="16.4" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="16.4" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Comprar<span class="badge" id="badge" hidden>0</span></button>
+</nav>
+
+<script>
+const DADOS = [{"n":"Abacateiro","k":"abacateiro","t":"M","o":["OXS"],"p":[["OXS","M"]]},{"n":"Abre-Caminho","k":"abre-caminho","t":"M","o":["OXS","OGM"],"p":[["OXS","M"],["OGM","M"]]},{"n":"Açafrão (raiz)","k":"acafrao (raiz)","t":"M","o":["EGU"],"p":[["EGU","M"]]},{"n":"Açoita-Cavalo","k":"acoita-cavalo","t":"Q","o":["EXU","EXM","OXL"],"p":[["EXU","Q"],["EXM","Q"],["OXL","Q"]]},{"n":"Alcachofra (folhas)","k":"alcachofra (folhas)","t":"M","o":["OML"],"p":[["OML","M"]]},{"n":"Alcaçuz","k":"alcacuz","t":"M","o":["OXL"],"p":[["OXL","M"]]},{"n":"Alecrim","k":"alecrim","t":"M","o":["OXL","OXS"],"p":[["OXL","M"],["OXS","M"]]},{"n":"Alfavaca","k":"alfavaca","t":"M","o":["NAN","EGU","IAN"],"p":[["NAN","M"],["EGU","M"],["IAN","M"]]},{"n":"Alfazema","k":"alfazema","t":"M","o":["OXL","IEM","NAN"],"p":[["OXL","M"],["IEM","M"],["NAN","M"]]},{"n":"Alho (casca)","k":"alho (casca)","t":"Q","o":["EXU","EXM","IEM","OBL"],"p":[["EXU","Q"],["EXM","Q"],["IEM","Q"],["OBL","Q"]]},{"n":"Alho (dente natural)","k":"alho (dente natural)","t":"Q","o":["OXL"],"p":[["OXL","Q"]]},{"n":"Alho (desidratado)","k":"alho (desidratado)","t":"Q","o":["IEM","OML","OBL"],"p":[["IEM","Q"],["OML","Q"],["OBL","Q"]]},{"n":"Amora","k":"amora","t":"Q","o":["PGR"],"p":[["PGR","Q"]]},{"n":"Angico","k":"angico","t":"Q","o":["OXR","XAN"],"p":[["OXR","Q"],["XAN","Q"]]},{"n":"Anis Estrelado","k":"anis estrelado","t":"M","o":["IEM"],"p":[["IEM","M"]]},{"n":"Arnica","k":"arnica","t":"M","o":["OXS"],"p":[["OXS","M"]]},{"n":"Arnica do Mato","k":"arnica do mato","t":"M","o":["EGU"],"p":[["EGU","M"]]},{"n":"Aroeira","k":"aroeira","t":"Q","o":["XAN"],"p":[["XAN","Q"]]},{"n":"Arroz","k":"arroz","t":"M","o":["IEM","OBL"],"p":[["IEM","M"],["OBL","M"]]},{"n":"Arruda","k":"arruda","t":"Q","o":["XAN","EGU"],"p":[["XAN","Q"],["EGU","Q"]]},{"n":"Artemísia","k":"artemisia","t":"M","o":["OXR","EGU"],"p":[["OXR","M"],["EGU","M"]]},{"n":"Assa-Peixe","k":"assa-peixe","t":"M","o":["NAN","OGM"],"p":[["NAN","M"],["OGM","M"]]},{"n":"Babosa","k":"babosa","t":"M","o":["XAN"],"p":[["XAN","M"]]},{"n":"Bálsamo","k":"balsamo","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Bambu (folhas)","k":"bambu (folhas)","t":"Q","o":["OYA","OGM","IAN"],"p":[["OYA","Q"],["OGM","Q"],["IAN","Q"]]},{"n":"Barba de Velho","k":"barba de velho","t":"QM","o":["EXU","OBL","XAN"],"p":[["EXU","Q"],["OBL","M"],["XAN","M"]]},{"n":"Barbatimão","k":"barbatimao","t":"M","o":["XAN"],"p":[["XAN","M"]]},{"n":"Bardana (folhas)","k":"bardana (folhas)","t":"M","o":["OXL","NAN"],"p":[["OXL","M"],["NAN","M"]]},{"n":"Benjoim","k":"benjoim","t":"M","o":["OYA"],"p":[["OYA","M"]]},{"n":"Beterraba (folhas)","k":"beterraba (folhas)","t":"M","o":["OML","OBL"],"p":[["OML","M"],["OBL","M"]]},{"n":"Boldo","k":"boldo","t":"M","o":["OXL"],"p":[["OXL","M"]]},{"n":"Buchinha do Norte","k":"buchinha do norte","t":"Q","o":["OXM","OXR","OXS","OBA","EGU","IAN"],"p":[["OXM","Q"],["OXR","Q"],["OXS","Q"],["OBA","Q"],["EGU","Q"],["IAN","Q"]]},{"n":"Café (folha)","k":"cafe (folha)","t":"M","o":["OXS","XAN","OGM"],"p":[["OXS","M"],["XAN","M"],["OGM","M"]]},{"n":"Calêndula (flor)","k":"calendula (flor)","t":"M","o":["OXM","EGU","IAN"],"p":[["OXM","M"],["EGU","M"],["IAN","M"]]},{"n":"Camomila (flor)","k":"camomila (flor)","t":"M","o":["IEM","OXM","NAN"],"p":[["IEM","M"],["OXM","M"],["NAN","M"]]},{"n":"Cana do Brejo","k":"cana do brejo","t":"M","o":["NAN","OXS"],"p":[["NAN","M"],["OXS","M"]]},{"n":"Canela","k":"canela","t":"QM","o":["PGR","OXM","EGU"],"p":[["PGR","Q"],["OXM","M"],["EGU","M"]]},{"n":"Cânfora","k":"canfora","t":"Q","o":["OYA","OXS","EGU","IAN"],"p":[["OYA","Q"],["OXS","Q"],["EGU","Q"],["IAN","Q"]]},{"n":"Capim Cidreira","k":"capim cidreira","t":"M","o":["OXS","OGM","IAN"],"p":[["OXS","M"],["OGM","M"],["IAN","M"]]},{"n":"Capim Rosário","k":"capim rosario","t":"M","o":["OML","NAN"],"p":[["OML","M"],["NAN","M"]]},{"n":"Capuchinha","k":"capuchinha","t":"M","o":["IAN"],"p":[["IAN","M"]]},{"n":"Carapiá (raiz)","k":"carapia (raiz)","t":"QM","o":["EXM","XAN","EGU"],"p":[["EXM","Q"],["XAN","M"],["EGU","M"]]},{"n":"Carqueja","k":"carqueja","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Carqueja Amarga","k":"carqueja amarga","t":"M","o":["OXS","OGM"],"p":[["OXS","M"],["OGM","M"]]},{"n":"Catinga de Mulata","k":"catinga de mulata","t":"M","o":["OML","OXR","OBL","OBA"],"p":[["OML","M"],["OXR","M"],["OBL","M"],["OBA","M"]]},{"n":"Catuaba (pau de resposta)","k":"catuaba (pau de resposta)","t":"M","o":["OGM"],"p":[["OGM","M"]]},{"n":"Cavalinha","k":"cavalinha","t":"M","o":["OGM","IAN"],"p":[["OGM","M"],["IAN","M"]]},{"n":"Cebola (casca)","k":"cebola (casca)","t":"Q","o":["EXU","EXM","OBL"],"p":[["EXU","Q"],["EXM","Q"],["OBL","Q"]]},{"n":"Cebola (desidratada)","k":"cebola (desidratada)","t":"Q","o":["OBL"],"p":[["OBL","Q"]]},{"n":"Chá Verde","k":"cha verde","t":"M","o":["OXS"],"p":[["OXS","M"]]},{"n":"Chapéu de Couro","k":"chapeu de couro","t":"M","o":["OYA","OML","EGU"],"p":[["OYA","M"],["OML","M"],["EGU","M"]]},{"n":"Chorão (salgueiro)","k":"chorao (salgueiro)","t":"Q","o":["OYA","OML","OBL","NAN"],"p":[["OYA","Q"],["OML","Q"],["OBL","Q"],["NAN","Q"]]},{"n":"Cipó Cabeludo (cipó seda)","k":"cipo cabeludo (cipo seda)","t":"Q","o":["OML","OXM"],"p":[["OML","Q"],["OXM","Q"]]},{"n":"Cipó Caboclo","k":"cipo caboclo","t":"M","o":["OXS"],"p":[["OXS","M"]]},{"n":"Cipó Cravo","k":"cipo cravo","t":"M","o":["OXS","XAN"],"p":[["OXS","M"],["XAN","M"]]},{"n":"Cipó Cruz","k":"cipo cruz","t":"Q","o":["OBL"],"p":[["OBL","Q"]]},{"n":"Cipó Prata","k":"cipo prata","t":"QM","o":["EXU","OYA"],"p":[["EXU","Q"],["OYA","M"]]},{"n":"Cipó São João","k":"cipo sao joao","t":"M","o":["XAN","EGU"],"p":[["XAN","M"],["EGU","M"]]},{"n":"Cipó Suma","k":"cipo suma","t":"Q","o":["OYA","NAN"],"p":[["OYA","Q"],["NAN","Q"]]},{"n":"Coentro","k":"coentro","t":"M","o":["OBA"],"p":[["OBA","M"]]},{"n":"Colônia","k":"colonia","t":"M","o":["OGM"],"p":[["OGM","M"]]},{"n":"Comigo-Ninguém-Pode","k":"comigo-ninguem-pode","t":"Q","o":["OXL","OXS","EGU"],"p":[["OXL","Q"],["OXS","Q"],["EGU","Q"]]},{"n":"Confrey (confrei)","k":"confrey (confrei)","t":"QM","o":["NAN","OXS","OBA"],"p":[["NAN","M"],["OXS","M"],["OBA","Q"]]},{"n":"Cravo","k":"cravo","t":"Q","o":["PGR"],"p":[["PGR","Q"]]},{"n":"Cravo da India","k":"cravo da india","t":"M","o":["OML"],"p":[["OML","M"]]},{"n":"Damiana","k":"damiana","t":"M","o":["OXM","OBL"],"p":[["OXM","M"],["OBL","M"]]},{"n":"Dandá","k":"danda","t":"Q","o":["EXU","EXM","OML","OXR","OBA","OGM"],"p":[["EXU","Q"],["EXM","Q"],["OML","Q"],["OXR","Q"],["OBA","Q"],["OGM","Q"]]},{"n":"Dente de Leão","k":"dente de leao","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Erva de Bicho","k":"erva de bicho","t":"Q","o":["OXL","IEM"],"p":[["OXL","Q"],["IEM","Q"]]},{"n":"Erva de Santa Luzia","k":"erva de santa luzia","t":"M","o":["OYA","IAN"],"p":[["OYA","M"],["IAN","M"]]},{"n":"Erva de Santa Maria (mentruz)","k":"erva de santa maria (mentruz)","t":"M","o":["IEM","NAN","EGU"],"p":[["IEM","M"],["NAN","M"],["EGU","M"]]},{"n":"Erva Doce","k":"erva doce","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Espada de Santa Bárbara","k":"espada de santa barbara","t":"Q","o":["IAN"],"p":[["IAN","Q"]]},{"n":"Espada de São Jorge","k":"espada de sao jorge","t":"Q","o":["OGM"],"p":[["OGM","Q"]]},{"n":"Espinheira Santa","k":"espinheira santa","t":"Q","o":["OXR","OXS","OGM"],"p":[["OXR","Q"],["OXS","Q"],["OGM","Q"]]},{"n":"Eucalipto","k":"eucalipto","t":"Q","o":["OYA","EGU","OGM"],"p":[["OYA","Q"],["EGU","Q"],["OGM","Q"]]},{"n":"Figo (folha)","k":"figo (folha)","t":"Q","o":["PGR"],"p":[["PGR","Q"]]},{"n":"Folha da Costa (saião)","k":"folha da costa (saiao)","t":"M","o":["OXL"],"p":[["OXL","M"]]},{"n":"Folha de Fogo","k":"folha de fogo","t":"M","o":["XAN","IAN"],"p":[["XAN","M"],["IAN","M"]]},{"n":"Fumo (tabaco)","k":"fumo (tabaco)","t":"Q","o":["OXL","OBL","EGU","IAN"],"p":[["OXL","Q"],["OBL","Q"],["EGU","Q"],["IAN","Q"]]},{"n":"Garra do Diabo","k":"garra do diabo","t":"Q","o":["EXU","OML","OBL","XAN","OGM"],"p":[["EXU","Q"],["OML","Q"],["OBL","Q"],["XAN","Q"],["OGM","Q"]]},{"n":"Gengibre","k":"gengibre","t":"M","o":["OGM"],"p":[["OGM","M"]]},{"n":"Girassol","k":"girassol","t":"M","o":["OXL","OYA","XAN","IAN"],"p":[["OXL","M"],["OYA","M"],["XAN","M"],["IAN","M"]]},{"n":"Graviola","k":"graviola","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Guaco","k":"guaco","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Guaraná","k":"guarana","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Guiné","k":"guine","t":"Q","o":["OXS","OGM"],"p":[["OXS","Q"],["OGM","Q"]]},{"n":"Hibisco (flor)","k":"hibisco (flor)","t":"QM","o":["PGR","IEM","NAN","XAN"],"p":[["PGR","Q"],["IEM","M"],["NAN","M"],["XAN","M"]]},{"n":"Hortelã","k":"hortela","t":"M","o":["OXL","OYA","OXS"],"p":[["OXL","M"],["OYA","M"],["OXS","M"]]},{"n":"Imburana (semente)","k":"imburana (semente)","t":"M","o":["OYA","EGU","IAN"],"p":[["OYA","M"],["EGU","M"],["IAN","M"]]},{"n":"Incenso (resina)","k":"incenso (resina)","t":"M","o":["OXL","EGU"],"p":[["OXL","M"],["EGU","M"]]},{"n":"Insulina","k":"insulina","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Ipê Roxo","k":"ipe roxo","t":"M","o":["OML","OBL","XAN"],"p":[["OML","M"],["OBL","M"],["XAN","M"]]},{"n":"Jurema Preta (casca)","k":"jurema preta (casca)","t":"Q","o":["OXS","XAN","EGU"],"p":[["OXS","Q"],["XAN","Q"],["EGU","Q"]]},{"n":"Jurubeba","k":"jurubeba","t":"M","o":["XAN","IAN"],"p":[["XAN","M"],["IAN","M"]]},{"n":"Lança de São Jorge","k":"lanca de sao jorge","t":"Q","o":["OGM"],"p":[["OGM","Q"]]},{"n":"Lantana","k":"lantana","t":"M","o":["OML","OBL"],"p":[["OML","M"],["OBL","M"]]},{"n":"Laranja Seca","k":"laranja seca","t":"Q","o":["EXM"],"p":[["EXM","Q"]]},{"n":"Laranjeira (folha)","k":"laranjeira (folha)","t":"M","o":["EGU","IAN"],"p":[["EGU","M"],["IAN","M"]]},{"n":"Levante","k":"levante","t":"M","o":["OXL","OGM"],"p":[["OXL","M"],["OGM","M"]]},{"n":"Limão","k":"limao","t":"Q","o":["EXM","EGU","OGM","IAN"],"p":[["EXM","Q"],["EGU","Q"],["OGM","Q"],["IAN","Q"]]},{"n":"Limão (folha)","k":"limao (folha)","t":"M","o":["OYA"],"p":[["OYA","M"]]},{"n":"Limão Cravo","k":"limao cravo","t":"M","o":["OBA"],"p":[["OBA","M"]]},{"n":"Lírio","k":"lirio","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Losna","k":"losna","t":"M","o":["OYA","IAN"],"p":[["OYA","M"],["IAN","M"]]},{"n":"Louro","k":"louro","t":"Q","o":["OXM"],"p":[["OXM","Q"]]},{"n":"Maçã","k":"maca","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Macela (flor)","k":"macela (flor)","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Malva Rosa","k":"malva rosa","t":"QM","o":["PGR","OXM"],"p":[["PGR","Q"],["OXM","M"]]},{"n":"Mamona","k":"mamona","t":"Q","o":["OXL","OBL","IAN"],"p":[["OXL","Q"],["OBL","Q"],["IAN","Q"]]},{"n":"Mamona Roxa","k":"mamona roxa","t":"Q","o":["OML"],"p":[["OML","Q"]]},{"n":"Manga (folha)","k":"manga (folha)","t":"M","o":["OXS","OGM"],"p":[["OXS","M"],["OGM","M"]]},{"n":"Manjericão","k":"manjericao","t":"M","o":["OXL","OML","OXM","OXS"],"p":[["OXL","M"],["OML","M"],["OXM","M"],["OXS","M"]]},{"n":"Manjericão Roxo","k":"manjericao roxo","t":"M","o":["OML","XAN"],"p":[["OML","M"],["XAN","M"]]},{"n":"Manjerona","k":"manjerona","t":"M","o":["OXL","IEM","OXR"],"p":[["OXL","M"],["IEM","M"],["OXR","M"]]},{"n":"Maracujá","k":"maracuja","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Marapuama","k":"marapuama","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Margarida","k":"margarida","t":"M","o":["IEM"],"p":[["IEM","M"]]},{"n":"Melissa","k":"melissa","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Menta","k":"menta","t":"M","o":["OXM","OBA","IAN"],"p":[["OXM","M"],["OBA","M"],["IAN","M"]]},{"n":"Mirra","k":"mirra","t":"M","o":["OML"],"p":[["OML","M"]]},{"n":"Mulungu (casca/raiz)","k":"mulungu (casca/raiz)","t":"M","o":["IEM","NAN"],"p":[["IEM","M"],["NAN","M"]]},{"n":"Noz de Cola (obi seco)","k":"noz de cola (obi seco)","t":"M","o":["OML"],"p":[["OML","M"]]},{"n":"Noz Moscada","k":"noz moscada","t":"M","o":["IEM","NAN"],"p":[["IEM","M"],["NAN","M"]]},{"n":"Olho de Cabra","k":"olho de cabra","t":"Q","o":["OML"],"p":[["OML","Q"]]},{"n":"Orégano","k":"oregano","t":"Q","o":["OXL","OYA","OML","OXR"],"p":[["OXL","Q"],["OYA","Q"],["OML","Q"],["OXR","Q"]]},{"n":"Pára-Raio","k":"para-raio","t":"Q","o":["EGU","OGM","IAN"],"p":[["EGU","Q"],["OGM","Q"],["IAN","Q"]]},{"n":"Pata de Vaca","k":"pata de vaca","t":"M","o":["OXM","OBA"],"p":[["OXM","M"],["OBA","M"]]},{"n":"Patchouly","k":"patchouly","t":"QM","o":["PGR","OXM"],"p":[["PGR","Q"],["OXM","M"]]},{"n":"Pau Tenente","k":"pau tenente","t":"M","o":["OGM"],"p":[["OGM","M"]]},{"n":"Peregun Rajado","k":"peregun rajado","t":"M","o":["IAN"],"p":[["IAN","M"]]},{"n":"Peregun Roxo (dracena roxa)","k":"peregun roxo (dracena roxa)","t":"Q","o":["OML","NAN","OBA"],"p":[["OML","Q"],["NAN","Q"],["OBA","Q"]]},{"n":"Peregun Verde","k":"peregun verde","t":"M","o":["OGM"],"p":[["OGM","M"]]},{"n":"Periquito","k":"periquito","t":"M","o":["OXR"],"p":[["OXR","M"]]},{"n":"Picão Branco","k":"picao branco","t":"M","o":["IAN"],"p":[["IAN","M"]]},{"n":"Picão Preto","k":"picao preto","t":"Q","o":["OML","OBL","OXS","OGM","IAN"],"p":[["OML","Q"],["OBL","Q"],["OXS","Q"],["OGM","Q"],["IAN","Q"]]},{"n":"Pichuri","k":"pichuri","t":"M","o":["OYA"],"p":[["OYA","M"]]},{"n":"Pimenta","k":"pimenta","t":"Q","o":["EXU"],"p":[["EXU","Q"]]},{"n":"Pimenta Dedo-de-Moça","k":"pimenta dedo-de-moca","t":"Q","o":["PGR"],"p":[["PGR","Q"]]},{"n":"Pinhão Branco","k":"pinhao branco","t":"QM","o":["OYA","IAN"],"p":[["OYA","Q"],["IAN","M"]]},{"n":"Pinhão Roxo","k":"pinhao roxo","t":"Q","o":["EXU","EXM","OML","NAN","OGM"],"p":[["EXU","Q"],["EXM","Q"],["OML","Q"],["NAN","Q"],["OGM","Q"]]},{"n":"Pitanga (folha)","k":"pitanga (folha)","t":"QM","o":["PGR","OGM","IAN"],"p":[["PGR","Q"],["OGM","M"],["IAN","M"]]},{"n":"Poejo","k":"poejo","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Quebra-Demanda","k":"quebra-demanda","t":"Q","o":["OXS","OGM","IAN"],"p":[["OXS","Q"],["OGM","Q"],["IAN","Q"]]},{"n":"Quebra-Pedra","k":"quebra-pedra","t":"M","o":["XAN"],"p":[["XAN","M"]]},{"n":"Rabanete (folhas)","k":"rabanete (folhas)","t":"M","o":["OBA"],"p":[["OBA","M"]]},{"n":"Romã","k":"roma","t":"M","o":["XAN"],"p":[["XAN","M"]]},{"n":"Rosa Amarela","k":"rosa amarela","t":"M","o":["OYA"],"p":[["OYA","M"]]},{"n":"Rosa Branca","k":"rosa branca","t":"M","o":["OXL","IEM"],"p":[["OXL","M"],["IEM","M"]]},{"n":"Rosa Vermelha","k":"rosa vermelha","t":"Q","o":["PGR"],"p":[["PGR","Q"]]},{"n":"Rosário de Nossa Senhora (folhas)","k":"rosario de nossa senhora (folhas)","t":"Q","o":["OXM"],"p":[["OXM","Q"]]},{"n":"Rosas (petalas)","k":"rosas (petalas)","t":"M","o":["OXM"],"p":[["OXM","M"]]},{"n":"Sabugueiro (flor)","k":"sabugueiro (flor)","t":"M","o":["OYA","OBL","IAN"],"p":[["OYA","M"],["OBL","M"],["IAN","M"]]},{"n":"Salsaparrilha","k":"salsaparrilha","t":"M","o":["OBL","OBA"],"p":[["OBL","M"],["OBA","M"]]},{"n":"Sálvia","k":"salvia","t":"M","o":["OXL","OBL"],"p":[["OXL","M"],["OBL","M"]]},{"n":"Samambaia","k":"samambaia","t":"M","o":["OXS"],"p":[["OXS","M"]]},{"n":"Sândalo (lenho)","k":"sandalo (lenho)","t":"M","o":["XAN"],"p":[["XAN","M"]]},{"n":"Sene","k":"sene","t":"M","o":["OXS"],"p":[["OXS","M"]]},{"n":"Sensitiva","k":"sensitiva","t":"M","o":["IEM"],"p":[["IEM","M"]]},{"n":"Sete Sangrias","k":"sete sangrias","t":"M","o":["OML","OBL","NAN"],"p":[["OML","M"],["OBL","M"],["NAN","M"]]},{"n":"Tamarindo (casca do fruto)","k":"tamarindo (casca do fruto)","t":"M","o":["OBA"],"p":[["OBA","M"]]},{"n":"Tanchagem","k":"tanchagem","t":"M","o":["XAN"],"p":[["XAN","M"]]},{"n":"Tiririca","k":"tiririca","t":"Q","o":["OYA","EGU","OGM","IAN"],"p":[["OYA","Q"],["EGU","Q"],["OGM","Q"],["IAN","Q"]]},{"n":"Trapoeraba","k":"trapoeraba","t":"M","o":["OML","OBL","NAN","OBA","XAN"],"p":[["OML","M"],["OBL","M"],["NAN","M"],["OBA","M"],["XAN","M"]]},{"n":"Umbaúba","k":"umbauba","t":"M","o":["OBL"],"p":[["OBL","M"]]},{"n":"Unha de Gato","k":"unha de gato","t":"Q","o":["EXU"],"p":[["EXU","Q"]]},{"n":"Urtiga","k":"urtiga","t":"Q","o":["OML"],"p":[["OML","Q"]]},{"n":"Urucum","k":"urucum","t":"Q","o":["OXR","XAN","EGU"],"p":[["OXR","Q"],["XAN","Q"],["EGU","Q"]]},{"n":"Valeriana","k":"valeriana","t":"Q","o":["OML","OXR","OBL","OBA"],"p":[["OML","Q"],["OXR","Q"],["OBL","Q"],["OBA","Q"]]},{"n":"Velame","k":"velame","t":"M","o":["OBL"],"p":[["OBL","M"]]},{"n":"Vence-Demanda","k":"vence-demanda","t":"Q","o":["OGM","IAN"],"p":[["OGM","Q"],["IAN","Q"]]},{"n":"Vence-Tudo","k":"vence-tudo","t":"Q","o":["OXS"],"p":[["OXS","Q"]]},{"n":"Verbena","k":"verbena","t":"M","o":["OYA","OML"],"p":[["OYA","M"],["OML","M"]]}];
+const ORIXAS = {"EXU":"Exu","PGR":"Pomba Gira","EXM":"Exu Mirim","OXL":"Oxalá","OYA":"Oyá-Tempo/Logunã","IEM":"Iemanjá","OML":"Omulu","OXM":"Oxum","OXR":"Oxumaré","OBL":"Obaluaiyê","NAN":"Nanã","OXS":"Oxóssi","OBA":"Obá","XAN":"Xangô","EGU":"Egunitá","OGM":"Ogum","IAN":"Iansã"};
+const TRONOS = [{"c":"FE","nome":"Fé","el":"Cristal","orixas":["OXL","OYA"]},{"c":"AMOR","nome":"Amor","el":"Mineral","orixas":["OXM","OXR"]},{"c":"CONH","nome":"Conhecimento","el":"Vegetal","orixas":["OXS","OBA"]},{"c":"JUST","nome":"Justiça ou Razão","el":"Fogo","orixas":["XAN","EGU"]},{"c":"LEI","nome":"Lei ou Ordem","el":"Ar","orixas":["OGM","IAN"]},{"c":"EVOL","nome":"Evolução ou Sabedoria","el":"Terra","orixas":["OBL","NAN"]},{"c":"GER","nome":"Geração ou Vida","el":"Água","orixas":["IEM","OML"]},{"c":"EXU","nome":"Linha de Exu","el":"Encruzilhada","orixas":["EXU","PGR","EXM"]}];
+const VERBOS = {"EXU":{"Q":["vitalizar","desvitalizar","escurecer","sufocar","extinguir","arrastar","atrofiar","separar","dividir","cair","cobrar","convencer","obstruir","tapar","trazer","levar","queimar","distorcer"]},"PGR":{"Q":["estimular","desestimular","desenvolver","alegrar","esterilizar","excitar","convencer","amarrar","desamarrar","trazer","levar","fazer","desfazer"]},"EXM":{"Q":["ganhar","ocultar","complicar","descomplicar","desenrolar","alegrar","ativar","fazer","desfazer"]},"OXL":{"Q":["descarregar","punir","redimir","resfriar","retificar","retrair","esterilizar","tragar","cristalizar (paralisar)","assumir (responsabilizar)"],"M":["pacificar","abrandar","amparar","compreender","clarear","conceder","congregar","homogeneizar","irradiar","perdoar","solucionar","restituir","vitalizar","vivificar","beneficiar","prover","acrescentar","construir","cristalizar (fundamentar)","começar","determinar","levantar","amadurecer","constituir"]},"OYA":{"Q":["resfriar","retornar","girar","inverter","paralisar (no tempo)","congelar","virar","voltar","puxar","esgotar"],"M":["conduzir","gostar","encontrar (ligado à fé)","levar (adiante)","fluir (no tempo)","adiantar (no tempo)","acelerar","temporizar","trazer","nivelar","graduar","eternizar"]},"IEM":{"Q":["invadir","transbordar","correr","derramar"],"M":["gerar","fluir","sustentar","avolumar"]},"OML":{"Q":["reduzir","esvaziar","paralisar","tornar pó","ceifar","definhar"],"M":["curar","extenuar","secar","abreviar"]},"OXM":{"Q":["amolecer","aprofundar","aproximar","misturar","confundir","expulsar","empedrar","estreitar","corroer (pelas águas)","granular (reduzir a grãos)"],"M":["abastar","prosperar","conceber","florescer","agregar","unir","aproximar","flexibilizar","melhorar","receber","atrair"]},"OXR":{"Q":["diluir","dissolver","descolorir","deformar"],"M":["cadenciar","colorir","renovar","rejuvenescer","restaurar","abrilhantar"]},"OBL":{"Q":["contagiar","decantar","transmutar"],"M":["flexibilizar","curar","sanar","sarar","converter"]},"NAN":{"Q":["afogar","decantar","alagar"],"M":["apaziguar","regenerar","renovar","converter","amadurecer"]},"OXS":{"Q":["identificar","dividir","amarrar (cipó)","explorar"],"M":["expandir","direcionar","propiciar","fornecer","tornar hábil","suprir","caçar","curar"]},"OBA":{"Q":["condensar","calar","engrossar","cravar","pregar","racionalizar"],"M":["aprender","concentrar","conhecer","estudar","fertilizar","saber","raciocinar"]},"XAN":{"Q":["purificar","sacudir","tremer","arder","endurecer","derreter"],"M":["equilibrar","racionalizar","reforçar","proteger","justificar"]},"EGU":{"Q":["queimar","consumir","aquecer","fundir","esgotar"],"M":["energizar","inflamar","excitar","estimular","acalentar"]},"OGM":{"Q":["prender","conter","cortar","despedaçar","acorrentar","destruir","arrasar"],"M":["ordenar","induzir","conduzir","encaminhar","fortalecer","proceder","readaptar","recalibrar"]},"IAN":{"Q":["arrastar","arrebatar","dissipar","fulminar","remover"],"M":["mover","movimentar","direcionar","espalhar","empurrar","agir","vibrar"]}};
+
+/* ---------- biblioteca de ícones ---------- */
+const sv = (d, cls) => '<svg class="ico'+(cls?" "+cls:"")+'" viewBox="0 0 20 20" aria-hidden="true">'+d+'</svg>';
+const D = {
+  folha:'<path d="M3.5 16.5c0-7 5-11.5 13-12.5.8 8-4 13.5-13 12.5z"/><path d="M4 16c3-3.5 6-5.5 9-6.5"/>',
+  chama:'<path d="M10 2.2c3 3.8 4.8 5.6 4.8 9a4.8 4.8 0 11-9.6 0c0-1.8.8-3 1.8-4 .2 1.7.9 2.6 1.7 2.6 0-3 1.3-4.8 1.3-7.6z"/>',
+  gota:'<path d="M10 2.6S4.6 8.9 4.6 12.4a5.4 5.4 0 0010.8 0C15.4 8.9 10 2.6 10 2.6z"/>',
+  cristal:'<path d="M10 2l6.2 7.6L10 18 3.8 9.6z"/><path d="M3.8 9.6h12.4"/>',
+  pedra:'<path d="M2.6 11.6l3.2-6.4h8.4l3.2 6.4-5.6 4.8h-3.6z"/><path d="M6.4 11.6h7.2"/>',
+  ar:'<path d="M2 6.8h8.4a2.4 2.4 0 10-2.4-2.4"/><path d="M2 11.4h10.6a2.4 2.4 0 11-2.4 2.4"/><path d="M2 16h5.4"/>',
+  terra:'<path d="M2.4 15.6h15.2"/><path d="M5.2 15.6c1.2-4.4 2.8-6.8 4.8-6.8s3.6 2.4 4.8 6.8"/><path d="M10 8.8V4.6"/>',
+  cruz:'<path d="M10 2.4v15.2M2.4 10h15.2"/><circle cx="10" cy="10" r="2.1"/>',
+  pote:'<path d="M6.2 3.4h7.6v2.2l-1 1.2v9.6a1 1 0 01-1 1H8.2a1 1 0 01-1-1V6.8l-1-1.2z"/><path d="M7.2 11h5.6"/>',
+  carrinho:'<path d="M1.7 2.6h2.4l2.3 9.5h8.5l1.9-6.9H5"/><circle cx="7.6" cy="16.4" r="1.5"/><circle cx="14.6" cy="16.4" r="1.5"/>',
+  visto:'<path d="M3.6 10.4l3.9 3.9L16.4 5.4"/>',
+  meio:'<path d="M5 7.6h10M10 2.6v10M5 17.1h10"/>',
+  lupa:'<circle cx="8.6" cy="8.6" r="5.4"/><path d="M12.6 12.6L17 17"/>',
+  grade:'<rect x="3" y="3" width="5.6" height="5.6" rx="1.6"/><rect x="11.4" y="3" width="5.6" height="5.6" rx="1.6"/><rect x="3" y="11.4" width="5.6" height="5.6" rx="1.6"/><rect x="11.4" y="11.4" width="5.6" height="5.6" rx="1.6"/>',
+  circulo:'<circle cx="10" cy="10" r="6.6" stroke-dasharray="2.6 2.6"/>',
+  escudo:'<path d="M10 2.4l6 2.2v5c0 4-2.6 6.8-6 8-3.4-1.2-6-4-6-8v-5z"/><path d="M7.6 9.9l1.8 1.8 3.2-3.4"/>',
+  x:'<path d="M5 5l10 10M15 5L5 15"/>',
+  seta:'<path d="M4 8l6 5 6-5"/>',
+  aviso:'<path d="M10 3.2l7 12.2H3z"/><path d="M10 8v3.4M10 13.4v.1"/>',
+  cabana:'<path d="M3 9.4L10 3.4l7 6"/><path d="M4.8 8.6v8h10.4v-8"/><path d="M8.4 16.6v-4.4h3.2v4.4"/>',
+  baixar:'<path d="M10 2.6v10.4M5.8 9.2L10 13.4l4.2-4.2M3.4 16.6h13.2"/>',
+  subir:'<path d="M10 13.4V3M5.8 7.2L10 3l4.2 4.2M3.4 16.6h13.2"/>',
+  raio:'<path d="M11 2.4L4.6 11.4h4.2l-.8 6.2 6.8-9.4h-4.2z"/>'
+};
+const ICO_EL = {"Cristal":D.cristal,"Mineral":D.pedra,"Vegetal":D.folha,"Fogo":D.chama,
+  "Ar":D.ar,"Terra":D.terra,"Água":D.gota,"Encruzilhada":D.cruz};
+const ICO_CHIP = {"todas":D.grade,"sem":D.circulo,"cheio":D.visto,"acabando":D.meio,
+  "falta":D.carrinho,"Q":D.chama,"M":D.folha};
+
+
+/* ---------- cor de cada trono ----------
+   tons médios e pouco saturados: distinguem categoria sem competir
+   com o vermelho/mostarda/verde do estado, que são mais vivos      */
+const COR_TRONO = {
+  "FE":  "#ADA9CC",   /* Cristal — lilás   */
+  "AMOR":"#CF97A5",   /* Mineral — rosa    */
+  "CONH":"#8CB094",   /* Vegetal — sálvia  */
+  "JUST":"#D09A66",   /* Fogo    — caramelo*/
+  "LEI": "#A6BCC8",   /* Ar      — névoa   */
+  "EVOL":"#B49D7D",   /* Terra   — barro   */
+  "GER": "#6F9DAB",   /* Água    — azul    */
+  "EXU": "#9C8794"    /* Encruzilhada — ameixa */
+};
+const rgba = (hex, a) => "rgba("+parseInt(hex.slice(1,3),16)+","+parseInt(hex.slice(3,5),16)
+  +","+parseInt(hex.slice(5,7),16)+","+a+")";
+
+const CHAVE = "ervas:estoque";
+const CHAVE_ANTIGA = "estoque_ervas_cabana_v1";
+
+let estado = {status:{}, atualizado:null};
+let aba = "estoque", filtro = "todas", busca = "", pendente = null, salvoOk = null;
+const selTronos = new Set(), selOrixas = new Set();   // filtros vibratórios (vários ao mesmo tempo)
+
+/* ---------- persistência ---------- */
+function avisar(msg){
+  const a = document.getElementById("alerta");
+  if(!msg){ a.hidden = true; return; }
+  a.textContent = msg; a.hidden = false;
+}
+function aplicar(txt){
+  const d = (typeof txt === "string") ? JSON.parse(txt) : txt;
+  if(!d || typeof d.status!=="object") throw new Error("formato inválido");
+  estado.status = d.status; estado.atualizado = d.atualizado||null;
+}
+
+/* ---------------------------------------------------------------
+   Três lugares possíveis para gravar, testados em ordem. Aberto no
+   navegador do aparelho, o primeiro funciona e o registro é real.
+   Dentro do aplicativo do Claude, nenhum costuma funcionar — daí o
+   aviso e o código de registro.
+   --------------------------------------------------------------- */
+const COFRES = [
+  { nome:"navegador",
+    ler:  ()=> window.localStorage.getItem(CHAVE),
+    grav: v => window.localStorage.setItem(CHAVE, v) },
+  { nome:"sessão",
+    ler:  ()=> window.sessionStorage.getItem(CHAVE),
+    grav: v => window.sessionStorage.setItem(CHAVE, v) },
+  { nome:"aplicativo",
+    ler:  async()=>{ const r = await window.storage.get(CHAVE, false); return r && r.value; },
+    grav: async v => { await window.storage.set(CHAVE, v, false); } },
+];
+let cofre = null;
+
+async function carregar(){
+  for(const c of COFRES){
+    try{
+      const v = await c.ler();
+      if(v){ aplicar(v); cofre = c; break; }
+    }catch(e){ /* indisponível, tenta o próximo */ }
+  }
+  if(!cofre) await testarCofres();
+  render();
+}
+
+/* descobre, sem dados salvos, qual cofre aceita escrita e releitura */
+async function testarCofres(){
+  for(const c of COFRES){
+    try{
+      await c.grav('{"teste":1}');
+      const v = await c.ler();
+      if(v){ cofre = c; salvoOk = true; return; }
+    }catch(e){ /* segue */ }
+  }
+  salvoOk = false;
+}
+
+async function gravar(){
+  const carga = JSON.stringify(estado);
+  const ordem = cofre ? [cofre, ...COFRES] : COFRES;
+  for(const c of ordem){
+    try{
+      await c.grav(carga);
+      const v = await c.ler();
+      if(v){ cofre = c; salvoOk = true; avisar(null); return true; }
+    }catch(e){ /* segue */ }
+  }
+  salvoOk = false;
+  return false;
+}
+
+function salvar(){
+  clearTimeout(pendente);
+  pendente = setTimeout(async ()=>{
+    estado.atualizado = new Date().toISOString();
+    const ok = await gravar();
+    if(!ok) avisar("Rodando aqui dentro, o herbário não consegue gravar. Baixe o arquivo e abra no Safari — ou guarde o código do registro antes de fechar.");
+    render();
+  }, 450);
+}
+
+/* ---------- dados ---------- */
+const nivelDe = n => estado.status[n] || 0;
+const ICONE = {
+  3: sv(D.visto), 2: sv(D.meio), 1: sv(D.carrinho)
+};
+const ROTULO = {3:"tenho",2:"acabando",1:"falta"};
+function contar(){ const c={3:0,2:0,1:0,0:0}; DADOS.filter(passaVibra).forEach(e=>c[nivelDe(e.n)]++); return c; }
+function filtrada(){
+  const b = busca.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  return DADOS.filter(e=>{
+    if(b && !e.k.includes(b)) return false;
+    if(!passaVibra(e)) return false;
+    const nv = nivelDe(e.n);
+    if(filtro==="cheio")   return nv===3;
+    if(filtro==="acabando")return nv===2;
+    if(filtro==="falta")   return nv===1;
+    if(filtro==="sem")     return nv===0;
+    if(filtro==="Q")       return e.t.includes("Q");
+    if(filtro==="M")       return e.t.includes("M");
+    return true;
+  });
+}
+function orixasDoTrono(c){ const t = TRONOS.find(x=>x.c===c); return t ? t.orixas : []; }
+function tronoDeOrixa(cod){ return TRONOS.find(t=>t.orixas.includes(cod)); }
+function corOrixa(cod){ const t = tronoDeOrixa(cod); return (t && COR_TRONO[t.c]) || "#9B9288"; }
+/* união: a erva entra se pertencer a QUALQUER trono ou orixá selecionado */
+function alvosVibra(){
+  const set = new Set(selOrixas);
+  selTronos.forEach(c=>orixasDoTrono(c).forEach(o=>set.add(o)));
+  return set;
+}
+function passaVibra(e){
+  if(!selTronos.size && !selOrixas.size) return true;
+  const alvos = alvosVibra();
+  return e.o.some(c=>alvos.has(c));
+}
+function totalVibra(){ return DADOS.filter(passaVibra).length; }
+function rotuloVibra(){
+  const n = [...selTronos].map(c=>"trono da "+TRONOS.find(x=>x.c===c).nome)
+            .concat([...selOrixas].map(c=>ORIXAS[c]||c));
+  if(!n.length) return null;
+  return n.length===1 ? n[0] : n.slice(0,-1).join(", ")+" e "+n[n.length-1];
+}
+
+/* ---------- filtros ---------- */
+const FILTROS = [["todas","Todas"],["sem","Sem marcar"],["cheio","Tenho"],
+  ["acabando","Acabando"],["falta","Falta"],["Q","Quentes"],["M","Mornas"]];
+function pintarChips(){
+  const el = document.getElementById("chips"); el.innerHTML = "";
+  const bt = document.createElement("button");
+  bt.className="chip btnTrono"; bt.id="btnTrono"; bt.dataset.ativo="0";
+  bt.innerHTML = sv(D.cruz,"ico-sm")+'<span id="btnTronoTxt">Trono</span>'
+    + '<svg class="seta" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8l6 5 6-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+  bt.onclick = abrirSheet;
+  el.appendChild(bt);
+  FILTROS.forEach(([id,rot])=>{
+    const b = document.createElement("button");
+    b.className="chip"; b.dataset.cor = id;
+    b.innerHTML = sv(ICO_CHIP[id],"ico-sm")+"<span>"+rot+"</span>";
+    b.setAttribute("aria-pressed", filtro===id);
+    b.onclick = ()=>{ filtro = (filtro===id && id!=="todas") ? "todas" : id; pintarChips(); render(); };
+    el.appendChild(b);
+  });
+  atualizarBotao();
+}
+
+/* ---------- linha ---------- */
+function linha(e){
+  const nv = nivelDe(e.n);
+  const div = document.createElement("div");
+  div.className="linha"; div.dataset.nv = nv;
+
+  const info = document.createElement("button"); info.className="info";
+  info.setAttribute("aria-label", "Ver os verbos atuantes de "+e.n);
+  info.onclick = ()=>abrirFicha(e);
+  const nome = document.createElement("div"); nome.className="nome"; nome.textContent = e.n;
+  const sub = document.createElement("div"); sub.className="sub";
+  const temp = e.t.split("").map(t=>'<span class="tag '+(t==="Q"?"q":"m")+'">'
+      + sv(t==="Q"?D.chama:D.folha,"ico-sm") + (t==="Q"?"QUENTE":"MORNA") + '</span>').join("");
+  const pastilhas = e.o.map(cod=>{
+    const c = corOrixa(cod);
+    return '<span class="tag orx" style="color:'+c+';background:'+rgba(c,.14)+'" title="'
+      + (ORIXAS[cod]||cod) + '">'+cod+'</span>';
+  }).join("");
+  sub.innerHTML = temp + pastilhas
+      + '<span class="lupa">'+sv(D.lupa,"ico-sm")+'verbos</span>';
+  sub.title = e.o.map(c=>ORIXAS[c]||c).join(", ");
+  info.appendChild(nome); info.appendChild(sub);
+
+  const niveis = document.createElement("div"); niveis.className="niveis";
+  [3,2,1].forEach(n=>{
+    const b=document.createElement("button");
+    b.className="nv nv-"+n;
+    b.setAttribute("aria-pressed", nv===n);
+    b.setAttribute("aria-label", e.n+": marcar como "+ROTULO[n]);
+    b.title = ROTULO[n];
+    b.innerHTML = ICONE[n];
+    b.onclick = ()=>{
+      if(nivelDe(e.n)===n) delete estado.status[e.n]; else estado.status[e.n]=n;
+      salvar(); render();
+    };
+    niveis.appendChild(b);
+  });
+
+  div.appendChild(info); div.appendChild(niveis);
+  return div;
+}
+
+/* ---------- telas ---------- */
+function telaEstoque(alvo){
+  const lista = filtrada();
+  if(!lista.length){
+    alvo.innerHTML = '<div class="vazio"><div class="vazioIco">'+sv(D.lupa,"ico-lg")+'</div><strong>Nenhuma erva aqui</strong>'
+      + '<span>Nenhuma erva combina os filtros ativos. Toque em <b>limpar</b> ou ajuste a busca.</span></div>';
+    return;
+  }
+  let letra = "";
+  lista.forEach(e=>{
+    const L = e.k[0].toUpperCase();
+    if(L!==letra){
+      letra = L;
+      const n = lista.filter(x=>x.k[0].toUpperCase()===L).length;
+      const h = document.createElement("div"); h.className="letra";
+      h.innerHTML = "<span>"+L+"</span><i></i><em>"+n+"</em>";
+      alvo.appendChild(h);
+    }
+    alvo.appendChild(linha(e));
+  });
+  const p = document.createElement("div"); p.className="rodape";
+  p.innerHTML = sv(!estado.atualizado ? D.folha : (salvoOk===false ? D.aviso : D.escudo),"ico-sm");
+  p.appendChild(document.createTextNode(!estado.atualizado
+    ? "Visto = tenho · Mais ou menos = acabando · Carrinho = comprar"
+    : (salvoOk===false ? "Gravação automática indisponível nesta sessão"
+       : "Salvo neste aparelho · "+new Date(estado.atualizado).toLocaleString("pt-BR"))));
+  alvo.appendChild(p);
+  alvo.appendChild(painelBackup());
+}
+
+function telaComprar(alvo){
+  const falta = DADOS.filter(e=>passaVibra(e) && nivelDe(e.n)===1);
+  const acab  = DADOS.filter(e=>passaVibra(e) && nivelDe(e.n)===2);
+
+  if(!falta.length && !acab.length){
+    alvo.innerHTML = '<div class="vazio"><div class="vazioIco">'+sv(D.pote,"ico-lg")+'</div><strong>Nada a comprar</strong>'
+      + '<span>Toque no carrinho ou no mais-ou-menos de uma erva no herbário e ela aparece aqui, pronta para a feira.</span></div>';
+    return;
+  }
+
+  const rec = rotuloVibra();
+  const ab = document.createElement("div"); ab.className="abertura";
+  ab.innerHTML = "<h2>"+sv(D.carrinho,"ico-lg")+"Lista da feira</h2><p>"
+    + (falta.length ? "<b>"+falta.length+"</b> erva"+(falta.length>1?"s":"")+" em falta" : "Nada em falta")
+    + (acab.length ? " e <b>"+acab.length+"</b> acabando." : ".") + "</p>";
+  if(rec){
+    const av = document.createElement("div"); av.className="recorte";
+    av.innerHTML = '<span>'+sv(D.aviso,"ico-sm")+'Recorte ativo · '+rec+'</span><button>ver tudo</button>';
+    av.querySelector("button").onclick = limparVibra;
+    ab.appendChild(av);
+  }
+  alvo.appendChild(ab);
+
+  const bloco = (cls, titulo, nota, arr)=>{
+    if(!arr.length) return;
+    const g=document.createElement("div"); g.className="grupo "+cls;
+    g.innerHTML = "<h3>"+sv(cls==="g-falta"?D.carrinho:D.meio,"ico-sm")+titulo+"</h3><i></i><em>"+nota+"</em>";
+    alvo.appendChild(g);
+    arr.forEach(e=>alvo.appendChild(linha(e)));
+  };
+  bloco("g-falta","Falta", "não tenho no herbário", falta);
+  bloco("g-acab","Acabando", "dá para um banho, não para dois", acab);
+
+  const texto = "HERBÁRIO — CABANA DE PAI JOAQUIM · lista da feira\n"
+    + new Date().toLocaleDateString("pt-BR") + "\n"
+    + (rec ? "Recorte: "+rec+" (lista parcial)\n" : "")
+    + "\n"
+    + (falta.length ? "FALTA ("+falta.length+")\n" + falta.map(e=>"— "+e.n+"  ["+e.t+"]").join("\n") + "\n\n" : "")
+    + (acab.length ? "ACABANDO ("+acab.length+")\n" + acab.map(e=>"— "+e.n+"  ["+e.t+"]").join("\n") + "\n" : "")
+    + "\nQ = quente · M = morna";
+
+  const acao=document.createElement("div"); acao.className="acao";
+  const bc=document.createElement("button"); bc.className="btn btn-urg";
+  bc.innerHTML = sv(D.carrinho)+"Copiar lista de compras";
+  const bv=document.createElement("button"); bv.className="btn btn-sec"; bv.textContent="Ver como texto";
+  acao.appendChild(bc); acao.appendChild(bv); alvo.appendChild(acao);
+
+  const ta=document.createElement("textarea"); ta.className="saida"; ta.readOnly=true; ta.value=texto;
+  alvo.appendChild(ta);
+
+  bc.onclick = async ()=>{
+    try{ await navigator.clipboard.writeText(texto); bc.textContent="Lista copiada"; }
+    catch(err){ ta.style.display="block"; ta.select(); bc.textContent="Selecione o texto abaixo e copie"; }
+    setTimeout(()=>bc.innerHTML=sv(D.carrinho)+"Copiar lista de compras", 2400);
+  };
+  bv.onclick = ()=>{ ta.style.display = ta.style.display==="block" ? "none" : "block"; };
+
+  const p=document.createElement("div"); p.className="rodape";
+  p.textContent="Cada erva continua editável aqui — toque no visto quando ela voltar para o herbário.";
+  alvo.appendChild(p);
+}
+
+
+
+
+/* ---------- ficha de leitura: verbos atuantes ---------- */
+function tronoDe(cod){ return TRONOS.find(t=>t.orixas.includes(cod)); }
+function corDe(cod){ const t = tronoDe(cod); return (t && COR_TRONO[t.c]) || "#9B9288"; }
+
+function abrirFicha(e){
+  const c = document.getElementById("fichaCorpo");
+  const nv = nivelDe(e.n);
+  const ICONE_EST = {3:D.visto,2:D.meio,1:D.carrinho,0:D.circulo};
+  const estadoTxt = {3:"tenho no herbário",2:"acabando",1:"em falta",0:"sem marcação"}[nv];
+
+  let html = '<div class="ficha-cab"><h3>'+e.n+'</h3>'
+    + '<p class="ficha-est est-'+nv+'">'+sv(ICONE_EST[nv],"ico-sm")+estadoTxt+'</p></div>';
+
+  e.p.forEach(([cod, t])=>{
+    const tr = tronoDe(cod);
+    const verbos = (VERBOS[cod] && VERBOS[cod][t]) || [];
+    const cor = corOrixa(cod);
+    html += '<div class="bloco" style="box-shadow:inset 3px 0 0 '+cor+'">'
+      + '<div class="bloco-cab"><span class="el" style="color:'+cor+';background:'+rgba(cor,.16)+'">'
+      + sv((tr&&ICO_EL[tr.el])||D.folha)+'</span>'
+      + '<h4 style="color:'+cor+'">'+(ORIXAS[cod]||cod)+'</h4>'
+      + '<span class="tmp '+(t==="Q"?"q":"m")+'">'+sv(t==="Q"?D.chama:D.folha,"ico-sm")
+      + (t==="Q"?"QUENTE":"MORNA")+'</span></div>'
+      + '<p class="bloco-tr">'+(tr ? "Trono "+tr.nome+" · "+tr.el : "")+'</p>'
+      + '<p class="verbos">'+verbos.join(" · ")+'</p>'
+      + '</div>';
+  });
+
+  html += '<p class="ficha-pe">'+sv(D.aviso)+'<span>Os verbos são da coluna do orixá na temperatura em que a erva aparece — '
+        + 'não da erva isolada. Uma mesma folha muda de verbo conforme quem a reivindica.</span></p>';
+
+  c.innerHTML = html;
+  document.getElementById("ficha").hidden = false;
+}
+function fecharFicha(){ document.getElementById("ficha").hidden = true; }
+
+/* ---------- painel de tronos ---------- */
+function contaOrixa(cod){ return DADOS.filter(e=>e.o.includes(cod)).length; }
+function contaTrono(c){ const os=orixasDoTrono(c); return DADOS.filter(e=>e.o.some(x=>os.includes(x))).length; }
+
+function pintarTronos(){
+  const alvo = document.getElementById("tronos"); alvo.innerHTML="";
+  TRONOS.forEach(t=>{
+    const cor = COR_TRONO[t.c] || "#9B9288";
+    const bl = document.createElement("div"); bl.className="trono";
+    const ativo = selTronos.has(t.c);
+    bl.dataset.ativo = ativo ? "1" : "0";
+    bl.style.boxShadow = ativo ? "inset 0 0 0 1.5px "+cor : "none";
+    bl.style.background = ativo ? rgba(cor,.12) : "";
+
+    const cab = document.createElement("button"); cab.className="trono-cab";
+    cab.setAttribute("aria-pressed", ativo);
+    cab.innerHTML = '<span class="el" style="color:'+(ativo?"#1A1917":cor)+';background:'
+      + (ativo?cor:rgba(cor,.16))+'">'+sv(ICO_EL[t.el]||D.folha)+'</span>'
+      + '<span class="txt"><h4>'+t.nome+'</h4><u style="color:'+cor+'">'+t.el+'</u></span>'
+      + '<em>'+contaTrono(t.c)+'</em>';
+    cab.onclick = ()=>{
+      selTronos.has(t.c) ? selTronos.delete(t.c) : selTronos.add(t.c);
+      pintarTronos(); atualizarBotao(); render();
+    };
+    bl.appendChild(cab);
+
+    const os = document.createElement("div"); os.className="orixas";
+    t.orixas.forEach(cod=>{
+      const b=document.createElement("button"); b.className="oq";
+      const dentro = selOrixas.has(cod) || selTronos.has(t.c);
+      b.setAttribute("aria-pressed", dentro);
+      b.style.color = dentro ? "#1A1917" : cor;
+      b.style.background = dentro ? cor : rgba(cor,.13);
+      b.innerHTML = (ORIXAS[cod]||cod)+"<em>"+contaOrixa(cod)+"</em>";
+      b.onclick = ()=>{
+        if(selTronos.has(t.c)){            // sai do trono inteiro e mantém só os outros orixás dele
+          selTronos.delete(t.c);
+          t.orixas.forEach(o=>{ if(o!==cod) selOrixas.add(o); });
+        } else {
+          selOrixas.has(cod) ? selOrixas.delete(cod) : selOrixas.add(cod);
+        }
+        pintarTronos(); atualizarBotao(); render();
+      };
+      os.appendChild(b);
+    });
+    bl.appendChild(os);
+    alvo.appendChild(bl);
+  });
+  const n = totalVibra(), sel = selTronos.size + selOrixas.size;
+  const rodape = document.getElementById("sheetPe");
+  rodape.querySelector("#sheetConta").textContent =
+    sel ? n + (n===1?" erva selecionada":" ervas selecionadas") : "173 ervas — nenhum recorte";
+  rodape.querySelector("#sheetLimpar").hidden = sel===0;
+}
+function abrirSheet(){ pintarTronos(); document.getElementById("sheet").hidden=false; }
+function fecharSheet(){ document.getElementById("sheet").hidden=true; }
+function atualizarBotao(){
+  const b=document.getElementById("btnTrono"), t=document.getElementById("btnTronoTxt"),
+        l=document.getElementById("limpar");
+  const nomes = [...selTronos].map(c=>TRONOS.find(x=>x.c===c).nome)
+                .concat([...selOrixas].map(c=>ORIXAS[c]||c));
+  if(!nomes.length){ t.textContent="Trono / Orixá"; b.dataset.ativo="0"; l.hidden=true; return; }
+  t.textContent = nomes.length<=2 ? nomes.join(" + ") : nomes.length+" recortes";
+  b.dataset.ativo="1"; l.hidden=false;
+}
+function limparVibra(){
+  selTronos.clear(); selOrixas.clear();
+  atualizarBotao(); render();
+  if(!document.getElementById("sheet").hidden) pintarTronos();
+}
+
+/* ---------- cópia de segurança ---------- */
+function painelBackup(){
+  const box = document.createElement("section"); box.className="backup";
+  box.innerHTML = "<h4>"+sv(D.escudo,"ico-sm")+"Código do registro</h4>"
+    + "<p>" + (salvoOk===false
+        ? "Aqui dentro do aplicativo o herbário não pode gravar. <b>Baixe este arquivo, abra no Safari</b> e o registro passa a ser guardado sozinho. Enquanto isso, baixe o arquivo do registro ou copie o código antes de fechar."
+        : "O registro está sendo guardado neste aparelho. Baixe o arquivo de vez em quando — é a sua cópia de segurança caso troque de telefone.") + "</p>";
+
+  const bc = document.createElement("button");
+  bc.className="btn"+(salvoOk===false?" btn-urg":" btn-sec"); bc.innerHTML=sv(D.escudo)+"Copiar meu código";
+  bc.onclick = async ()=>{
+    const carga = JSON.stringify(estado);
+    try{ await navigator.clipboard.writeText(carga); bc.textContent="Código copiado"; }
+    catch(err){ campo.value = carga; campo.select(); bc.textContent="Selecione o texto abaixo e copie"; }
+    setTimeout(()=>bc.innerHTML=sv(D.escudo)+"Copiar meu código", 2400);
+  };
+
+  const campo = document.createElement("textarea");
+  campo.className="cola"; campo.placeholder="Cole aqui o código guardado…"; campo.rows=3;
+
+  const br = document.createElement("button");
+  br.className="btn btn-sec"; br.textContent="Restaurar deste código";
+  br.onclick = ()=>{
+    try{
+      aplicar(campo.value.trim());
+      campo.value=""; salvar(); render();
+    }catch(e){ br.textContent="Código não reconhecido"; setTimeout(()=>br.textContent="Restaurar deste código",2400); }
+  };
+
+  const bx = document.createElement("button");
+  bx.className="btn btn-sec"; bx.innerHTML = sv(D.baixar)+"Baixar arquivo do registro";
+  bx.onclick = ()=>{
+    const blob = new Blob([JSON.stringify(estado,null,1)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "herbario-" + new Date().toISOString().slice(0,10) + ".json";
+    a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  };
+
+  const rot = document.createElement("label");
+  rot.className="btn btn-sec"; rot.innerHTML = sv(D.subir)+"Abrir arquivo do registro";
+  const arq = document.createElement("input");
+  arq.type="file"; arq.accept="application/json,.json"; arq.style.display="none";
+  arq.onchange = ()=>{
+    const f = arq.files && arq.files[0]; if(!f) return;
+    const fr = new FileReader();
+    fr.onload = ()=>{ try{ aplicar(fr.result); salvar(); render(); }
+                      catch(e){ avisar("Arquivo não reconhecido."); } };
+    fr.readAsText(f);
+  };
+  rot.appendChild(arq);
+
+  box.appendChild(bx); box.appendChild(rot);
+  box.appendChild(bc); box.appendChild(campo); box.appendChild(br);
+  return box;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const c = contar(), T = DADOS.length;
+  document.getElementById("barra").innerHTML =
+      '<i class="b-cheio" style="width:'+(c[3]/T*100)+'%"></i>'
+    + '<i class="b-acab"  style="width:'+(c[2]/T*100)+'%"></i>'
+    + '<i class="b-falta" style="width:'+(c[1]/T*100)+'%"></i>';
+  document.getElementById("legenda").innerHTML =
+      '<span class="l-cheio"><b>'+c[3]+'</b> tenho</span>'
+    + '<span class="l-acab"><b>'+c[2]+'</b> acabando</span>'
+    + '<span class="l-falta"><b>'+c[1]+'</b> falta</span>'
+    + '<span style="color:var(--cinza)"><b>'+c[0]+'</b> sem marcar</span>';
+
+  const badge = document.getElementById("badge");
+  const urg = c[1]+c[2];
+  badge.textContent = urg; badge.hidden = urg===0;
+
+  const alvo = document.getElementById("conteudo");
+  alvo.innerHTML = "";
+  if(aba==="estoque") telaEstoque(alvo); else telaComprar(alvo);
+}
+
+/* ---------- eventos ---------- */
+document.getElementById("busca").addEventListener("input", ev=>{ busca=ev.target.value; render(); });
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    aba=t.dataset.aba;
+    document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected", x===t));
+    window.scrollTo(0,0); render();
+  };
+});
+
+document.getElementById("eyebrow").insertAdjacentHTML("afterbegin", sv(D.cabana,"ico-sm"));
+document.getElementById("fecharSheet").onclick = fecharSheet;
+document.getElementById("sheet").addEventListener("click", ev=>{ if(ev.target.id==="sheet") fecharSheet(); });
+document.getElementById("limpar").onclick = limparVibra;
+document.getElementById("sheetLimpar").onclick = limparVibra;
+document.getElementById("sheetVer").onclick = fecharSheet;
+document.getElementById("fecharFicha").onclick = fecharFicha;
+document.getElementById("ficha").addEventListener("click", ev=>{ if(ev.target.id==="ficha") fecharFicha(); });
+document.addEventListener("keydown", ev=>{ if(ev.key==="Escape"){ fecharSheet(); fecharFicha(); } });
+
+pintarChips();
+atualizarBotao();
+carregar();
+</script>
+</body>
+</html>
