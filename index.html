@@ -204,7 +204,10 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .ir-banho{margin-top:18px}
 .resumo .rv{color:var(--ambar)}
 .chip[aria-pressed="false"][data-cor="fav"] svg{color:var(--rosa)}
-.btn-add{background:var(--seiva);color:var(--escuro);letter-spacing:.06em}
+.btn-add{background:transparent;color:var(--seiva-txt);letter-spacing:.06em;
+  box-shadow:inset 0 0 0 1.5px var(--seiva)}
+.btn-add svg{color:var(--seiva-txt)}
+.btn-add:active{background:rgba(134,164,94,.14)}
 .btn-fav{margin-top:9px;background:var(--carvao);color:var(--cinza);letter-spacing:.05em}
 .btn-fav[aria-pressed="true"]{color:var(--rosa)}
 .btn-fav[aria-pressed="true"] svg{fill:currentColor}
@@ -352,7 +355,10 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .nv-fav[aria-pressed="true"]{color:var(--rosa)}
 .nv-fav[aria-pressed="true"] svg{fill:currentColor;stroke-width:1.4}
 .chip[aria-pressed="false"][data-cor="fav"] svg{color:var(--rosa)}
-.btn-add{background:var(--seiva);color:var(--escuro);letter-spacing:.06em}
+.btn-add{background:transparent;color:var(--seiva-txt);letter-spacing:.06em;
+  box-shadow:inset 0 0 0 1.5px var(--seiva)}
+.btn-add svg{color:var(--seiva-txt)}
+.btn-add:active{background:rgba(134,164,94,.14)}
 .btn-fav{margin-top:9px;background:var(--carvao);color:var(--cinza);letter-spacing:.05em}
 .btn-fav[aria-pressed="true"]{color:var(--rosa)}
 .btn-fav[aria-pressed="true"] svg{fill:currentColor}
@@ -411,7 +417,19 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .sg-cab{display:flex;align-items:baseline;gap:9px}
 .sg-cab b{flex:1;min-width:0;font-size:15px;font-weight:600;letter-spacing:-.014em;color:var(--marfim)}
 .sg-cab i{font-style:normal;font-size:9.5px;font-weight:600;letter-spacing:.09em;color:var(--cinza)}
-.sg-v{display:block;margin-top:5px;font-size:12px;font-weight:200;line-height:1.5;color:var(--ambar)}
+.sg-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:7px;font-size:10px}
+.sg-v{display:block;margin-top:7px;padding-top:7px;border-top:1px solid var(--linha);
+  font-size:12.5px;font-weight:200;line-height:1.5;color:var(--ambar)}
+.sg-est{font-style:normal;font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  padding:3px 8px;border-radius:99px}
+.sg-est.e3{color:var(--seiva);box-shadow:inset 0 0 0 1px var(--seiva)}
+.sg-est.e2{color:var(--ambar);box-shadow:inset 0 0 0 1px var(--ambar)}
+.sg-est.e1{color:var(--brasa-luz);box-shadow:inset 0 0 0 1px var(--brasa-luz)}
+.g-verbo{padding:22px 2px 9px}
+.g-verbo h3{font-size:10.5px;color:var(--cinza)}
+.v-filtro2{margin-bottom:4px}
+.v-mais{display:block;width:100%;margin:2px 0 6px;padding:12px;border-radius:var(--r2);
+  background:rgba(255,255,255,.04);color:var(--cinza);font-size:12.5px;font-weight:600}
 .sg-ico{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--cinza)}
 .sugestao[aria-pressed="true"] .sg-ico{color:var(--seiva)}
 
@@ -425,6 +443,124 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .an-ox .ox{margin-right:7px}
 .an-nota{display:block;margin-top:9px;padding-top:9px;border-top:1px solid var(--linha);
   font-size:13.5px;font-weight:200;line-height:1.6;color:var(--marfim);white-space:pre-wrap}
+
+/* ---- trilha de passos ---- */
+.passos{display:flex;gap:6px;margin:18px 0 4px}
+.passo{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px 11px;
+  border-radius:var(--r);background:var(--carvao);color:var(--cinza);transition:.16s}
+.passo[aria-pressed="true"]{background:var(--carvao2);color:var(--marfim);
+  box-shadow:inset 0 0 0 1.5px var(--linha2)}
+.passo[data-feito="1"]{color:var(--seiva-txt)}
+.passo[data-feito="1"][aria-pressed="true"]{color:var(--marfim)}
+.ps-n{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
+  background:rgba(255,255,255,.06);font-size:12px;font-weight:700}
+.passo[data-feito="1"] .ps-n{color:var(--seiva);box-shadow:inset 0 0 0 1px var(--seiva)}
+.passo[aria-pressed="true"] .ps-n{background:var(--marfim);color:var(--escuro);box-shadow:none}
+.ps-r{font-size:11px;font-weight:600;letter-spacing:.02em}
+.avancar{margin-top:26px}
+.avancar svg{transform:rotate(-90deg)}
+.v-conta{display:inline-flex;align-items:center;font-size:11px;font-weight:500;color:var(--cinza)}
+
+/* ---- pergunta de abertura ---- */
+.pergunta{padding:22px 0 14px}
+.pergunta h3{margin:0;font-size:21px;font-weight:600;letter-spacing:-.022em;color:var(--marfim);
+  line-height:1.25}
+.pergunta p{margin:8px 0 0;font-size:13.5px;line-height:1.55;color:var(--cinza)}
+.campo-grande{padding:15px 18px;background:var(--carvao2);
+  box-shadow:inset 0 0 0 1.5px var(--linha2)}
+.campo-grande input{font-size:17px}
+.por-trono{margin-top:16px}
+.por-trono summary{display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;
+  font-weight:600;color:var(--seiva-txt);cursor:pointer;list-style:none}
+.por-trono summary::-webkit-details-marker{display:none}
+.por-trono summary::after{content:"▾";margin-left:auto;color:var(--cinza)}
+.por-trono[open] summary::after{content:"▴"}
+
+/* ---- bloco de verbo com suas ervas ---- */
+.vb-bloco{position:relative;margin-top:14px;padding:16px 15px 15px;background:var(--carvao);
+  border-radius:var(--r)}
+.vb-cab{padding-right:38px}
+.vb-tit h3{margin:0;font-size:19px;font-weight:200;letter-spacing:.004em;color:var(--marfim);
+  line-height:1.2}
+.vb-org{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:10px}
+.vb-proprio{font-style:normal;font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--cinza);padding:2px 8px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--linha2)}
+.vb-x{position:absolute;top:13px;right:11px;width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:#7E8770;background:rgba(255,255,255,.04)}
+.vb-conta{margin:12px 0 0;padding-top:12px;border-top:1px solid var(--linha);
+  font-size:11.5px;font-weight:500;color:var(--cinza)}
+.vb-lista{margin-top:10px}
+
+.op-erva{display:block;position:relative;width:100%;text-align:left;margin-bottom:6px;
+  padding:11px 40px 11px 13px;border-radius:var(--r2);background:rgba(255,255,255,.04);transition:.15s}
+.op-erva:last-child{margin-bottom:0}
+.op-erva[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--seiva)}
+.oe-cab{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+.oe-cab b{font-size:14.5px;font-weight:600;letter-spacing:-.012em;color:var(--marfim)}
+.oe-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:10px}
+.oe-multi{font-style:normal;font-size:10px;font-weight:500;color:var(--ambar)}
+.oe-ico{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--cinza)}
+.op-erva[aria-pressed="true"] .oe-ico{color:var(--seiva)}
+.sg-est.ea{display:inline-flex;align-items:center;gap:4px;color:var(--brasa-luz);
+  box-shadow:inset 0 0 0 1px var(--brasa-luz)}
+.vi-n{font-style:normal;font-size:9.5px;font-weight:600;color:var(--cinza)}
+
+/* ---- receita do banho ---- */
+.aviso-forte{display:flex;gap:11px;align-items:flex-start;margin:16px 0 0;padding:14px 15px;
+  border-radius:var(--r2);background:rgba(196,73,47,.16);
+  box-shadow:inset 0 0 0 1px rgba(196,73,47,.45);color:var(--brasa-luz);font-size:13px;line-height:1.55}
+.aviso-forte b{font-weight:700}
+.aviso-forte svg{margin-top:1px}
+
+.cobertura{margin-top:16px;padding:15px;background:var(--carvao);border-radius:var(--r)}
+.cobertura h4{display:flex;align-items:center;gap:8px;margin:0 0 12px;font-size:10.5px;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--cinza)}
+.cobertura h4 em{margin-left:auto;font-style:normal;letter-spacing:.04em;color:var(--marfim)}
+.cob-fila{display:flex;flex-wrap:wrap;gap:6px}
+.cob-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;
+  background:rgba(255,255,255,.04);color:#7E8770;font-size:13px;font-weight:200}
+.cob-chip.ok{color:var(--marfim);box-shadow:inset 0 0 0 1px var(--seiva)}
+.cob-chip.ok svg{color:var(--seiva)}
+.cob-chip i{font-style:normal;font-size:9px;font-weight:700;opacity:.6}
+.cob-nota{margin:12px 0 0;font-size:12.5px;line-height:1.55;color:var(--cinza)}
+.cob-nota b{color:var(--ambar);font-weight:600}
+
+.equilibrio{margin-top:12px;padding:15px;background:var(--carvao);border-radius:var(--r)}
+.eq-barra{display:flex;gap:2px;height:6px;border-radius:99px;overflow:hidden;background:rgba(0,0,0,.25)}
+.eq-barra i{display:block;height:100%;border-radius:99px;transition:width .3s ease}
+.eq-q{background:var(--quente)} .eq-m{background:var(--morna)}
+.eq-leg{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;font-size:11px;font-weight:500}
+.eq-leg span{display:inline-flex;align-items:center;gap:5px}
+.eq-tronos{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px;padding-top:12px;
+  border-top:1px solid var(--linha)}
+.eq-tr{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600}
+.eq-tr i{width:7px;height:7px;border-radius:50%}
+
+.receita-item{position:relative;display:flex;align-items:center;gap:11px;margin-bottom:7px;
+  padding:12px 10px 12px 13px;background:var(--carvao);border-radius:var(--r);overflow:hidden}
+.receita-item::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;
+  border-radius:0 99px 99px 0}
+.receita-item[data-nv="3"]::before{background:var(--seiva)}
+.receita-item[data-nv="2"]::before{background:var(--ambar)}
+.receita-item[data-nv="1"]::before{background:var(--brasa)}
+.ri-num{flex:0 0 auto;width:25px;height:25px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;background:rgba(255,255,255,.06);color:var(--cinza);
+  font-size:11.5px;font-weight:700}
+.ri-info{flex:1;min-width:0;text-align:left;background:none;border:0;padding:0}
+.ri-nome{display:flex;align-items:center;flex-wrap:wrap;gap:7px;font-size:15px;font-weight:600;
+  letter-spacing:-.014em;color:var(--marfim);line-height:1.3}
+.ri-al,.ri-rp{font-style:normal;font-size:8.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:2px 7px;border-radius:99px}
+.ri-al{display:inline-flex;align-items:center;gap:4px;color:var(--brasa-luz);
+  box-shadow:inset 0 0 0 1px var(--brasa-luz)}
+.ri-rp{color:var(--brasa-luz);background:rgba(196,73,47,.16)}
+.ri-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:10px}
+.ri-ord{display:flex;flex-direction:column;gap:1px;flex:0 0 auto}
+.ri-seta{width:30px;height:20px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  color:#7E8770;background:rgba(255,255,255,.04)}
+.ri-seta:disabled{opacity:.25}
+.ri-tira{flex:0 0 auto;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:#7E8770}
 
 /* ---- registro do banho ---- */
 .reg-cab{padding:24px 18px 4px}
@@ -480,9 +616,9 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 
 /* ---- aviso momentâneo ---- */
 .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));z-index:60;
-  display:flex;align-items:center;justify-content:center;max-width:calc(100% - 40px);
-  padding:12px 20px;border-radius:99px;background:var(--carvao2);color:var(--marfim);
-  font-size:14px;font-weight:600;letter-spacing:-.005em;white-space:nowrap;
+  display:flex;align-items:center;justify-content:center;max-width:calc(100% - 32px);
+  padding:13px 22px;text-align:center;border-radius:99px;background:var(--carvao2);color:var(--marfim);
+  font-size:14.5px;font-weight:600;letter-spacing:-.005em;
   box-shadow:0 8px 26px rgba(0,0,0,.45);
   transform:translate(-50%,10px);opacity:0;transition:opacity .24s ease,transform .24s cubic-bezier(.2,.7,.3,1)}
 .toast.visivel{opacity:1;transform:translate(-50%,0)}
@@ -596,7 +732,6 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 
 <nav class="tabs" role="tablist">
   <button class="tab" role="tab" data-aba="estoque" aria-selected="true"><span class="tab-ico"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 3.4h7.6v2.2l-1 1.2v9.6a1 1 0 01-1 1H8.2a1 1 0 01-1-1V6.8l-1-1.2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.2 11h5.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="tab-rot">Herbário</span></button>
-  <button class="tab" role="tab" data-aba="verbos" aria-selected="false"><span class="tab-ico"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M11 2.4L4.6 11.4h4.2l-.8 6.2 6.8-9.4h-4.2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="badge" id="badgeVerbos" hidden>0</span></span><span class="tab-rot">Verbos</span></button>
   <button class="tab" role="tab" data-aba="banho" aria-selected="false"><span class="tab-ico"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.4S5.2 8.2 5.2 11.4a4.8 4.8 0 009.6 0C14.8 8.2 10 2.4 10 2.4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="badge" id="badgeBanho" hidden>0</span></span><span class="tab-rot">Banho</span></button>
   <button class="tab" role="tab" data-aba="comprar" aria-selected="false"><span class="tab-ico"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M1.7 2.6h2.4l2.3 9.5h8.5l1.9-6.9H5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.6" cy="16.4" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14.6" cy="16.4" r="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="badge" id="badge" hidden>0</span></span><span class="tab-rot">Repor</span></button>
   <button class="tab" role="tab" data-aba="diario" aria-selected="false"><span class="tab-ico"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3.4h8.6L16 6.8v9.8H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12.6 3.4v3.4H16M6.8 10h6.4M6.8 13h4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="badge" id="badgeDiario" hidden>0</span></span><span class="tab-rot">Diário</span></button>
@@ -635,6 +770,8 @@ const D = {
   coracao:'<path d="M10 16.6S3.2 12.6 3.2 7.9A3.7 3.7 0 0110 5.6a3.7 3.7 0 016.8 2.3c0 4.7-6.8 8.7-6.8 8.7z"/>',
   gotas:'<path d="M10 2.4S5.2 8.2 5.2 11.4a4.8 4.8 0 009.6 0C14.8 8.2 10 2.4 10 2.4z"/><path d="M7.6 11.6a2.4 2.4 0 002.4 2.4"/>',
   nota:'<path d="M4 3.4h8.6L16 6.8v9.8H4z"/><path d="M12.6 3.4v3.4H16"/><path d="M6.8 10h6.4M6.8 13h4.2"/>',
+  acima:'<path d="M10 15.6V4.4M5.4 9L10 4.4 14.6 9"/>',
+  abaixo:'<path d="M10 4.4v11.2M5.4 11L10 15.6 14.6 11"/>',
   mais:'<path d="M10 4.4v11.2M4.4 10h11.2"/>',
   tira:'<path d="M4.4 10h11.2"/>',
   baixar:'<path d="M10 2.6v10.4M5.8 9.2L10 13.4l4.2-4.2M3.4 16.6h13.2"/>',
@@ -782,7 +919,7 @@ Object.keys(VERBOS).forEach(cod=>{
 });
 const TODOS_VERBOS = Object.keys(VERBO_ORIGEM).sort((a,b)=>sacode(a).localeCompare(sacode(b)));
 const verboDaCasa = v => !!VERBO_ORIGEM[v];
-let vBusca = "", vTrono = null;
+let vBusca = "", vTrono = null, soTenho = false, verMais = false;   /* verMais guarda o verbo aberto */
 
 const nivelDe = n => estado.status[n] || 0;
 const ICONE = {
@@ -1261,18 +1398,39 @@ function tentaBanho(n){
   }
   const entrando = !noBanho(n);
   alternaBanho(n);
-  toast(entrando ? "Adicionado ao banho ✨" : "Tirado do banho", entrando ? "add" : "tira");
+  const q = estado.banho.length;
+  const plural = q + " erva" + (q!==1 ? "s" : "");
+  if(entrando){
+    toast(q >= LIMITE_BANHO
+      ? "Você adicionou " + plural + " ✨ é o máximo"
+      : "Você adicionou " + plural + " ✨", "add");
+  } else {
+    toast(q ? "Ficaram " + plural + " no banho" : "O banho ficou vazio", "tira");
+  }
   return true;
 }
 const ehFavorita = n => estado.favoritas.includes(n);
 const temAlergia = n => estado.alergias.includes(n);
 const verboEscolhido = v => estado.verbos.includes(v);
+const LIMITE_VERBOS = 7;
 function alternaVerbo(v){
   const i = estado.verbos.indexOf(v);
   const entrando = i < 0;
+  if(entrando && estado.verbos.length >= LIMITE_VERBOS){
+    avisar("A intenção já reúne 7 verbos de poder, o máximo. Tire um antes de escolher outro.");
+    setTimeout(()=>avisar(null), 4000);
+    return;
+  }
   if(i>=0) estado.verbos.splice(i,1); else estado.verbos.push(v);
   salvar();
-  toast(entrando ? "Verbo adicionado ao banho ✨" : "Verbo retirado", entrando ? "add" : "tira");
+  const q = estado.verbos.length;
+  const plural = q + " verbo" + (q!==1 ? "s" : "") + " de poder";
+  if(entrando){
+    toast(q >= LIMITE_VERBOS ? "Você escolheu " + plural + " ✨ é o máximo"
+                 : "Você escolheu " + plural + " ✨", "add");
+  } else {
+    toast(q ? "Ficaram " + plural : "Nenhum verbo escolhido", "tira");
+  }
 }
 /* ervas que carregam algum dos verbos escolhidos, das mais aderentes às menos */
 function ervasPorVerbo(){
@@ -1303,11 +1461,141 @@ function alternaBanho(n){
 }
 function ervaPor(n){ return DADOS.find(e=>e.n===n); }
 
-function telaVerbos(alvo){
+/* ══════════ GUIA DO BANHO — dois passos ══════════ */
+let passo = 1;
+
+/* ervas que carregam um verbo, as do armário primeiro */
+const ORDEM_ESTADO = {3:0, 2:1, 0:2, 1:3};
+function ervasDoVerbo(v){
+  const daCasa = verboDaCasa(v), alvo = sacode(v);
+  return DADOS.filter(e => daCasa ? IDX[e.n].v.includes(v) : IDX[e.n].k.includes(alvo))
+    .sort((a,b)=> (ORDEM_ESTADO[nivelDe(a.n)] - ORDEM_ESTADO[nivelDe(b.n)]) || a.k.localeCompare(b.k));
+}
+
+function telaBanho(alvo){
   const ab = document.createElement("div"); ab.className="abertura";
-  ab.innerHTML = "<h2>"+sv(D.raio,"ico-lg")+"Verbos de poder</h2>"
-    + "<p>O que este banho deve fazer. Escolha os verbos aqui e as ervas que os carregam aparecem logo abaixo.</p>";
+  ab.innerHTML = "<h2>"+sv(D.gotas,"ico-lg")+"Montar o banho</h2>"
+    + "<p>Escolha o que o banho deve fazer e, logo abaixo de cada verbo, as ervas que o carregam.</p>";
   alvo.appendChild(ab);
+
+  const st = document.createElement("div"); st.className="passos";
+  [[1,"Intenção e ervas", estado.verbos.length],
+   [2,"Receita",          estado.banho.length]].forEach(([n,rot,feito])=>{
+    const b=document.createElement("button"); b.className="passo";
+    b.setAttribute("aria-pressed", passo===n);
+    b.dataset.feito = feito>0 ? "1" : "0";
+    b.innerHTML = '<span class="ps-n">'+(feito>0 && passo!==n ? sv(D.visto,"ico-sm") : n)+'</span>'
+      + '<span class="ps-r">'+rot+'</span>';
+    b.onclick = ()=>{ passo=n; window.scrollTo(0,0); render(); };
+    st.appendChild(b);
+  });
+  alvo.appendChild(st);
+
+  if(passo===1) passoIntencao(alvo); else passoReceita(alvo);
+}
+
+/* linha de erva clicável, usada sob cada verbo */
+function opcaoErva(e, contexto){
+  const nvE = nivelDe(e.n);
+  const b = document.createElement("button");
+  b.className="op-erva"; b.setAttribute("aria-pressed", noBanho(e.n));
+  const past = e.o.map(cod=>{ const c=corOrixa(cod);
+    return '<i class="ox" style="color:'+c+'">'+cod+'</i>'; }).join(" ");
+  const temp = e.t.split("").map(t=>'<i class="tp '+(t==="Q"?"q":"m")+'">'
+    + sv(t==="Q"?D.chama:D.folha,"ico-sm")+(t==="Q"?"quente":"morna")+'</i>').join("");
+  const est = {3:'<i class="sg-est e3">tenho</i>',
+               2:'<i class="sg-est e2">acabando</i>',
+               1:'<i class="sg-est e1">a repor</i>'}[nvE] || "";
+  const alg = temAlergia(e.n) ? '<i class="sg-est ea">'+sv(D.proibido,"ico-sm")+'alergia</i>' : "";
+  b.innerHTML = '<span class="oe-cab"><b>'+e.n+'</b>'+est+alg+'</span>'
+    + '<span class="oe-meta">'+temp+past+(contexto||"")+'</span>'
+    + '<span class="oe-ico">'+sv(noBanho(e.n)?D.visto:D.mais,"ico-sm")+'</span>';
+  b.onclick = ()=>tentaBanho(e.n);
+  return b;
+}
+
+/* ---------- passo 1: intenção com as ervas embaixo ---------- */
+function passoIntencao(alvo){
+  const nv = estado.verbos.length, metaV = estado.alvoV;
+
+  /* ── a pergunta e o campo: primeira coisa da tela ── */
+  const perg = document.createElement("div"); perg.className="pergunta";
+  perg.innerHTML = "<h3>O que este banho deve fazer?</h3>"
+    + "<p>Escreva o verbo — descarregar, abrir, cortar, curar, prosperar…</p>";
+  alvo.appendChild(perg);
+
+  const campo = document.createElement("div"); campo.className="campo campo-grande";
+  campo.innerHTML = sv(D.lupa);
+  const inp = document.createElement("input");
+  inp.type="text"; inp.placeholder="Escreva aqui o verbo…"; inp.value=vBusca;
+  inp.setAttribute("aria-label","Escreva o verbo");
+  campo.appendChild(inp);
+  alvo.appendChild(campo);
+
+  const res = document.createElement("div"); res.className="v-res";
+  alvo.appendChild(res);
+
+  /* ── segunda porta: escolher por trono ── */
+  const alt = document.createElement("details"); alt.className="por-trono";
+  if(vTrono) alt.open = true;
+  alt.innerHTML = "<summary>"+sv(D.cruz,"ico-sm")+"ou veja os verbos de cada trono</summary>";
+  const tr = document.createElement("div"); tr.className="v-tronos";
+  const chipT = (cod, rot, cor)=>{
+    const b=document.createElement("button"); b.className="v-chipT";
+    b.setAttribute("aria-pressed", vTrono===cod);
+    b.textContent = rot;
+    if(cor){ b.style.color = vTrono===cod ? "#1A1917" : cor;
+             b.style.background = vTrono===cod ? cor : rgba(cor,.13); }
+    b.onclick = ()=>{ vTrono = (vTrono===cod ? null : cod); render(); };
+    return b;
+  };
+  TRONOS.forEach(t2=>tr.appendChild(chipT(t2.c, t2.nome, COR_TRONO[t2.c])));
+  alt.appendChild(tr);
+  alvo.appendChild(alt);
+
+  function resultados(){
+    const b = sacode(inp.value.trim());
+    res.innerHTML = "";
+    let lista = TODOS_VERBOS;
+    if(vTrono) lista = lista.filter(v=>VERBO_ORIGEM[v].some(([c])=>orixasDoTrono(vTrono).includes(c)));
+    if(b) lista = lista.filter(v=>sacode(v).includes(b));
+    if(!b && !vTrono) return;
+
+    lista.slice(0,24).forEach(v=>{
+      const b2=document.createElement("button"); b2.className="v-item";
+      b2.setAttribute("aria-pressed", verboEscolhido(v));
+      const orix = [...new Set(VERBO_ORIGEM[v].map(([c])=>c))]
+        .map(c=>'<i class="ox" style="color:'+corOrixa(c)+'" title="'+(ORIXAS[c]||c)+'">'+c+'</i>').join(" ");
+      const temps = [...new Set(VERBO_ORIGEM[v].map(([,t2])=>t2))]
+        .map(t2=>'<i class="tp '+(t2==="Q"?"q":"m")+'">'+sv(t2==="Q"?D.chama:D.folha,"ico-sm")+(t2==="Q"?"quente":"morna")+'</i>').join("");
+      b2.innerHTML = '<span class="vi-nome">'+v+'</span>'
+        + '<span class="vi-meta">'+temps+orix+'<i class="vi-n">'+ervasDoVerbo(v).length+' ervas</i></span>'
+        + '<span class="vi-ico">'+sv(verboEscolhido(v)?D.visto:D.mais,"ico-sm")+'</span>';
+      b2.onclick = ()=>{ alternaVerbo(v); vBusca=""; render(); };
+      res.appendChild(b2);
+    });
+    if(b && !lista.some(v=>sacode(v)===b)){
+      const novo=document.createElement("button"); novo.className="v-novo";
+      novo.innerHTML = sv(D.mais,"ico-sm")+'Acrescentar <b>'+inp.value.trim()+'</b> como verbo seu';
+      novo.onclick = ()=>{ const t2=inp.value.trim(); if(t2){ vBusca=""; alternaVerbo(t2); render(); } };
+      res.appendChild(novo);
+    }
+  }
+  inp.oninput = ()=>{ vBusca = inp.value; resultados(); };
+  resultados();
+
+  if(!nv){
+    const p0=document.createElement("p"); p0.className="dica-vazia";
+    p0.innerHTML = "Escreva um verbo acima ou escolha um trono. Assim que você escolher, "
+      + "as ervas que carregam aquele verbo aparecem logo abaixo dele.";
+    alvo.appendChild(p0);
+    return;
+  }
+
+  /* ── quantos verbos quero ── */
+  const qv = document.createElement("div"); qv.className="secao secao-topo";
+  qv.innerHTML = "<h3>"+sv(D.raio,"ico-sm")+"Quantos verbos neste banho</h3>";
+  alvo.appendChild(qv);
 
   const selV = document.createElement("div"); selV.className="alvos alvos-v";
   [1,3,5,7].forEach(n=>{
@@ -1319,72 +1607,6 @@ function telaVerbos(alvo){
   });
   alvo.appendChild(selV);
 
-  /* ---- escolher verbo digitando ---- */
-  const cx = document.createElement("div"); cx.className="v-busca";
-  const campo = document.createElement("div"); campo.className="campo";
-  campo.innerHTML = sv(D.lupa);
-  const inp = document.createElement("input");
-  inp.type="text"; inp.placeholder="Escreva um verbo…"; inp.value=vBusca;
-  inp.setAttribute("aria-label","Escreva um verbo");
-  campo.appendChild(inp);
-  cx.appendChild(campo);
-
-  const tr = document.createElement("div"); tr.className="v-tronos";
-  const chipT = (cod, rot, cor)=>{
-    const b=document.createElement("button"); b.className="v-chipT";
-    b.setAttribute("aria-pressed", vTrono===cod);
-    b.textContent = rot;
-    if(cor){ b.style.color = vTrono===cod ? "#1A1917" : cor;
-             b.style.background = vTrono===cod ? cor : rgba(cor,.13); }
-    b.onclick = ()=>{ vTrono = (vTrono===cod ? null : cod); render(); };
-    return b;
-  };
-  tr.appendChild(chipT(null, "todos os tronos", null));
-  TRONOS.forEach(t=>tr.appendChild(chipT(t.c, t.nome, COR_TRONO[t.c])));
-  cx.appendChild(tr);
-
-  const res = document.createElement("div"); res.className="v-res";
-  cx.appendChild(res);
-  alvo.appendChild(cx);
-
-  function resultados(){
-    const b = sacode(inp.value.trim());
-    res.innerHTML = "";
-    let lista = TODOS_VERBOS;
-    if(vTrono) lista = lista.filter(v=>VERBO_ORIGEM[v].some(([c])=>orixasDoTrono(vTrono).includes(c)));
-    if(b) lista = lista.filter(v=>sacode(v).includes(b));
-
-    if(!b && !vTrono){ return; }
-
-    lista.slice(0,24).forEach(v=>{
-      const b2=document.createElement("button"); b2.className="v-item";
-      b2.setAttribute("aria-pressed", verboEscolhido(v));
-      const orix = [...new Set(VERBO_ORIGEM[v].map(([c])=>c))]
-        .map(c=>'<i class="ox" style="color:'+corOrixa(c)+'">'+c+'</i>').join(" ");
-      const temps = [...new Set(VERBO_ORIGEM[v].map(([,t])=>t))]
-        .map(t=>'<i class="tp '+(t==="Q"?"q":"m")+'">'+sv(t==="Q"?D.chama:D.folha,"ico-sm")+(t==="Q"?"quente":"morna")+'</i>').join("");
-      b2.innerHTML = '<span class="vi-nome">'+v+'</span>'
-        + '<span class="vi-meta">'+temps+orix+'</span>'
-        + '<span class="vi-ico">'+sv(verboEscolhido(v)?D.visto:D.mais,"ico-sm")+'</span>';
-      b2.onclick = ()=>{ alternaVerbo(v); render(); };
-      res.appendChild(b2);
-    });
-
-    if(b && !lista.some(v=>sacode(v)===b)){
-      const novo=document.createElement("button"); novo.className="v-novo";
-      novo.innerHTML = sv(D.mais,"ico-sm")+'Acrescentar <b>'+inp.value.trim()+'</b> como verbo seu';
-      novo.onclick = ()=>{ const t=inp.value.trim(); if(t){ vBusca=""; alternaVerbo(t); render(); } };
-      res.appendChild(novo);
-    } else if(b && !lista.length){
-      const p=document.createElement("p"); p.className="dica-vazia";
-      p.textContent = "Nenhum verbo desse trono com essa escrita.";
-      res.appendChild(p);
-    }
-  }
-  inp.oninput = ()=>{ vBusca = inp.value; resultados(); };
-  resultados();
-
-  const nv = estado.verbos.length, metaV = estado.alvoV;
   const cv = document.createElement("div"); cv.className="contagem";
   cv.dataset.situacao = nv===metaV ? "ok" : (nv<metaV ? "falta" : "excesso");
   cv.innerHTML = sv(nv===metaV ? D.visto : D.aviso,"ico-sm")
@@ -1393,145 +1615,272 @@ function telaVerbos(alvo){
     + "</span>";
   alvo.appendChild(cv);
 
-  if(!nv){
-    const v=document.createElement("p"); v.className="dica-vazia";
-    v.innerHTML = "Escreva um verbo acima, ou escolha um trono para ver os verbos dele. "
-      + "Também dá para escolher pela ficha de cada erva, em <b>verbos de poder</b>.";
-    alvo.appendChild(v);
-    return;
+  /* ── filtro comum a todas as listas ── */
+  const fl = document.createElement("div"); fl.className="v-tronos v-filtro2";
+  const fb = document.createElement("button"); fb.className="v-chipT";
+  fb.setAttribute("aria-pressed", soTenho);
+  fb.innerHTML = sv(D.visto,"ico-sm")+"só o que tenho no armário";
+  fb.onclick = ()=>{ soTenho = !soTenho; render(); };
+  fl.appendChild(fb);
+  alvo.appendChild(fl);
+
+  /* ── um bloco por verbo, com suas ervas ── */
+  const tv = document.createElement("div"); tv.className="secao";
+  tv.innerHTML = "<h3>"+sv(D.folha,"ico-sm")+"Ervas de cada verbo escolhido</h3>"
+    + "<p>Toque numa erva para pô-la no banho.</p>";
+  alvo.appendChild(tv);
+
+  estado.verbos.forEach(v=>{
+    const bloco = document.createElement("div"); bloco.className="vb-bloco";
+
+    const cab = document.createElement("div"); cab.className="vb-cab";
+    const orig = verboDaCasa(v)
+      ? [...new Set(VERBO_ORIGEM[v].map(([c])=>c))]
+          .map(c=>'<i class="ox" style="color:'+corOrixa(c)+'">'+c+'</i>').join(" ")
+      : '<i class="vb-proprio">verbo seu</i>';
+    const temps = verboDaCasa(v)
+      ? [...new Set(VERBO_ORIGEM[v].map(([,t])=>t))]
+          .map(t=>'<i class="tp '+(t==="Q"?"q":"m")+'">'+sv(t==="Q"?D.chama:D.folha,"ico-sm")+(t==="Q"?"quente":"morna")+'</i>').join("")
+      : "";
+    cab.innerHTML = '<div class="vb-tit"><h3>'+v+'</h3></div>'
+      + '<div class="vb-org">'+temps+orig+'</div>';
+    const xx = document.createElement("button"); xx.className="vb-x";
+    xx.setAttribute("aria-label","Tirar o verbo "+v);
+    xx.innerHTML = sv(D.x,"ico-sm");
+    xx.onclick = ()=>{ alternaVerbo(v); render(); };
+    cab.appendChild(xx);
+    bloco.appendChild(cab);
+
+    let ervas = ervasDoVerbo(v);
+    const total = ervas.length;
+    if(soTenho) ervas = ervas.filter(e=>nivelDe(e.n)===3);
+
+    const cont = document.createElement("p"); cont.className="vb-conta";
+    cont.textContent = total
+      ? total + " erva" + (total!==1?"s":"") + " carrega" + (total!==1?"m":"") + " este verbo"
+        + (soTenho ? " · " + ervas.length + " no seu armário" : "")
+      : "Nenhuma erva das tabelas carrega este verbo — a escolha é sua, pelo fundamento.";
+    bloco.appendChild(cont);
+
+    const lista = document.createElement("div"); lista.className="vb-lista";
+    const abertoTudo = verMais === v;
+    const limite = abertoTudo ? ervas.length : 6;
+    ervas.slice(0, limite).forEach(e=>lista.appendChild(opcaoErva(e)));
+    bloco.appendChild(lista);
+
+    if(ervas.length > limite){
+      const mais = document.createElement("button"); mais.className="v-mais";
+      mais.textContent = "ver as outras "+(ervas.length-limite);
+      mais.onclick = ()=>{ verMais = v; render(); };
+      bloco.appendChild(mais);
+    } else if(abertoTudo && ervas.length > 6){
+      const menos = document.createElement("button"); menos.className="v-mais";
+      menos.textContent = "mostrar menos";
+      menos.onclick = ()=>{ verMais = false; render(); };
+      bloco.appendChild(menos);
+    }
+
+    alvo.appendChild(bloco);
+  });
+
+  /* ── ervas que servem a mais de um verbo ── */
+  if(nv > 1){
+    const multi = ervasPorVerbo().filter(x=>x.n>1);
+    if(multi.length){
+      const g = document.createElement("div"); g.className="secao secao-topo";
+      g.innerHTML = "<h3>"+sv(D.raio,"ico-sm")+"Servem a mais de um verbo</h3>"
+        + "<p>"+multi.length+" erva"+(multi.length!==1?"s":"")+" cobre"+(multi.length!==1?"m":"")
+        + " várias intenções ao mesmo tempo. Rendem mais na composição.</p>";
+      alvo.appendChild(g);
+      multi.slice(0,10).forEach(({e,n:qtd,casam})=>{
+        alvo.appendChild(opcaoErva(e, '<i class="oe-multi">'+qtd+' verbos · '+casam.join(", ")+'</i>'));
+      });
+    }
   }
 
-  const lv = document.createElement("div"); lv.className="verbos-esc";
-  estado.verbos.forEach(v=>{
-    const b=document.createElement("button"); b.className="vchip esc"; b.setAttribute("aria-pressed","true");
-    b.innerHTML = v + sv(D.x,"ico-sm");
-    b.onclick = ()=>{ alternaVerbo(v); render(); };
-    lv.appendChild(b);
-  });
-  alvo.appendChild(lv);
-
-  const todas = ervasPorVerbo();
-  const sug = todas.slice(0,14);
-  const sg = document.createElement("div"); sg.className="secao secao-topo";
-  sg.innerHTML = "<h3>"+sv(D.folha,"ico-sm")+"Ervas que atendem</h3>"
-    + "<p>"+todas.length+" erva"+(todas.length>1?"s":"")+" no acervo carrega"+(todas.length>1?"m":"")
-    + " esses verbos. Veja as "+sug.length+" mais aderentes — toque para acrescentar ao banho.</p>";
-  alvo.appendChild(sg);
-
-  sug.forEach(({e,n:qtd,casam})=>{
-    const b = document.createElement("button");
-    b.className="sugestao"; b.setAttribute("aria-pressed", noBanho(e.n));
-    b.innerHTML = '<span class="sg-cab"><b>'+e.n+'</b><i>'+qtd+' de '+nv+'</i></span>'
-      + '<span class="sg-v">'+casam.join(" · ")+'</span>'
-      + '<span class="sg-ico">'+sv(noBanho(e.n)?D.visto:D.mais,"ico-sm")+'</span>';
-    b.onclick = ()=>tentaBanho(e.n);
-    alvo.appendChild(b);
-  });
-
-  const ir = document.createElement("button"); ir.className="btn btn-sec ir-banho";
-  ir.innerHTML = sv(D.gotas)+"VER O BANHO ("+estado.banho.length+")";
-  ir.onclick = ()=>{ irPara("banho"); };
-  alvo.appendChild(ir);
+  const b=document.createElement("button"); b.className="btn btn-add avancar";
+  b.innerHTML = "VER A RECEITA ("+estado.banho.length+")" + sv(D.abaixo);
+  b.onclick = ()=>{ passo=2; window.scrollTo(0,0); render(); };
+  alvo.appendChild(b);
 }
 
-function telaBanho(alvo){
-  const ab = document.createElement("div"); ab.className="abertura";
-  ab.innerHTML = "<h2>"+sv(D.gotas,"ico-lg")+"Itens do banho</h2>"
-    + "<p>As ervas da composição. Firma-se em número ímpar, no máximo sete.</p>";
-  alvo.appendChild(ab);
-
-  const sel = document.createElement("div"); sel.className="alvos";
-  [1,3,5,7].forEach(n=>{
-    const b=document.createElement("button");
-    b.className="alvo"; b.setAttribute("aria-pressed", estado.alvo===n);
-    b.innerHTML = "<b>"+n+"</b><u>erva"+(n>1?"s":"")+"</u>";
-    b.onclick = ()=>{ estado.alvo=n; salvar(); render(); };
-    sel.appendChild(b);
-  });
-  alvo.appendChild(sel);
-
-  const n = estado.banho.length, meta = estado.alvo;
-  const cont = document.createElement("div"); cont.className="contagem";
-  cont.dataset.situacao = n===meta ? "ok" : (n<meta ? "falta" : "excesso");
-  cont.innerHTML = sv(n===meta ? D.visto : D.aviso,"ico-sm")
-    + "<b>"+n+" de "+meta+"</b><span>"
-    + (n===meta ? "composição fechada" : n<meta ? "faltam "+(meta-n) : (n-meta)+" além do número")
-    + "</span>";
-  alvo.appendChild(cont);
+/* ---------- passo 2: a receita ---------- */
+function passoReceita(alvo){
+  const n = estado.banho.length;
 
   if(!n){
     const v=document.createElement("div"); v.className="vazio";
     v.innerHTML = '<div class="vazioIco">'+sv(D.gotas,"ico-lg")+'</div>'
-      + "<strong>Nenhuma erva escolhida</strong>"
-      + "<span>Use o botão <b>adicionar ao banho</b> no cartão de qualquer erva, "
-      + "ou parta da intenção pela aba <b>Verbos</b>.</span>";
+      + "<strong>Receita vazia</strong>"
+      + "<span>Volte ao passo 1 para escolher as ervas, ou use <b>adicionar ao banho</b> "
+      + "no cartão de qualquer erva do herbário.</span>";
     alvo.appendChild(v);
-
-    const ir = document.createElement("button"); ir.className="btn btn-sec ir-banho";
-    ir.innerHTML = sv(D.raio)+"ESCOLHER PELOS VERBOS";
-    ir.onclick = ()=>{ irPara("verbos"); };
-    alvo.appendChild(ir);
-
-    blocoHistorico(alvo);
     return;
   }
 
-  let q=0, m=0; const tron=[], faltando=[];
+  let q=0, m=0; const tron=[], faltando=[], alergicas=[];
   estado.banho.forEach(nome=>{
     const e = ervaPor(nome); if(!e) return;
     if(e.t.includes("Q")) q++;
     if(e.t.includes("M")) m++;
-    e.o.forEach(c=>{ const t=tronoDeOrixa(c); if(t && !tron.includes(t.c)) tron.push(t.c); });
+    e.o.forEach(c=>{ const t2=tronoDeOrixa(c); if(t2 && !tron.includes(t2.c)) tron.push(t2.c); });
     if(nivelDe(nome)===1) faltando.push(nome);
+    if(temAlergia(nome)) alergicas.push(nome);
   });
-  const rz = document.createElement("div"); rz.className="resumo";
-  rz.innerHTML = '<span class="rq">'+sv(D.chama,"ico-sm")+q+" quente"+(q!==1?"s":"")+"</span>"
+
+  if(alergicas.length){
+    const al = document.createElement("div"); al.className="aviso-forte";
+    al.innerHTML = sv(D.proibido)+"<span><b>Atenção à alergia.</b> "
+      + alergicas.join(", ") + (alergicas.length>1?" estão marcadas":" está marcada")
+      + " como alergia no seu herbário.</span>";
+    alvo.appendChild(al);
+  }
+
+  if(estado.verbos.length){
+    const cobre = {}, orfaos = [];
+    estado.verbos.forEach(v=>{
+      const quais = estado.banho.filter(nome=>{
+        const e = ervaPor(nome);
+        return e && (IDX[e.n].v.includes(v) || (!verboDaCasa(v) && IDX[e.n].k.includes(sacode(v))));
+      });
+      cobre[v] = quais;
+      if(!quais.length) orfaos.push(v);
+    });
+    const cb = document.createElement("div"); cb.className="cobertura";
+    cb.innerHTML = '<h4>'+sv(D.raio,"ico-sm")+"Intenção coberta<em>"
+      + (estado.verbos.length-orfaos.length)+" de "+estado.verbos.length+"</em></h4>";
+    const fila = document.createElement("div"); fila.className="cob-fila";
+    estado.verbos.forEach(v=>{
+      const n2 = cobre[v].length;
+      const c = document.createElement("span");
+      c.className = "cob-chip" + (n2 ? " ok" : "");
+      c.title = n2 ? cobre[v].join(", ") : "nenhuma erva da composição carrega este verbo";
+      c.innerHTML = sv(n2?D.visto:D.aviso,"ico-sm") + v + (n2>1 ? '<i>'+n2+'</i>' : '');
+      fila.appendChild(c);
+    });
+    cb.appendChild(fila);
+    if(orfaos.length){
+      const p2 = document.createElement("p"); p2.className="cob-nota";
+      p2.innerHTML = "Sem erva para <b>"+orfaos.join(", ")+"</b>. Volte ao passo 1 para encontrar quem carrega.";
+      cb.appendChild(p2);
+    }
+    alvo.appendChild(cb);
+  }
+
+  const eq = document.createElement("div"); eq.className="equilibrio";
+  const tot = q + m || 1;
+  eq.innerHTML = '<div class="eq-barra"><i class="eq-q" style="width:'+(q/tot*100)+'%"></i>'
+    + '<i class="eq-m" style="width:'+(m/tot*100)+'%"></i></div>'
+    + '<div class="eq-leg"><span class="rq">'+sv(D.chama,"ico-sm")+q+" quente"+(q!==1?"s":"")+"</span>"
     + '<span class="rm">'+sv(D.folha,"ico-sm")+m+" morna"+(m!==1?"s":"")+"</span>"
-    + '<span>'+sv(D.cruz,"ico-sm")+tron.length+" trono"+(tron.length!==1?"s":"")+"</span>"
-    + (estado.verbos.length ? '<span class="rv">'+sv(D.raio,"ico-sm")+estado.verbos.length+" verbo"+(estado.verbos.length!==1?"s":"")+"</span>" : "")
-    + (faltando.length ? '<span class="rf">'+sv(D.carrinho,"ico-sm")+faltando.length+" a repor</span>" : "");
-  alvo.appendChild(rz);
+    + (faltando.length ? '<span class="rf">'+sv(D.carrinho,"ico-sm")+faltando.length+" a repor</span>" : "")
+    + '</div>';
+  const dots = document.createElement("div"); dots.className="eq-tronos";
+  tron.map(c=>TRONOS.find(t2=>t2.c===c)).filter(Boolean)
+      .sort((a,b)=>TRONOS.indexOf(a)-TRONOS.indexOf(b))
+      .forEach(t2=>{
+        const d2=document.createElement("span"); d2.className="eq-tr";
+        d2.style.color = COR_TRONO[t2.c];
+        d2.innerHTML = '<i style="background:'+COR_TRONO[t2.c]+'"></i>'+t2.nome;
+        dots.appendChild(d2);
+      });
+  eq.appendChild(dots);
+  alvo.appendChild(eq);
 
-  estado.banho.forEach(nome=>{
+  const qe = document.createElement("div"); qe.className="secao";
+  qe.innerHTML = "<h3>"+sv(D.gotas,"ico-sm")+"Quantas ervas nesta receita</h3>";
+  alvo.appendChild(qe);
+  const selE = document.createElement("div"); selE.className="alvos";
+  [1,3,5,7].forEach(k=>{
+    const b=document.createElement("button");
+    b.className="alvo"; b.setAttribute("aria-pressed", estado.alvo===k);
+    b.innerHTML = "<b>"+k+"</b><u>erva"+(k>1?"s":"")+"</u>";
+    b.onclick = ()=>{ estado.alvo=k; salvar(); render(); };
+    selE.appendChild(b);
+  });
+  alvo.appendChild(selE);
+  const ce = document.createElement("div"); ce.className="contagem";
+  ce.dataset.situacao = n===estado.alvo ? "ok" : (n<estado.alvo ? "falta" : "excesso");
+  ce.innerHTML = sv(n===estado.alvo ? D.visto : D.aviso,"ico-sm")
+    + "<b>"+n+" de "+estado.alvo+"</b><span>"
+    + (n===estado.alvo ? "composição fechada" : n<estado.alvo ? "faltam "+(estado.alvo-n) : (n-estado.alvo)+" além do número")
+    + "</span>";
+  alvo.appendChild(ce);
+
+  const rc = document.createElement("div"); rc.className="secao";
+  rc.innerHTML = "<h3>"+sv(D.gotas,"ico-sm")+"A receita</h3>"
+    + "<p>"+n+" erva"+(n!==1?"s":"")+", na ordem em que você vai reuni-las. Use as setas para mudar.</p>";
+  alvo.appendChild(rc);
+
+  estado.banho.forEach((nome, idx)=>{
     const e = ervaPor(nome); if(!e) return;
+    const nvE = nivelDe(nome);
     const div = document.createElement("div");
-    div.className="linha banho"; div.dataset.nv = nivelDe(nome);
+    div.className = "receita-item"; div.dataset.nv = nvE;
 
-    const info = document.createElement("button"); info.className="info";
+    const num = document.createElement("span"); num.className="ri-num"; num.textContent = idx+1;
+
+    const info = document.createElement("button"); info.className="info ri-info";
     info.onclick = ()=>abrirFicha(e);
-    const temp = e.t.split("").map(t=>'<i class="tp '+(t==="Q"?"q":"m")+'">'
-        + sv(t==="Q"?D.chama:D.folha,"ico-sm") + (t==="Q"?"quente":"morna") + '</i>').join("");
+    const temp = e.t.split("").map(t2=>'<i class="tp '+(t2==="Q"?"q":"m")+'">'
+        + sv(t2==="Q"?D.chama:D.folha,"ico-sm") + (t2==="Q"?"quente":"morna") + '</i>').join("");
     const past = e.o.map(cod=>{ const c=corOrixa(cod);
-      return '<i class="ox" style="color:'+c+'">'+cod+'</i>'; }).join("");
-    info.innerHTML = '<div class="nome">'+e.n+'</div><div class="sub">'
-      + '<span class="bl bl-tp">'+temp+'</span><span class="bl bl-ox">'+past+'</span></div>';
+      return '<i class="ox" style="color:'+c+'">'+cod+'</i>'; }).join(" ");
+    const marcas = (temAlergia(nome) ? '<i class="ri-al">'+sv(D.proibido,"ico-sm")+'alergia</i>' : '')
+      + (nvE===1 ? '<i class="ri-rp">a repor</i>' : '');
+    info.innerHTML = '<span class="ri-nome">'+e.n+marcas+'</span>'
+      + '<span class="ri-meta">'+temp+past+'</span>';
+
+    const ord = document.createElement("div"); ord.className="ri-ord";
+    const seta = (dir, ic, rot)=>{
+      const b=document.createElement("button"); b.className="ri-seta";
+      b.setAttribute("aria-label", rot+" "+e.n);
+      b.innerHTML = sv(ic,"ico-sm");
+      b.disabled = (dir<0 && idx===0) || (dir>0 && idx===estado.banho.length-1);
+      b.onclick = ()=>{
+        const k = idx+dir;
+        [estado.banho[idx], estado.banho[k]] = [estado.banho[k], estado.banho[idx]];
+        salvar(); render();
+      };
+      return b;
+    };
+    ord.appendChild(seta(-1, D.acima, "Subir"));
+    ord.appendChild(seta(1, D.abaixo, "Descer"));
 
     const bt = document.createElement("button");
-    bt.className="nv nv-tira nv-compacto"; bt.setAttribute("aria-label","Tirar "+e.n+" do banho");
-    bt.innerHTML = sv(D.tira);
-    bt.onclick = ()=>{ alternaBanho(nome); toast("Tirado do banho","tira"); };
+    bt.className="ri-tira"; bt.setAttribute("aria-label","Tirar "+e.n+" do banho");
+    bt.innerHTML = sv(D.x,"ico-sm");
+    bt.onclick = ()=>{
+      alternaBanho(nome);
+      const q = estado.banho.length;
+      toast(q ? "Ficaram "+q+" erva"+(q!==1?"s":"")+" no banho" : "O banho ficou vazio", "tira");
+    };
 
-    div.appendChild(info); div.appendChild(bt);
+    div.appendChild(num); div.appendChild(info); div.appendChild(ord); div.appendChild(bt);
     alvo.appendChild(div);
   });
 
-  const texto = "ITENS DO BANHO — " + new Date().toLocaleDateString("pt-BR") + "\n"
-    + estado.banho.length + " de " + estado.alvo + "\n"
-    + (estado.verbos.length ? "Verbos: " + estado.verbos.join(", ") + "\n" : "")
+  const texto = "RECEITA DE BANHO — " + new Date().toLocaleDateString("pt-BR") + "\n"
+    + n + " erva" + (n!==1?"s":"")
+    + "  ·  " + q + " quente" + (q!==1?"s":"") + ", " + m + " morna" + (m!==1?"s":"") + "\n"
+    + (estado.verbos.length ? "Intenção: " + estado.verbos.join(", ") + "\n" : "")
     + "\n"
-    + estado.banho.map(nome=>{ const e=ervaPor(nome);
-        return "— " + nome + (e ? "  ["+e.t+"] " + e.o.join(" ") : ""); }).join("\n");
+    + estado.banho.map((nome,i2)=>{ const e=ervaPor(nome);
+        return (i2+1) + ". " + nome + (e ? "  ["+e.t+"] " + e.o.join(" ") : "")
+             + (temAlergia(nome) ? "  (ALERGIA)" : ""); }).join("\n")
+    + (faltando.length ? "\n\nA repor: " + faltando.join(", ") : "")
+    + "\n\nQ = quente · M = morna";
 
   const acao=document.createElement("div"); acao.className="acao";
   const br=document.createElement("button"); br.className="btn btn-add";
   br.innerHTML = sv(D.nota)+"REGISTRAR BANHO TOMADO";
   br.onclick = abrirRegistro;
   const bc=document.createElement("button"); bc.className="btn btn-urg";
-  bc.innerHTML = sv(D.gotas)+"Copiar composição";
+  bc.innerHTML = sv(D.gotas)+"Copiar receita";
   bc.onclick = async ()=>{
-    try{ await navigator.clipboard.writeText(texto); bc.innerHTML=sv(D.visto)+"Composição copiada"; }
+    try{ await navigator.clipboard.writeText(texto); bc.innerHTML=sv(D.visto)+"Receita copiada"; }
     catch(err){ bc.innerHTML=sv(D.aviso)+"Não consegui copiar"; }
-    setTimeout(()=>bc.innerHTML=sv(D.gotas)+"Copiar composição", 2400);
+    setTimeout(()=>bc.innerHTML=sv(D.gotas)+"Copiar receita", 2400);
   };
   const bl=document.createElement("button"); bl.className="btn btn-sec";
   bl.innerHTML = sv(D.x)+"Esvaziar composição";
@@ -1539,9 +1888,14 @@ function telaBanho(alvo){
   acao.appendChild(br); acao.appendChild(bc); acao.appendChild(bl);
   alvo.appendChild(acao);
 
-  blocoHistorico(alvo);
+  if(estado.receitas.length){
+    const ir = document.createElement("button"); ir.className="btn btn-sec ir-banho";
+    ir.innerHTML = sv(D.nota)+"VER OS "+estado.receitas.length+" BANHOS REGISTRADOS";
+    ir.onclick = ()=>irPara("diario");
+    alvo.appendChild(ir);
+  }
 
-  if(n===meta && meta>0){
+  if(n===estado.alvo && estado.alvo>0){
     if(!jaOfereceu){ jaOfereceu = true; setTimeout(abrirRegistro, 450); }
   } else { jaOfereceu = false; }
 }
@@ -1665,8 +2019,7 @@ function render(){
   badge.textContent = urg; badge.hidden = urg===0;
   const bb = document.getElementById("badgeBanho");
   bb.textContent = estado.banho.length; bb.hidden = estado.banho.length===0;
-  const bv = document.getElementById("badgeVerbos");
-  bv.textContent = estado.verbos.length; bv.hidden = estado.verbos.length===0;
+
   const bd = document.getElementById("badgeDiario");
   const nd = estado.receitas.length + Object.keys(estado.notas).length;
   bd.textContent = nd; bd.hidden = nd===0;
@@ -1674,7 +2027,6 @@ function render(){
   const alvo = document.getElementById("conteudo");
   alvo.innerHTML = "";
   if(aba==="estoque") telaEstoque(alvo);
-  else if(aba==="verbos") telaVerbos(alvo);
   else if(aba==="banho") telaBanho(alvo);
   else if(aba==="diario") telaDiario(alvo);
   else telaComprar(alvo);
