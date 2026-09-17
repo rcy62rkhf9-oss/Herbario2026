@@ -44,10 +44,21 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--breu)}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;background:var(--breu);color:var(--marfim);font-family:var(--sans);
+body{margin:0;background:radial-gradient(120% 70% at 50% -12%,#221F1B 0%,var(--breu) 55%) fixed;
+  color:var(--marfim);font-family:var(--sans);
   overflow-x:hidden;overscroll-behavior-y:none;
   font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;
   padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+/* grão sutil sobre tudo, dando textura de papel/artesanal sem mudar nenhuma cor */
+body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+  opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* leve elevação e realce nas superfícies dos cartões — mesmo fundo, acabamento mais lapidado */
+.bloco,.trono,.backup,.vb-bloco,.cobertura,.equilibrio,.reg-receita,.ficha-nota,
+.linha,.trilha,.caminho,.anotada,.sugestao,.v-item,.v-novo,.op-erva,
+.contagem,.alerta,.dica-vazia,.sheet-in{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 20px -10px rgba(0,0,0,.55)}
+.sheet-in{box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 -18px 40px -20px rgba(0,0,0,.6)}
 button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
 :focus-visible{outline:2px solid var(--seiva);outline-offset:3px;border-radius:6px}
 .mono{font-family:var(--mono)}
@@ -83,7 +94,7 @@ svg{flex:0 0 auto}
   stroke-linecap:round;stroke-linejoin:round}
 
 /* ============ cabeçalho ============ */
-.capa{padding:16px 18px 2px}
+.capa{padding:16px 18px 8px}
 .top{position:sticky;top:0;z-index:20;background:var(--breu);border-bottom:1px solid var(--linha)}
 .top-in{padding:10px 18px 0}
 .eyebrow{display:flex;align-items:center;gap:7px;font-size:9.5px;font-weight:600;
@@ -137,7 +148,7 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .letra span{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;
   padding:0 7px;border-radius:99px;background:var(--carvao);font-size:12.5px;font-weight:600;
   letter-spacing:-.01em;color:var(--marfim)}
-.letra i{flex:1;height:1px;background:var(--linha)}
+.letra i{flex:1;height:1px;background:linear-gradient(90deg,var(--linha),transparent)}
 .letra em{font-style:normal;font-size:10px;font-weight:500;color:var(--cinza);letter-spacing:.08em}
 
 .linha{position:relative;display:block;margin-bottom:9px;padding:15px 15px 13px 18px;
@@ -229,7 +240,7 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   display:flex;align-items:center;justify-content:center;color:var(--cinza);font-size:0}
 .sheet-dica{margin:0;padding:0 18px 6px;font-size:12.5px;color:var(--cinza)}
 
-.trono{margin:8px 14px;padding:15px 15px 16px;background:var(--carvao);border-radius:var(--r);
+.trono{margin:9px 14px;padding:16px 16px 17px;background:var(--carvao);border-radius:var(--r);
   transition:.16s}
 .trono[data-ativo="1"]{background:var(--carvao2)}
 .trono-cab{display:flex;align-items:center;gap:10px;width:100%;text-align:left}
@@ -275,12 +286,14 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .grupo h3{display:flex;align-items:center;gap:7px;font-size:11.5px;letter-spacing:.14em;
   text-transform:uppercase;margin:0;font-weight:600}
 .g-falta h3{color:var(--brasa-luz)} .g-acab h3{color:var(--ambar)}
-.grupo i{flex:1;height:1px;background:var(--linha)}
+.grupo i{flex:1;height:1px;background:linear-gradient(90deg,var(--linha),transparent)}
 .grupo em{font-style:normal;font-size:10px;font-weight:500;color:var(--cinza)}
 
 .acao{padding:24px 0 8px}
-.btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px;
-  border-radius:99px;font-size:14.5px;font-weight:600;letter-spacing:-.008em}
+.btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;padding:15px;border-radius:99px;font-size:14.5px;font-weight:600;letter-spacing:-.008em}
+.btn::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,0) 55%)}
 .btn-urg{background:var(--brasa);color:var(--claro)}
 .btn-urg:active{background:#A93B24}
 .btn-sec{margin-top:9px;background:var(--carvao);color:var(--cinza)}
@@ -314,7 +327,7 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   letter-spacing:.08em;text-transform:uppercase;color:var(--cinza)}
 .ficha-est.est-3{color:var(--seiva-txt)} .ficha-est.est-2{color:var(--ambar)}
 .ficha-est.est-1{color:var(--brasa-luz)}
-.bloco{margin:12px 14px;padding:16px 16px 16px 18px;background:var(--carvao);
+.bloco{margin:14px;padding:18px 18px 18px 20px;background:var(--carvao);
   border-radius:var(--r);overflow:hidden}
 .bloco-cab{display:flex;align-items:center;gap:10px}
 .bloco-cab .el{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.05);
@@ -377,8 +390,8 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   font-size:11.5px;font-weight:600;transition:.15s}
 .v-chipT[aria-pressed="true"]{background:var(--marfim);color:var(--escuro)}
 .v-res{margin-top:11px}
-.v-item{display:block;position:relative;width:100%;text-align:left;margin-bottom:6px;
-  padding:12px 42px 12px 14px;border-radius:var(--r2);background:var(--carvao);transition:.15s}
+.v-item{display:block;position:relative;width:100%;text-align:left;margin-bottom:8px;
+  padding:13px 42px 13px 15px;border-radius:var(--r2);background:var(--carvao);transition:.15s}
 .v-item[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--seiva)}
 .vi-nome{display:block;font-size:15px;font-weight:200;letter-spacing:.004em;color:var(--marfim)}
 .vi-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:6px;font-size:10px}
@@ -396,6 +409,38 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   color:var(--marfim);font-size:15px;font-weight:200;letter-spacing:.004em;line-height:1.2;
   transition:.15s}
 .vchip[aria-pressed="true"]{background:var(--marfim);color:var(--escuro);font-weight:500}
+.tag-propria{margin-left:6px;font-style:normal;font-size:8px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;opacity:.6}
+.vchip[aria-pressed="true"] .tag-propria{opacity:.5}
+.vchip-add{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:99px;
+  background:transparent;box-shadow:inset 0 0 0 1px var(--linha2);color:var(--cinza);
+  font-size:13px;font-weight:500}
+.vchip-add svg{width:11px;height:11px}
+.v-novo-inline{display:flex;align-items:center;gap:6px;width:100%;margin-top:2px}
+.v-novo-inline input{flex:1;min-width:0;padding:9px 13px;border:0;border-radius:99px;
+  background:rgba(0,0,0,.28);color:var(--marfim);font-family:var(--sans);font-size:14px}
+.v-novo-inline input::placeholder{color:#736A61}
+.v-novo-inline button{flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:50%}
+.v-novo-inline .ok{background:var(--seiva);color:var(--escuro)}
+.v-novo-inline .cancel{background:rgba(255,255,255,.08);color:var(--cinza)}
+.tag-propria-titulo{margin-left:9px;vertical-align:middle;font-size:10px}
+.bloco-erva-link{display:flex;align-items:center;gap:6px;width:100%;margin-top:11px;
+  font-size:11.5px;font-weight:600;color:var(--cinza)}
+.bloco-erva-link svg{color:var(--seiva-txt)}
+.vinculo{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.vinc-orixa{flex:1;min-width:0;padding:11px 12px;border:0;border-radius:var(--r2);
+  background:var(--carvao2);color:var(--marfim);font-family:var(--sans);font-size:14px}
+.vinc-temp{display:flex;gap:5px;flex:0 0 auto}
+.vinc-temp button{display:flex;align-items:center;gap:4px;padding:9px 10px;border-radius:99px;
+  background:rgba(255,255,255,.05);color:var(--cinza);font-size:11.5px;font-weight:600;white-space:nowrap}
+.vinc-temp .temp-q[aria-pressed="true"]{background:rgba(168,90,60,.22);color:var(--quente)}
+.vinc-temp .temp-m[aria-pressed="true"]{background:rgba(201,162,39,.2);color:var(--morna)}
+.vinc-remover{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);
+  color:var(--cinza);display:flex;align-items:center;justify-content:center}
+.erro-erva{margin:4px 0 0;padding:10px 13px;border-radius:var(--r2);background:rgba(196,73,47,.16);
+  color:var(--brasa-luz);font-size:12.5px}
+.erro-erva[hidden]{display:none}
 .verbos-esc{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
 .vchip.esc{display:inline-flex;align-items:center;gap:7px;background:var(--marfim);color:var(--escuro);
   font-size:13.5px;font-weight:500}
@@ -433,7 +478,7 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .sg-ico{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--cinza)}
 .sugestao[aria-pressed="true"] .sg-ico{color:var(--seiva)}
 
-.anotada{display:block;width:100%;text-align:left;margin-bottom:8px;padding:14px 15px;
+.anotada{display:block;width:100%;text-align:left;margin-bottom:10px;padding:16px 17px;
   background:var(--carvao);border-radius:var(--r)}
 .an-cab{display:flex;align-items:baseline;gap:9px}
 .an-cab b{flex:1;min-width:0;font-size:15.5px;font-weight:600;letter-spacing:-.014em;color:var(--marfim)}
@@ -445,18 +490,21 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   font-size:13.5px;font-weight:200;line-height:1.6;color:var(--marfim);white-space:pre-wrap}
 
 /* ---- trilha de passos ---- */
-.passos{display:flex;gap:6px;margin:18px 0 4px}
-.passo{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px 11px;
-  border-radius:var(--r);background:var(--carvao);color:var(--cinza);transition:.16s}
-.passo[aria-pressed="true"]{background:var(--carvao2);color:var(--marfim);
-  box-shadow:inset 0 0 0 1.5px var(--linha2)}
-.passo[data-feito="1"]{color:var(--seiva-txt)}
-.passo[data-feito="1"][aria-pressed="true"]{color:var(--marfim)}
-.ps-n{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
-  background:rgba(255,255,255,.06);font-size:12px;font-weight:700}
-.passo[data-feito="1"] .ps-n{color:var(--seiva);box-shadow:inset 0 0 0 1px var(--seiva)}
-.passo[aria-pressed="true"] .ps-n{background:var(--marfim);color:var(--escuro);box-shadow:none}
-.ps-r{font-size:11px;font-weight:600;letter-spacing:.02em}
+.trilha{margin:18px 0 4px;background:var(--carvao);border-radius:var(--r);overflow:hidden}
+.trilha-passo{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+  padding:14px 15px;transition:.16s}
+.trilha-passo[data-atual="true"]{background:var(--carvao2);box-shadow:inset 4px 0 0 var(--seiva)}
+.trilha-col{display:flex;flex-direction:column;align-items:center;flex:0 0 auto}
+.trilha-n{display:flex;align-items:center;justify-content:center;width:28px;height:28px;
+  border-radius:50%;background:rgba(255,255,255,.07);color:var(--cinza);font-size:13px;font-weight:700}
+.trilha-passo[data-atual="true"] .trilha-n{background:var(--seiva);color:var(--escuro)}
+.trilha-passo[data-feito="1"]:not([data-atual="true"]) .trilha-n{background:transparent;color:var(--seiva);
+  box-shadow:inset 0 0 0 1.5px var(--seiva)}
+.trilha-linha{width:2px;flex:1;min-height:20px;background:var(--linha2);margin:3px 0}
+.trilha-tx{padding-top:3px;min-width:0}
+.trilha-tx b{display:block;font-size:15.5px;font-weight:600;letter-spacing:-.01em;color:var(--cinza)}
+.trilha-passo[data-atual="true"] .trilha-tx b{color:var(--marfim)}
+.trilha-tx i{display:block;margin-top:3px;font-style:normal;font-size:12px;line-height:1.4;color:var(--cinza)}
 .avancar{margin-top:26px}
 .avancar svg{transform:rotate(-90deg)}
 .v-conta{display:inline-flex;align-items:center;font-size:11px;font-weight:500;color:var(--cinza)}
@@ -469,12 +517,21 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .campo-grande{padding:15px 18px;background:var(--carvao2);
   box-shadow:inset 0 0 0 1.5px var(--linha2)}
 .campo-grande input{font-size:17px}
-.por-trono{margin-top:16px}
-.por-trono summary{display:flex;align-items:center;gap:8px;padding:12px 0;font-size:13px;
-  font-weight:600;color:var(--seiva-txt);cursor:pointer;list-style:none}
-.por-trono summary::-webkit-details-marker{display:none}
-.por-trono summary::after{content:"▾";margin-left:auto;color:var(--cinza)}
-.por-trono[open] summary::after{content:"▴"}
+/* ---- escolha de caminho (passo 1 da aba Banho) ---- */
+.caminhos{display:flex;flex-direction:column;gap:9px;margin-top:16px}
+.caminho{display:flex;align-items:center;gap:12px;width:100%;padding:15px;text-align:left;
+  background:var(--carvao);border-radius:var(--r);transition:.15s}
+.caminho:active{background:var(--carvao2)}
+.caminho .ci{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:rgba(134,164,94,.14);
+  color:var(--seiva-txt);display:flex;align-items:center;justify-content:center}
+.caminho .ct{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.caminho .ct b{font-size:15px;font-weight:600;letter-spacing:-.012em;color:var(--marfim)}
+.caminho .ct i{font-style:normal;font-size:12px;line-height:1.4;color:var(--cinza)}
+.caminho>svg{flex:0 0 auto;color:var(--cinza);transform:rotate(-90deg)}
+.trocar-caminho{display:flex;align-items:center;gap:6px;margin-top:18px;font-size:12.5px;
+  font-weight:600;color:var(--seiva-txt)}
+.trocar-caminho svg{transform:rotate(90deg)}
+.v-tronos-abertos{margin-top:14px}
 
 /* ---- bloco de verbo com suas ervas ---- */
 .vb-bloco{position:relative;margin-top:14px;padding:16px 15px 15px;background:var(--carvao);
@@ -491,8 +548,8 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   font-size:11.5px;font-weight:500;color:var(--cinza)}
 .vb-lista{margin-top:10px}
 
-.op-erva{display:block;position:relative;width:100%;text-align:left;margin-bottom:6px;
-  padding:11px 40px 11px 13px;border-radius:var(--r2);background:rgba(255,255,255,.04);transition:.15s}
+.op-erva{display:block;position:relative;width:100%;text-align:left;margin-bottom:8px;
+  padding:12px 40px 12px 14px;border-radius:var(--r2);background:rgba(255,255,255,.04);transition:.15s}
 .op-erva:last-child{margin-bottom:0}
 .op-erva[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--seiva)}
 .oe-cab{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
@@ -583,7 +640,7 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .reg-acoes{padding:22px 18px 30px}
 .reg-acoes .btn+.btn{margin-top:9px}
 
-.registro{position:relative;margin-bottom:8px;padding:14px 44px 14px 15px;
+.registro{position:relative;margin-bottom:10px;padding:16px 44px 16px 17px;
   background:var(--carvao);border-radius:var(--r)}
 .rg-cab{display:flex;align-items:baseline;gap:10px}
 .rg-cab b{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--marfim)}
@@ -607,6 +664,23 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   line-height:1.55;resize:vertical}
 .ficha-nota textarea::placeholder{color:#736A61}
 .nota-dica{margin:-4px 0 11px;font-size:12px;line-height:1.5;color:var(--cinza)}
+
+/* ---- formulário de lembrete ---- */
+.lemb-rotulo{display:block;margin:16px 18px 6px;font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--cinza)}
+#lembItens{display:block;width:calc(100% - 36px);margin:0 18px;padding:12px;border:0;
+  border-radius:var(--r2);background:rgba(0,0,0,.22);color:var(--marfim);
+  font-family:var(--sans);font-size:15px;line-height:1.5;resize:vertical}
+#lembItens::placeholder{color:#736A61}
+.lemb-linha{display:flex;gap:10px;margin:14px 18px 0}
+.lemb-campo{flex:1;display:flex;flex-direction:column;gap:5px}
+.lemb-campo span{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cinza)}
+.lemb-campo input{padding:11px 12px;border:0;border-radius:var(--r2);background:var(--carvao2);
+  color:var(--marfim);font-family:var(--sans);font-size:15px;color-scheme:dark}
+.lemb-select{display:block;width:calc(100% - 36px);margin:0 18px;padding:11px 12px;border:0;
+  border-radius:var(--r2);background:var(--carvao2);color:var(--marfim);font-family:var(--sans);
+  font-size:15px;color-scheme:dark}
+#lembIntervaloBox{margin:8px 18px 0}
 .alerg{display:flex;align-items:center;gap:8px;margin-top:12px;padding:9px 13px;border-radius:99px;
   background:rgba(255,255,255,.05);color:var(--cinza);font-size:12px;font-weight:500;transition:.16s}
 .alerg[aria-pressed="true"]{background:rgba(196,73,47,.18);color:var(--brasa-luz)}
@@ -625,6 +699,12 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 .toast[hidden]{display:none}
 .toast[data-tipo="add"]{box-shadow:0 8px 26px rgba(0,0,0,.45),inset 0 0 0 1.5px var(--seiva)}
 .toast[data-tipo="tira"]{color:var(--cinza)}
+
+.fab-nova{display:none;position:fixed;top:calc(18px + env(safe-area-inset-top));right:16px;z-index:25;
+  width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;
+  background:var(--seiva);color:var(--escuro);box-shadow:0 6px 18px rgba(0,0,0,.4);opacity:.6}
+.fab-nova .ico{width:10px;height:10px}
+body[data-aba="estoque"] .fab-nova{display:flex}
 
 /* ============ abas ============ */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:2px;padding:7px 8px;
@@ -667,6 +747,79 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}
   .toast{opacity:1;transform:translate(-50%,0)}}
+
+/* Busca e menu de Filtros: mesmo tratamento em todas as abas. */
+.top-in{display:flex;gap:8px;align-items:center;padding-bottom:10px}
+.campo{flex:1;min-width:0;padding:11px}
+#abrirFiltros{display:flex;min-height:44px;flex-shrink:0}
+#chips{display:none}
+#limpar{display:none}
+#filtrosAtivos{display:none}
+#filtrosAtivos:not(:empty){display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 10px;max-height:112px;overflow:auto}
+#filtrosAtivos .chip{min-height:36px;white-space:normal;text-align:left}
+/* Herbário: layout de estoque, específico da tela de inventário. */
+body[data-aba="estoque"] main{padding-right:38px}
+body[data-aba="estoque"] .linha[data-nv="3"]{background:#303c29}
+body[data-aba="estoque"] .linha[data-nv="2"]{background:#473a25}
+body[data-aba="estoque"] .linha[data-nv="1"]{background:#462e29}
+body[data-aba="estoque"] .acoes{grid-template-columns:repeat(3,minmax(0,1fr))}
+body[data-aba="estoque"] .acoes .nv{height:52px;color:#C8C9BC}
+body[data-aba="estoque"] .acoes .nv u{font-size:10px;letter-spacing:.02em}
+body[data-aba="estoque"] .acoes .nv[aria-pressed="true"]{font-weight:700;background:rgba(0,0,0,.18)}
+body[data-aba="estoque"] .acoes .nv-3[aria-pressed="true"]{color:var(--seiva-txt)}
+body[data-aba="estoque"] .acoes .nv-2[aria-pressed="true"]{color:var(--ambar)}
+body[data-aba="estoque"] .acoes .nv-1[aria-pressed="true"]{color:var(--brasa-luz)}
+body[data-aba="estoque"] .acoes .nv-banho{grid-column:1/-1;justify-self:end;flex-direction:row;height:44px;min-width:112px;padding:0 12px;margin-top:4px;background:transparent;color:#B7D5E2;box-shadow:none}
+body[data-aba="estoque"] .acoes .nv-banho[aria-pressed="true"]{background:#273C47;color:#D0E6EF;box-shadow:inset 0 0 0 1px #718F9C}
+body[data-aba="estoque"] .nv-banho u{text-transform:none;letter-spacing:0;font-size:12px}
+body[data-aba="estoque"] .sub{row-gap:8px}
+body[data-aba="estoque"] .letra{scroll-margin-top:var(--indice-offset,150px)}
+#filtrosBasicos{padding:0 18px}
+#filtrosBasicos fieldset{border:0;padding:0;margin:0 0 16px}
+#filtrosBasicos legend{font-size:13px;font-weight:600;margin-bottom:8px}
+.filtro-opcoes{display:flex;flex-wrap:wrap;gap:7px}
+#filtrosBasicos .chip{min-height:44px}
+#sheet .sheet-top{position:sticky;top:0;background:var(--carvao);z-index:2}
+#sheet .sheet-pe{position:sticky;bottom:0;background:var(--carvao);padding-bottom:max(16px,env(safe-area-inset-bottom))}
+#sheet button:focus-visible,#indiceAZ button:focus-visible,#abrirFiltros:focus-visible,#filtrosAtivos button:focus-visible{outline:2px solid var(--marfim);outline-offset:2px}
+body.filtros-abertos{overflow:hidden}
+
+/* Compact inventory cards and an on-demand native alphabetical picker. */
+body[data-aba="estoque"] main{padding:0 14px}
+body[data-aba="estoque"] h1{font-size:24px;line-height:1.24;letter-spacing:-.022em}
+body[data-aba="estoque"] h1 span{display:block;font-size:16px;font-weight:400;color:var(--cinza);margin-top:3px}
+body[data-aba="estoque"] .linha{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:8px;padding:11px 14px;margin-bottom:8px}
+body[data-aba="estoque"] .info{display:contents}
+body[data-aba="estoque"] .cab{grid-column:1;grid-row:1;align-self:center;display:flex;align-items:center;flex-wrap:wrap;gap:5px 8px;padding:2px 0}
+body[data-aba="estoque"] .info:focus-visible .cab{outline:2px solid var(--marfim);outline-offset:2px;border-radius:4px}
+body[data-aba="estoque"] .nome{font-size:16.5px;line-height:1.25;letter-spacing:-.014em}
+body[data-aba="estoque"] .sub{margin:3px 0 0;gap:4px;min-height:14px}
+body[data-aba="estoque"] .sub .bl{padding:0 5px}
+body[data-aba="estoque"] .sub .bl:first-child{padding-left:0}
+body[data-aba="estoque"] .match{grid-column:1/-1;grid-row:3;margin:4px 0}
+body[data-aba="estoque"] .acoes{grid-column:1/-1;grid-row:4;gap:6px;margin-top:9px;padding-top:0;border:0}
+body[data-aba="estoque"] .acoes .nv{height:38px;flex-direction:row;gap:5px;border-radius:9px}
+body[data-aba="estoque"] .acoes .nv svg{width:14px;height:14px}
+body[data-aba="estoque"] .acoes .nv u{font-size:11px;text-transform:none;letter-spacing:0}
+body[data-aba="estoque"] .linha>.nv-banho{grid-column:2;grid-row:1;align-self:center;flex-direction:row;gap:4px;min-height:44px;height:auto;padding:0 3px;background:transparent;color:#B7D5E2;border-radius:9px}
+body[data-aba="estoque"] .linha>.nv-banho svg{width:14px;height:14px}
+body[data-aba="estoque"] .linha>.nv-banho u{font-size:11px;letter-spacing:0;text-transform:none;white-space:nowrap}
+body[data-aba="estoque"] .linha>.nv-banho[aria-pressed="true"]{color:#D0E6EF;background:#273C47;box-shadow:none;padding:0 8px}
+body[data-aba="estoque"] .ver-verbos{grid-column:1/-1;grid-row:5;display:flex;align-items:center;justify-self:start;gap:5px;min-height:40px;max-width:calc(100% - 44px);padding:0;color:#D2D4C7;font-size:11px;white-space:nowrap}
+body[data-aba="estoque"] .favoritar{grid-column:2;grid-row:5;justify-self:end;display:flex;align-items:center;justify-content:center;width:44px;height:40px;padding:0;color:var(--rosa);border-radius:9px}
+body[data-aba="estoque"] .favoritar svg{width:18px;height:18px;fill:none}
+body[data-aba="estoque"] .favoritar[aria-pressed="true"] svg{fill:currentColor}
+body[data-aba="estoque"] .favoritar:focus-visible{outline:2px solid var(--marfim);outline-offset:2px}
+body[data-aba="estoque"] .ver-verbos .ico{width:13px;height:13px}
+body[data-aba="estoque"] .marca-fav{display:inline-flex;margin-left:6px;vertical-align:middle}
+body[data-aba="estoque"] .marca-fav svg{width:12px;height:12px}
+body[data-aba="estoque"] .letra{padding-top:10px;padding-bottom:6px}
+#atalhoLetras{display:flex;align-items:center;gap:8px;padding:0 18px 7px;font-size:11px;color:var(--cinza)}
+#atalhoLetras[hidden]{display:none}
+#totalErvas{margin-right:auto}
+#indiceAZ{font:inherit;font-size:13px;color:var(--marfim);background:var(--carvao);border:1px solid var(--linha2);border-radius:9px;padding:7px;min-height:36px;min-width:62px}
+.ver-verbos:focus-visible,.linha>.nv-banho:focus-visible,#indiceAZ:focus-visible{outline:2px solid var(--marfim);outline-offset:2px}
+@media(min-width:640px){#atalhoLetras{max-width:640px;margin:auto}}
 </style>
 </head>
 <body>
@@ -685,7 +838,7 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 
 <div class="capa">
   <div class="eyebrow" id="eyebrow">Acervo Botânico</div>
-  <h1>Herbário</h1>
+  <h1 id="tituloHerbario">Herbário</h1>
   <div class="barra" id="barra" aria-hidden="true"></div>
   <div class="legenda" id="legenda"></div>
 </div>
@@ -697,16 +850,21 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
       <input id="busca" type="search" placeholder="Buscar erva, orixá ou verbo…" autocomplete="off" aria-label="Buscar erva, orixá ou verbo">
       <button class="limpar" id="limpar" hidden><svg class="ico ico-sm" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>limpar</button>
     </div>
+    <button id="abrirFiltros" class="chip" aria-haspopup="dialog" aria-controls="sheet" aria-expanded="false">Filtros</button>
   </div>
+  <div id="filtrosAtivos" aria-label="Filtros ativos"></div>
+  <div id="atalhoLetras" hidden><span id="totalErvas"></span><label for="indiceAZ">Ir para letra</label><select id="indiceAZ" aria-label="Ir para letra"></select></div>
   <div class="chips" id="chips" role="group" aria-label="Filtros"></div>
 </header>
 
 <p class="alerta" id="alerta" hidden></p>
 <main id="conteudo"></main>
 
-<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Filtrar por trono ou orixá">
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="Filtros de ervas">
   <div class="sheet-in">
-    <div class="sheet-top"><h3>Os sete tronos</h3><button id="fecharSheet" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div class="sheet-top"><h3 id="tituloFiltros">Filtros</h3><button id="fecharSheet" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div id="filtrosBasicos"></div>
     <p class="sheet-dica">Cores conforme a Mandala dos Orixás. Toque em quantos quiser — os recortes se somam.</p>
     <div id="tronos"></div>
     <div class="sheet-pe" id="sheetPe">
@@ -720,7 +878,15 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
 <div class="sheet" id="ficha" hidden role="dialog" aria-modal="true" aria-label="Verbos atuantes">
   <div class="sheet-in">
     <div class="sheet-top"><h3>Verbos atuantes</h3><button id="fecharFicha" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <p class="sheet-dica">Toque num verbo para começar o banho por intenção (aba Diário) — não afeta esta erva.</p>
     <div id="fichaCorpo"></div>
+  </div>
+</div>
+
+<div class="sheet" id="ervaSheet" hidden role="dialog" aria-modal="true" aria-label="Nova erva própria">
+  <div class="sheet-in">
+    <div class="sheet-top"><h3>Nova erva própria</h3><button id="fecharErvaSheet" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div id="ervaCorpo"></div>
   </div>
 </div>
 
@@ -728,7 +894,18 @@ main{min-height:60vh;min-height:60dvh;padding:0 14px}
   <div class="sheet-in"><div id="regCorpo"></div></div>
 </div>
 
+<div class="sheet" id="lembreteSheet" hidden role="dialog" aria-modal="true" aria-label="Novo lembrete">
+  <div class="sheet-in">
+    <div class="sheet-top"><h3>Novo lembrete</h3><button id="fecharLembreteSheet" aria-label="Fechar"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+    <div id="lembreteCorpo"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast" hidden aria-live="polite"></div>
+
+<button id="fabNovaErva" class="fab-nova" aria-label="Cadastrar erva própria">
+  <svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4.4v11.2M4.4 10h11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
 
 <nav class="tabs" role="tablist">
   <button class="tab" role="tab" data-aba="estoque" aria-selected="true"><span class="tab-ico"><svg class="ico" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 3.4h7.6v2.2l-1 1.2v9.6a1 1 0 01-1 1H8.2a1 1 0 01-1-1V6.8l-1-1.2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.2 11h5.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="tab-rot">Herbário</span></button>
@@ -742,6 +919,10 @@ const DADOS = [{"n":"Abacateiro","k":"abacateiro","t":"M","o":["OXS"],"p":[["OXS
 const ORIXAS = {"EXU":"Exu","PGR":"Pomba Gira","EXM":"Exu e Pomba Gira Mirim","OXL":"Oxalá","OYA":"Oyá-Tempo/Logunã","IEM":"Iemanjá","OML":"Omulu","OXM":"Oxum","OXR":"Oxumaré","OBL":"Obaluaiyê","NAN":"Nanã","OXS":"Oxóssi","OBA":"Obá","XAN":"Xangô","EGU":"Egunitá","OGM":"Ogum","IAN":"Iansã"};
 const TRONOS = [{"c":"FE","nome":"Fé","el":"Cristal","orixas":["OXL","OYA"],"n":"1º","el2":"Cristalino (Água)","sentido":"Religiosidade","cor":"#BFD4E2"},{"c":"AMOR","nome":"Amor","el":"Mineral","orixas":["OXM","OXR"],"n":"2º","el2":"Mineral","sentido":"Concepção","cor":"#E2B65B"},{"c":"CONH","nome":"Conhecimento","el":"Vegetal","orixas":["OXS","OBA"],"n":"3º","el2":"Vegetal","sentido":"Raciocínio","cor":"#63BE72"},{"c":"JUST","nome":"Justiça","el":"Fogo","orixas":["XAN","EGU"],"n":"4º","el2":"Ígneo (Fogo)","sentido":"Direcionamento","cor":"#D95647"},{"c":"LEI","nome":"Lei","el":"Ar","orixas":["OGM","IAN"],"n":"5º","el2":"Eólico (Ar)","sentido":"Ordem","cor":"#6E8FD6"},{"c":"EVOL","nome":"Evolução","el":"Terra","orixas":["OBL","NAN"],"n":"6º","el2":"Telúrico (Terra)","sentido":"Maturidade","cor":"#A98AD8"},{"c":"GER","nome":"Geração","el":"Água","orixas":["IEM","OML"],"n":"7º","el2":"Aquático (Água)","sentido":"Estabilidade","cor":"#57B4DF"},{"c":"EXU","nome":"Esquerda","el":"Encruzilhada","orixas":["EXU","PGR","EXM"],"n":"—","el2":"Encruzilhada","sentido":"Movimento","cor":"#A8625C"}];
 const VERBOS = {"EXU":{"Q":["vitalizar","desvitalizar","escurecer","sufocar","extinguir","arrastar","atrofiar","separar","dividir","cair","cobrar","convencer","obstruir","tapar","trazer","levar","queimar","distorcer"]},"PGR":{"Q":["estimular","desestimular","desenvolver","alegrar","esterilizar","excitar","convencer","amarrar","desamarrar","trazer","levar","fazer","desfazer"]},"EXM":{"Q":["ganhar","ocultar","complicar","descomplicar","desenrolar","alegrar","ativar","fazer","desfazer"]},"OXL":{"Q":["descarregar","punir","redimir","resfriar","retificar","retrair","esterilizar","tragar","cristalizar (paralisar)","assumir (responsabilizar)"],"M":["pacificar","abrandar","amparar","compreender","clarear","conceder","congregar","homogeneizar","irradiar","perdoar","solucionar","restituir","vitalizar","vivificar","beneficiar","prover","acrescentar","construir","cristalizar (fundamentar)","começar","determinar","levantar","amadurecer","constituir"]},"OYA":{"Q":["resfriar","retornar","girar","inverter","paralisar (no tempo)","congelar","virar","voltar","puxar","esgotar"],"M":["conduzir","gostar","encontrar (ligado à fé)","levar (adiante)","fluir (no tempo)","adiantar (no tempo)","acelerar","temporizar","trazer","nivelar","graduar","eternizar"]},"IEM":{"Q":["invadir","transbordar","correr","derramar"],"M":["gerar","fluir","sustentar","avolumar"]},"OML":{"Q":["reduzir","esvaziar","paralisar","tornar pó","ceifar","definhar"],"M":["curar","extenuar","secar","abreviar"]},"OXM":{"Q":["amolecer","aprofundar","aproximar","misturar","confundir","expulsar","empedrar","estreitar","corroer (pelas águas)","granular (reduzir a grãos)"],"M":["abastar","prosperar","conceber","florescer","agregar","unir","aproximar","flexibilizar","melhorar","receber","atrair"]},"OXR":{"Q":["diluir","dissolver","descolorir","deformar"],"M":["cadenciar","colorir","renovar","rejuvenescer","restaurar","abrilhantar"]},"OBL":{"Q":["contagiar","decantar","transmutar"],"M":["flexibilizar","curar","sanar","sarar","converter"]},"NAN":{"Q":["afogar","decantar","alagar"],"M":["apaziguar","regenerar","renovar","converter","amadurecer"]},"OXS":{"Q":["identificar","dividir","amarrar (cipó)","explorar"],"M":["expandir","direcionar","propiciar","fornecer","tornar hábil","suprir","caçar","curar"]},"OBA":{"Q":["condensar","calar","engrossar","cravar","pregar","racionalizar"],"M":["aprender","concentrar","conhecer","estudar","fertilizar","saber","raciocinar"]},"XAN":{"Q":["purificar","sacudir","tremer","arder","endurecer","derreter"],"M":["equilibrar","racionalizar","reforçar","proteger","justificar"]},"EGU":{"Q":["queimar","consumir","aquecer","fundidor","esgotar","fusor"],"M":["energizar","inflamar","excitar","estimular","acalentar"]},"OGM":{"Q":["prender","conter","cortar","despedaçar","acorrentar","destruir","arrasar"],"M":["ordenar","induzir","conduzir","encaminhar","fortalecer","proceder","readaptar","recalibrar"]},"IAN":{"Q":["arrastar","arrebatar","dissipar","fulminar","removedor"],"M":["mover","movimentar","direcionar","espalhar","empurrar","agir","vibrar"]}};
+/* três sinônimos por verbo, usados para a busca também encontrar o verbo
+   quando a pessoa escreve uma palavra próxima em vez do termo exato */
+const SINONIMOS_VERBO = {"abastar":["fartar","suprir","abastecer"],"abrandar":["suavizar","aliviar","amenizar"],"abreviar":["encurtar","resumir","apressar"],"abrilhantar":["realçar","valorizar","iluminar"],"acalentar":["confortar","aquietar","ninar"],"acelerar":["apressar","agilizar","avançar"],"acorrentar":["prender","algemar","atar"],"acrescentar":["somar","adicionar","aumentar"],"adiantar (no tempo)":["antecipar","apressar","avançar"],"afogar":["submergir","sufocar","imergir"],"agir":["atuar","fazer","proceder"],"agregar":["juntar","unir","reunir"],"alagar":["inundar","encharcar","submergir"],"alegrar":["animar","contentar","iluminar"],"amadurecer":["desenvolver","evoluir","sazonar"],"amarrar":["atar","prender","laçar"],"amarrar (cipó)":["enlaçar","envolver","atar"],"amolecer":["abrandar","suavizar","afrouxar"],"amparar":["acolher","apoiar","proteger"],"apaziguar":["acalmar","serenar","pacificar"],"aprender":["assimilar","absorver","entender"],"aprofundar":["intensificar","adensar","penetrar"],"aproximar":["achegar","unir","juntar"],"aquecer":["esquentar","avivar","acalorar"],"arder":["queimar","abrasar","incendiar"],"arrasar":["destruir","devastar","demolir"],"arrastar":["puxar","rebocar","tracionar"],"arrebatar":["roubar","tomar","arrancar"],"assumir (responsabilizar)":["encarar","aceitar","responder"],"ativar":["acionar","ligar","estimular"],"atrair":["puxar","chamar","seduzir"],"atrofiar":["enfraquecer","definhar","murchar"],"avolumar":["aumentar","engrossar","inchar"],"beneficiar":["favorecer","ajudar","contemplar"],"cadenciar":["ritmar","compassar","regular"],"cair":["despencar","tombar","baixar"],"calar":["silenciar","emudecer","abafar"],"caçar":["buscar","perseguir","procurar"],"ceifar":["colher","cortar","eliminar"],"clarear":["iluminar","esclarecer","aclarar"],"cobrar":["exigir","requerer","reclamar"],"colorir":["tingir","matizar","pintar"],"começar":["iniciar","principiar","abrir"],"complicar":["dificultar","embaraçar","atrapalhar"],"compreender":["entender","captar","perceber"],"conceber":["criar","gerar","idealizar"],"conceder":["dar","permitir","oferecer"],"concentrar":["focar","centralizar","reunir"],"condensar":["concentrar","adensar","comprimir"],"conduzir":["guiar","direcionar","levar"],"confundir":["misturar","embaralhar","complicar"],"congelar":["paralisar","gelar","estagnar"],"congregar":["reunir","unir","juntar"],"conhecer":["saber","entender","reconhecer"],"constituir":["formar","compor","estabelecer"],"construir":["edificar","erguer","formar"],"consumir":["gastar","esgotar","devorar"],"contagiar":["transmitir","infectar","passar"],"conter":["segurar","reter","controlar"],"convencer":["persuadir","influenciar","aconselhar"],"converter":["transformar","mudar","alterar"],"correr":["fluir","escorrer","deslizar"],"corroer (pelas águas)":["desgastar","consumir","minar"],"cortar":["separar","dividir","romper"],"cravar":["fixar","fincar","prender"],"cristalizar (fundamentar)":["firmar","consolidar","fixar"],"cristalizar (paralisar)":["travar","imobilizar","congelar"],"curar":["sarar","tratar","restabelecer"],"decantar":["purificar","filtrar","depurar"],"definhar":["enfraquecer","murchar","consumir"],"deformar":["distorcer","desfigurar","alterar"],"derramar":["verter","espalhar","entornar"],"derreter":["fundir","liquefazer","dissolver"],"desamarrar":["soltar","liberar","desatar"],"descarregar":["aliviar","esvaziar","limpar"],"descolorir":["desbotar","clarear","esmaecer"],"descomplicar":["simplificar","facilitar","desembaraçar"],"desenrolar":["desenvolver","resolver","desfazer"],"desenvolver":["crescer","evoluir","expandir"],"desestimular":["desmotivar","desanimar","desincentivar"],"desfazer":["desmanchar","desmontar","anular"],"despedaçar":["quebrar","estilhaçar","romper"],"destruir":["arrasar","demolir","aniquilar"],"desvitalizar":["enfraquecer","esgotar","esvaziar"],"determinar":["decidir","definir","estabelecer"],"diluir":["dissolver","misturar","suavizar"],"direcionar":["guiar","orientar","encaminhar"],"dissipar":["espalhar","desfazer","esvaecer"],"dissolver":["desfazer","diluir","derreter"],"distorcer":["deformar","alterar","torcer"],"dividir":["separar","repartir","fracionar"],"empedrar":["endurecer","solidificar","travar"],"empurrar":["impelir","forçar","mover"],"encaminhar":["direcionar","orientar","guiar"],"encontrar (ligado à fé)":["achar","descobrir","reencontrar"],"endurecer":["solidificar","enrijecer","firmar"],"energizar":["vitalizar","revigorar","animar"],"engrossar":["espessar","aumentar","avolumar"],"equilibrar":["balancear","harmonizar","estabilizar"],"escurecer":["obscurecer","sombrear","apagar"],"esgotar":["exaurir","consumir","cansar"],"espalhar":["difundir","dispersar","distribuir"],"esterilizar":["purificar","limpar","higienizar"],"estimular":["incentivar","motivar","animar"],"estreitar":["apertar","encurtar","aproximar"],"estudar":["analisar","examinar","investigar"],"esvaziar":["descarregar","drenar","desocupar"],"eternizar":["perpetuar","imortalizar","prolongar"],"excitar":["estimular","animar","agitar"],"expandir":["ampliar","alargar","crescer"],"explorar":["investigar","sondar","examinar"],"expulsar":["afastar","banir","remover"],"extenuar":["cansar","esgotar","debilitar"],"extinguir":["apagar","eliminar","acabar"],"fazer":["realizar","executar","produzir"],"fertilizar":["adubar","enriquecer","nutrir"],"flexibilizar":["abrandar","suavizar","adaptar"],"florescer":["desabrochar","brotar","prosperar"],"fluir":["correr","escorrer","deslizar"],"fluir (no tempo)":["passar","decorrer","transcorrer"],"fornecer":["suprir","prover","oferecer"],"fortalecer":["reforçar","robustecer","firmar"],"fulminar":["abater","destruir","atingir"],"fundidor":["fusor","derretedor","liquefator"],"fusor":["fundidor","derretedor","liquefator"],"ganhar":["conquistar","obter","vencer"],"gerar":["criar","produzir","originar"],"girar":["rodar","virar","rotacionar"],"gostar":["apreciar","estimar","simpatizar"],"graduar":["ajustar","regular","escalonar"],"granular (reduzir a grãos)":["triturar","moer","esmigalhar"],"homogeneizar":["uniformizar","misturar","igualar"],"identificar":["reconhecer","distinguir","apontar"],"induzir":["levar","instigar","provocar"],"inflamar":["acender","incendiar","excitar"],"invadir":["ocupar","tomar","avançar"],"inverter":["trocar","virar","reverter"],"irradiar":["emanar","difundir","espalhar"],"justificar":["explicar","fundamentar","defender"],"levantar":["erguer","elevar","alçar"],"levar":["carregar","conduzir","transportar"],"levar (adiante)":["prosseguir","continuar","avançar"],"melhorar":["aprimorar","aperfeiçoar","evoluir"],"misturar":["combinar","mesclar","juntar"],"mover":["deslocar","mexer","transportar"],"movimentar":["agitar","mexer","ativar"],"nivelar":["igualar","equiparar","ajustar"],"obstruir":["bloquear","impedir","tapar"],"ocultar":["esconder","encobrir","disfarçar"],"ordenar":["organizar","arrumar","mandar"],"pacificar":["acalmar","apaziguar","serenar"],"paralisar":["travar","imobilizar","estagnar"],"paralisar (no tempo)":["congelar","suspender","estagnar"],"perdoar":["desculpar","absolver","relevar"],"pregar":["fixar","cravar","anunciar"],"prender":["segurar","aprisionar","capturar"],"proceder":["agir","atuar","seguir"],"propiciar":["proporcionar","favorecer","facilitar"],"prosperar":["progredir","crescer","florescer"],"proteger":["defender","resguardar","amparar"],"prover":["fornecer","suprir","abastecer"],"punir":["castigar","penalizar","corrigir"],"purificar":["limpar","depurar","higienizar"],"puxar":["tracionar","arrastar","atrair"],"queimar":["abrasar","incendiar","arder"],"raciocinar":["pensar","refletir","analisar"],"racionalizar":["explicar","justificar","organizar"],"readaptar":["reajustar","adequar","reformar"],"recalibrar":["reajustar","corrigir","reequilibrar"],"receber":["acolher","aceitar","obter"],"redimir":["resgatar","salvar","libertar"],"reduzir":["diminuir","encolher","minimizar"],"reforçar":["fortalecer","robustecer","firmar"],"regenerar":["renovar","restaurar","recuperar"],"rejuvenescer":["renovar","revigorar","restaurar"],"removedor":["extrator","tirador","eliminador"],"renovar":["restaurar","revigorar","atualizar"],"resfriar":["esfriar","arrefecer","gelar"],"restaurar":["recuperar","renovar","reparar"],"restituir":["devolver","repor","reembolsar"],"retificar":["corrigir","ajustar","consertar"],"retornar":["voltar","regressar","retroceder"],"retrair":["encolher","recuar","contrair"],"saber":["conhecer","entender","compreender"],"sacudir":["agitar","balançar","chacoalhar"],"sanar":["curar","resolver","corrigir"],"sarar":["curar","cicatrizar","restabelecer"],"secar":["ressecar","desidratar","murchar"],"separar":["dividir","afastar","apartar"],"solucionar":["resolver","sanar","remediar"],"sufocar":["abafar","asfixiar","oprimir"],"suprir":["fornecer","abastecer","prover"],"sustentar":["manter","apoiar","segurar"],"tapar":["cobrir","obstruir","fechar"],"temporizar":["adiar","procrastinar","protelar"],"tornar hábil":["capacitar","habilitar","preparar"],"tornar pó":["triturar","esfarelar","pulverizar"],"tragar":["engolir","absorver","consumir"],"transbordar":["extravasar","derramar","encher"],"transmutar":["transformar","converter","mudar"],"trazer":["aproximar","conduzir","apresentar"],"tremer":["vibrar","estremecer","oscilar"],"unir":["juntar","reunir","ligar"],"vibrar":["tremer","oscilar","ressoar"],"virar":["girar","voltar","inverter"],"vitalizar":["energizar","revigorar","animar"],"vivificar":["animar","revigorar","energizar"],"voltar":["retornar","regressar","reverter"]};
+const sinonimosDe = v => SINONIMOS_VERBO[v] || [];
 
 /* ---------- biblioteca de ícones ---------- */
 const sv = (d, cls) => '<svg class="ico'+(cls?" "+cls:"")+'" viewBox="0 0 20 20" aria-hidden="true">'+d+'</svg>';
@@ -797,8 +978,9 @@ const rgba = (hex, a) => "rgba("+parseInt(hex.slice(1,3),16)+","+parseInt(hex.sl
 const CHAVE = "ervas:estoque";
 const CHAVE_ANTIGA = "estoque_ervas_cabana_v1";
 
-let estado = {status:{}, notas:{}, banho:[], favoritas:[], alergias:[], verbos:[], receitas:[], ocultarBeta:false, alvo:7, alvoV:3, atualizado:null};
+let estado = {status:{}, notas:{}, banho:[], favoritas:[], alergias:[], verbos:[], receitas:[], verbosProprios:{}, ervasProprias:[], ocultarBeta:false, alvo:7, alvoV:3, atualizado:null};
 let aba = "estoque", filtro = "todas", busca = "", pendente = null, salvoOk = null;
+let temperatura = "", soFavoritas = false;
 const selTronos = new Set(), selOrixas = new Set();   // filtros vibratórios (vários ao mesmo tempo)
 
 /* ---------- persistência ---------- */
@@ -819,10 +1001,14 @@ function aplicar(txt){
   estado.alergias   = Array.isArray(d.alergias) ? d.alergias : [];
   estado.verbos     = Array.isArray(d.verbos) ? d.verbos : [];
   estado.receitas   = Array.isArray(d.receitas) ? d.receitas : [];
+  estado.verbosProprios = (d.verbosProprios && typeof d.verbosProprios==="object") ? d.verbosProprios : {};
+  estado.ervasProprias = Array.isArray(d.ervasProprias) ? d.ervasProprias.filter(x=>
+    x && typeof x.n==="string" && typeof x.k==="string" && Array.isArray(x.o) && Array.isArray(x.p)) : [];
   estado.ocultarBeta = !!d.ocultarBeta;
   estado.alvoV      = [1,3,5,7].includes(d.alvoV) ? d.alvoV : 3;
   estado.alvo       = [1,3,5,7].includes(d.alvo) ? d.alvo : 7;
   estado.atualizado = d.atualizado || null;
+  reconstruirIndices();
 }
 
 /* ---------------------------------------------------------------
@@ -897,41 +1083,71 @@ const sacode = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,
 
 /* índice de busca por verbo: reúne os verbos de todos os pares
    (orixá, temperatura) em que a erva aparece */
+const textoLivre = s => (s||"").replace(/[<>&"]/g,"").trim();
+
+let DADOS_TOTAL = DADOS;
+function reconstruirErvas(){ DADOS_TOTAL = DADOS.concat(estado.ervasProprias); }
+
+function verbosDe(cod, t){
+  const oficiais = (VERBOS[cod] && VERBOS[cod][t]) || [];
+  const proprios = (estado.verbosProprios[cod] && estado.verbosProprios[cod][t]) || [];
+  return oficiais.concat(proprios);
+}
+function ehVerboProprio(cod, t, v){
+  return ((estado.verbosProprios[cod] && estado.verbosProprios[cod][t]) || []).includes(v);
+}
+
 const IDX = {};
-DADOS.forEach(e=>{
-  const vs = [];
-  e.p.forEach(([cod,t])=>{
-    ((VERBOS[cod]||{})[t]||[]).forEach(v=>{ if(!vs.includes(v)) vs.push(v); });
+function reconstruirIDX(){
+  Object.keys(IDX).forEach(k=>delete IDX[k]);
+  DADOS_TOTAL.forEach(e=>{
+    const vs = [];
+    e.p.forEach(([cod,t])=>{
+      verbosDe(cod,t).forEach(v=>{ if(!vs.includes(v)) vs.push(v); });
+    });
+    const sinonimos = vs.flatMap(sinonimosDe);
+    const os = e.o.map(c=>(ORIXAS[c]||c)+" "+c).join(" ");
+    IDX[e.n] = { v: vs, k: sacode(vs.concat(sinonimos).join(" ")), o: sacode(os) };
   });
-  const os = e.o.map(c=>(ORIXAS[c]||c)+" "+c).join(" ");
-  IDX[e.n] = { v: vs, k: sacode(vs.join(" ")), o: sacode(os) };
-});
+}
+reconstruirErvas();
+reconstruirIDX();
 const termo = () => sacode(busca.trim());
 
 /* de onde vem cada verbo: pares (orixá, temperatura) */
 const VERBO_ORIGEM = {};
-Object.keys(VERBOS).forEach(cod=>{
-  Object.keys(VERBOS[cod]).forEach(t=>{
-    VERBOS[cod][t].forEach(v=>{
-      (VERBO_ORIGEM[v] = VERBO_ORIGEM[v] || []).push([cod, t]);
+let TODOS_VERBOS = [];
+function reconstruirVerbos(){
+  Object.keys(VERBO_ORIGEM).forEach(k=>delete VERBO_ORIGEM[k]);
+  const codigos = new Set([...Object.keys(VERBOS), ...Object.keys(estado.verbosProprios)]);
+  codigos.forEach(cod=>{
+    const temps = new Set([...Object.keys(VERBOS[cod]||{}), ...Object.keys(estado.verbosProprios[cod]||{})]);
+    temps.forEach(t=>{
+      verbosDe(cod,t).forEach(v=>{
+        (VERBO_ORIGEM[v] = VERBO_ORIGEM[v] || []).push([cod, t]);
+      });
     });
   });
-});
-const TODOS_VERBOS = Object.keys(VERBO_ORIGEM).sort((a,b)=>sacode(a).localeCompare(sacode(b)));
+  TODOS_VERBOS = Object.keys(VERBO_ORIGEM).sort((a,b)=>sacode(a).localeCompare(sacode(b)));
+}
+reconstruirVerbos();
+function reconstruirIndices(){ reconstruirErvas(); reconstruirIDX(); reconstruirVerbos(); }
 const verboDaCasa = v => !!VERBO_ORIGEM[v];
-let vBusca = "", vTrono = null, soTenho = false, verMais = false;   /* verMais guarda o verbo aberto */
+let vBusca = "", vTrono = null, soTenho = false, verMais = false, novoVerboBloco = null, novaErva = null;
 
 const nivelDe = n => estado.status[n] || 0;
 const ICONE = {
   3: sv(D.visto), 2: sv(D.aviso), 1: sv(D.carrinho)
 };
 const ROTULO = {3:"tenho",2:"acabando",1:"a repor"};
-function contar(){ const c={3:0,2:0,1:0,0:0}; DADOS.filter(passaVibra).forEach(e=>c[nivelDe(e.n)]++); return c; }
+function contar(){ const c={3:0,2:0,1:0,0:0}; DADOS_TOTAL.filter(passaVibra).forEach(e=>c[nivelDe(e.n)]++); return c; }
 function filtrada(){
   const b = termo();
-  return DADOS.filter(e=>{
+  return DADOS_TOTAL.filter(e=>{
     if(b && !e.k.includes(b) && !IDX[e.n].k.includes(b) && !IDX[e.n].o.includes(b)) return false;
     if(!passaVibra(e)) return false;
+    if(temperatura && !e.t.includes(temperatura)) return false;
+    if(soFavoritas && !ehFavorita(e.n)) return false;
     const nv = nivelDe(e.n);
     if(filtro==="cheio")   return nv===3;
     if(filtro==="acabando")return nv===2;
@@ -956,7 +1172,7 @@ function passaVibra(e){
   const alvos = alvosVibra();
   return e.o.some(c=>alvos.has(c));
 }
-function totalVibra(){ return DADOS.filter(passaVibra).length; }
+function totalVibra(){ return DADOS_TOTAL.filter(passaVibra).length; }
 function rotuloVibra(){
   const n = [...selTronos].map(c=>{ const t=TRONOS.find(x=>x.c===c);
               return t.n!=="—" ? t.n+" trono, da "+t.nome : t.nome; })
@@ -997,7 +1213,8 @@ function linha(e){
   info.setAttribute("aria-label", "Abrir a ficha de "+e.n);
   info.onclick = ()=>abrirFicha(e);
   const cab = document.createElement("div"); cab.className="cab";
-  const nome = document.createElement("div"); nome.className="nome"; nome.textContent = e.n;
+  const nome = document.createElement("div"); nome.className="nome";
+  nome.innerHTML = e.n + (e.propria ? '<i class="tag-propria">própria</i>' : "");
   const sub = document.createElement("div"); sub.className="sub";
   const temp = e.t.split("").map(t=>'<i class="tp '+(t==="Q"?"q":"m")+'">'
       + sv(t==="Q"?D.chama:D.folha,"ico-sm") + (t==="Q"?"quente":"morna") + '</i>').join("");
@@ -1014,11 +1231,13 @@ function linha(e){
     ;
   sub.title = e.o.map(c=>ORIXAS[c]||c).join(", ");
   cab.appendChild(nome);
-  info.appendChild(cab); info.appendChild(sub);
+  if(aba==="estoque") cab.appendChild(sub);
+  info.appendChild(cab);
+  if(aba!=="estoque") info.appendChild(sub);
 
   const b = termo();
   if(b && !e.k.includes(b) && !IDX[e.n].o.includes(b)){
-    const achados = IDX[e.n].v.filter(v=>sacode(v).includes(b));
+    const achados = IDX[e.n].v.filter(v=>sacode(v).includes(b) || sinonimosDe(v).some(s=>sacode(s).includes(b)));
     if(achados.length){
       const m = document.createElement("div"); m.className="match";
       m.innerHTML = sv(D.raio,"ico-sm")
@@ -1049,7 +1268,7 @@ function linha(e){
   vb.innerHTML = sv(D.raio,"ico-sm")+"<u>verbos de poder</u>";
   canto.appendChild(vb);
 
-  if(ehFavorita(e.n)){
+  if(aba!=="estoque" && ehFavorita(e.n)){
     const marca = document.createElement("span"); marca.className="marca-fav";
     marca.title = "Preferida"; marca.innerHTML = sv(D.coracao,"ico-sm");
     canto.appendChild(marca);
@@ -1060,12 +1279,28 @@ function linha(e){
   bnh.className = "nv nv-banho";
   bnh.setAttribute("aria-pressed", noBanho(e.n));
   bnh.setAttribute("aria-label", (noBanho(e.n)?"Tirar ":"Acrescentar ")+e.n+" ao banho");
-  bnh.innerHTML = sv(D.gotas) + '<u>adicionar<br>ao banho</u>';
+  bnh.innerHTML = aba==="estoque"
+    ? sv(noBanho(e.n)?D.visto:D.gotas) + "<u>"+(noBanho(e.n)?"No banho · tirar":"Adicionar ao banho")+"</u>"
+    : sv(D.gotas) + '<u>adicionar<br>ao banho</u>';
   bnh.onclick = ()=>tentaBanho(e.n);
 
   [...niveis.children].forEach(b=>acoes.appendChild(b));
-  acoes.appendChild(bnh);
-  div.appendChild(info); div.appendChild(canto); div.appendChild(acoes);
+  if(aba==="estoque"){
+    const verbos=document.createElement("button"); verbos.className="ver-verbos";
+    verbos.innerHTML=sv(D.raio,"ico-sm")+"Ver verbos de poder "+sv(D.abaixo,"ico-sm");
+    verbos.setAttribute("aria-label","Ver verbos de poder de "+e.n);
+    verbos.onclick=()=>abrirFicha(e);
+    const favorita=document.createElement("button"); favorita.className="favoritar";
+    favorita.innerHTML=sv(D.coracao,"ico-sm");
+    favorita.setAttribute("aria-pressed",ehFavorita(e.n));
+    favorita.setAttribute("aria-label",(ehFavorita(e.n)?"Remover ":"Adicionar ")+e.n+(ehFavorita(e.n)?" das favoritas":" às favoritas"));
+    favorita.title=ehFavorita(e.n)?"Remover das favoritas":"Adicionar às favoritas";
+    favorita.onclick=()=>alternaFavorita(e.n);
+    div.append(info,bnh,acoes,verbos,favorita);
+  } else {
+    acoes.appendChild(bnh);
+    div.appendChild(info); div.appendChild(canto); div.appendChild(acoes);
+  }
   return div;
 }
 
@@ -1075,6 +1310,13 @@ function telaEstoque(alvo){
   if(!lista.length){
     alvo.innerHTML = '<div class="vazio"><div class="vazioIco">'+sv(D.lupa,"ico-lg")+'</div><strong>Nenhuma erva aqui</strong>'
       + '<span>Nenhuma erva combina os filtros ativos. Toque em <b>limpar</b> ou ajuste a busca.</span></div>';
+    if(busca.trim()){
+      const nb = document.createElement("button"); nb.className="v-novo"; nb.id="btnNovaErvaVazio";
+      nb.innerHTML = sv(D.mais,"ico-sm")+'Cadastrar <b>'+textoLivre(busca)+'</b> como erva própria';
+      alvo.appendChild(nb);
+      nb.onclick = ()=>abrirNovaErva(null, {nomeSugerido: busca.trim()});
+    }
+    alvo.appendChild(painelBackup());
     return;
   }
   let letra = "";
@@ -1083,7 +1325,7 @@ function telaEstoque(alvo){
     if(L!==letra){
       letra = L;
       const n = lista.filter(x=>x.k[0].toUpperCase()===L).length;
-      const h = document.createElement("div"); h.className="letra";
+      const h = document.createElement("div"); h.className="letra"; h.id="letra-"+L;
       h.innerHTML = "<span>"+L+"</span><i></i><em>"+n+"</em>";
       alvo.appendChild(h);
     }
@@ -1100,8 +1342,8 @@ function telaEstoque(alvo){
 }
 
 function telaComprar(alvo){
-  const falta = DADOS.filter(e=>passaVibra(e) && nivelDe(e.n)===1);
-  const acab  = DADOS.filter(e=>passaVibra(e) && nivelDe(e.n)===2);
+  const falta = DADOS_TOTAL.filter(e=>passaVibra(e) && nivelDe(e.n)===1);
+  const acab  = DADOS_TOTAL.filter(e=>passaVibra(e) && nivelDe(e.n)===2);
 
   if(!falta.length && !acab.length){
     alvo.innerHTML = '<div class="vazio"><div class="vazioIco">'+sv(D.pote,"ico-lg")+'</div><strong>Nada a repor</strong>'
@@ -1144,7 +1386,15 @@ function telaComprar(alvo){
   const bc=document.createElement("button"); bc.className="btn btn-urg";
   bc.innerHTML = sv(D.carrinho)+"Copiar lista de compras";
   const bv=document.createElement("button"); bv.className="btn btn-sec"; bv.textContent="Ver como texto";
-  acao.appendChild(bc); acao.appendChild(bv); alvo.appendChild(acao);
+  const blb=document.createElement("button"); blb.className="btn btn-sec";
+  blb.innerHTML = sv(D.nota,"ico-sm")+"Lembrar de comprar";
+  blb.onclick = ()=>abrirLembrete({
+    titulo: "Comprar ervas do Herbário",
+    itens: (falta.length ? "A REPOR:\n"+falta.map(e=>"• "+e.n).join("\n") : "")
+      + (falta.length && acab.length ? "\n\n" : "")
+      + (acab.length ? "ACABANDO:\n"+acab.map(e=>"• "+e.n).join("\n") : "")
+  });
+  acao.appendChild(bc); acao.appendChild(bv); acao.appendChild(blb); alvo.appendChild(acao);
 
   const ta=document.createElement("textarea"); ta.className="saida"; ta.readOnly=true; ta.value=texto;
   alvo.appendChild(ta);
@@ -1174,15 +1424,16 @@ function abrirFicha(e){
   const ICONE_EST = {3:D.visto,2:D.aviso,1:D.carrinho,0:D.circulo};
   const estadoTxt = {3:"tenho no herbário",2:"acabando",1:"a repor"}[nv];
 
-  let html = '<div class="ficha-cab"><h3>'+e.n+'</h3>'
+  let html = '<div class="ficha-cab"><h3>'+e.n+(e.propria?'<i class="tag-propria tag-propria-titulo">própria</i>':'')+'</h3>'
     + (estadoTxt ? '<p class="ficha-est est-'+nv+'">'+sv(ICONE_EST[nv],"ico-sm")+estadoTxt+'</p>' : '')
     + (temAlergia(e.n) ? '<p class="ficha-alerg">'+sv(D.proibido,"ico-sm")+'Você marcou alergia a esta erva</p>' : '')
     + '</div>';
 
   e.p.forEach(([cod, t])=>{
     const tr = tronoDe(cod);
-    const verbos = (VERBOS[cod] && VERBOS[cod][t]) || [];
+    const verbos = verbosDe(cod, t);
     const cor = corOrixa(cod);
+    const chaveBloco = cod+"|"+t;
     html += '<div class="bloco" style="box-shadow:inset 3px 0 0 '+cor+'">'
       + '<div class="bloco-cab"><span class="el" style="color:'+cor+';background:'+rgba(cor,.16)+'">'
       + sv((tr&&ICO_EL[tr.el])||D.folha)+'</span>'
@@ -1191,8 +1442,16 @@ function abrirFicha(e){
       + (t==="Q"?"QUENTE":"MORNA")+'</span></div>'
       + '<p class="bloco-tr">'+(tr ? (tr.n!=="—" ? tr.n+" Trono da "+tr.nome : tr.nome)
       + ' · ' + tr.el2 : '')+'</p>'
-      + '<p class="verbos">'+verbos.map(v=>'<button class="vchip" data-v="'+v+'" aria-pressed="'
-        + verboEscolhido(v)+'">'+v+'</button>').join("")+'</p>'
+      + '<div class="verbos">'+verbos.map(v=>'<button class="vchip" data-v="'+v+'" aria-pressed="'
+        + verboEscolhido(v)+'">'+v+(ehVerboProprio(cod,t,v)?'<i class="tag-propria">própria</i>':'')+'</button>').join("")
+      + (novoVerboBloco===chaveBloco
+          ? '<div class="v-novo-inline"><input type="text" id="novoVerboTxt" placeholder="novo verbo" autocomplete="off" autocapitalize="off">'
+            + '<button class="ok" id="novoVerboOk" aria-label="Adicionar verbo">'+sv(D.mais,"ico-sm")+'</button>'
+            + '<button class="cancel" id="novoVerboCancelar" aria-label="Cancelar">'+sv(D.x,"ico-sm")+'</button></div>'
+          : '<button class="vchip-add" data-cod="'+cod+'" data-t="'+t+'">'+sv(D.mais,"ico-sm")+'Verbo próprio</button>')
+      + '</div>'
+      + '<button class="bloco-erva-link" data-cod="'+cod+'" data-t="'+t+'">'
+        + sv(D.folha,"ico-sm")+'Cadastrar outra erva para '+(ORIXAS[cod]||cod)+'</button>'
       + '</div>';
   });
 
@@ -1223,6 +1482,36 @@ function abrirFicha(e){
     b.onclick = ()=>{ alternaVerbo(b.dataset.v); abrirFicha(e); render(); };
   });
 
+  c.querySelectorAll(".bloco-erva-link").forEach(b=>{
+    b.onclick = ()=>abrirNovaErva({cod:b.dataset.cod, t:b.dataset.t});
+  });
+
+  /* abrir/fechar o formulário de verbo próprio não deve arrastar a rolagem
+     de volta ao topo — a pessoa está com o dedo bem onde tocou */
+  const reabrirNoLugar = ()=>{
+    const painel = document.querySelector("#ficha .sheet-in");
+    const y = painel ? painel.scrollTop : 0;
+    abrirFicha(e);
+    if(painel) document.querySelector("#ficha .sheet-in").scrollTop = y;
+  };
+  c.querySelectorAll(".vchip-add").forEach(b=>{
+    b.onclick = ()=>{ novoVerboBloco = b.dataset.cod+"|"+b.dataset.t; reabrirNoLugar(); };
+  });
+  const campoNovo = document.getElementById("novoVerboTxt");
+  if(campoNovo){
+    campoNovo.focus();
+    const [codB, tB] = novoVerboBloco.split("|");
+    const confirmar = ()=>{
+      const texto = campoNovo.value.trim();
+      novoVerboBloco = null;
+      if(texto) adicionarVerboProprio(codB, tB, texto);
+      reabrirNoLugar(); render();
+    };
+    document.getElementById("novoVerboOk").onclick = confirmar;
+    document.getElementById("novoVerboCancelar").onclick = ()=>{ novoVerboBloco = null; reabrirNoLugar(); };
+    campoNovo.onkeydown = ev=>{ if(ev.key==="Enter"){ ev.preventDefault(); confirmar(); } };
+  }
+
   const liga = (id, fn)=>{ const el = document.getElementById(id); if(el) el.onclick = fn; };
   liga("fBanho", ()=>{ if(tentaBanho(e.n)) abrirFicha(e); });
   liga("fFav",   ()=>{ alternaFavorita(e.n); abrirFicha(e); });
@@ -1242,9 +1531,114 @@ function abrirFicha(e){
 }
 function fecharFicha(){ document.getElementById("ficha").hidden = true; }
 
+/* ---------- erva própria ---------- */
+function abrirNovaErva(prefill, opts){
+  opts = opts || {};
+  novaErva = {
+    nome: opts.nomeSugerido || "",
+    vinculos: prefill ? [{cod:prefill.cod, t:prefill.t}] : [{cod:"", t:""}]
+  };
+  renderNovaErva();
+  document.getElementById("ervaSheet").hidden = false;
+  document.querySelector("#ervaSheet .sheet-in").scrollTop = 0;
+  const nomeInp = document.getElementById("ervaNome");
+  if(nomeInp) nomeInp.focus();
+}
+function fecharNovaErva(){
+  const sh = document.getElementById("ervaSheet");
+  if(sh.hidden) return;
+  sh.hidden = true;
+  novaErva = null;
+}
+function avisoErvaForm(msg){
+  const el = document.getElementById("ervaErro");
+  if(!el) return;
+  el.textContent = msg; el.hidden = false;
+}
+function renderNovaErva(){
+  const c = document.getElementById("ervaCorpo");
+  if(!novaErva) return;
+  const opcoesOrixa = codSel => Object.keys(ORIXAS)
+    .sort((a,b)=>ORIXAS[a].localeCompare(ORIXAS[b]))
+    .map(cod=>'<option value="'+cod+'"'+(cod===codSel?' selected':'')+'>'+ORIXAS[cod]+'</option>').join("");
+
+  let html = '<p class="sheet-dica">Dê um nome e associe a um ou mais orixás, cada um com sua temperatura — do mesmo jeito que as ervas oficiais.</p>'
+    + '<div class="campo campo-grande"><input type="text" id="ervaNome" placeholder="Nome da erva" autocomplete="off" value="'+textoLivre(novaErva.nome||"")+'"></div>'
+    + '<div id="ervaVinculos">';
+
+  novaErva.vinculos.forEach((v,i)=>{
+    html += '<div class="vinculo" data-i="'+i+'">'
+      + '<select class="vinc-orixa" data-i="'+i+'"><option value="">Orixá…</option>'+opcoesOrixa(v.cod)+'</select>'
+      + '<div class="vinc-temp">'
+        + '<button type="button" class="temp-q" data-i="'+i+'" data-t="Q" aria-pressed="'+(v.t==="Q")+'">'+sv(D.chama,"ico-sm")+'Quente</button>'
+        + '<button type="button" class="temp-m" data-i="'+i+'" data-t="M" aria-pressed="'+(v.t==="M")+'">'+sv(D.folha,"ico-sm")+'Morna</button>'
+      + '</div>'
+      + (novaErva.vinculos.length>1
+          ? '<button type="button" class="vinc-remover" data-i="'+i+'" aria-label="Remover este vínculo">'+sv(D.x,"ico-sm")+'</button>'
+          : '')
+      + '</div>';
+  });
+
+  html += '</div>'
+    + '<button type="button" class="v-mais" id="ervaAddVinculo">'+sv(D.mais,"ico-sm")+'Adicionar outro orixá</button>'
+    + '<p class="erro-erva" id="ervaErro" hidden></p>'
+    + '<div class="ficha-acoes"><button class="btn btn-add" id="ervaSalvar">'+sv(D.mais)+'SALVAR ERVA PRÓPRIA</button></div>';
+
+  c.innerHTML = html;
+
+  document.getElementById("ervaNome").oninput = ev=>{ novaErva.nome = ev.target.value; };
+  c.querySelectorAll(".vinc-orixa").forEach(sel=>{
+    sel.onchange = ()=>{ novaErva.vinculos[+sel.dataset.i].cod = sel.value; };
+  });
+  c.querySelectorAll(".temp-q, .temp-m").forEach(btn=>{
+    btn.onclick = ()=>{
+      const i = +btn.dataset.i, t = btn.dataset.t;
+      const v = novaErva.vinculos[i];
+      v.t = (v.t===t) ? "" : t;
+      const row = btn.closest(".vinculo");
+      row.querySelector(".temp-q").setAttribute("aria-pressed", v.t==="Q");
+      row.querySelector(".temp-m").setAttribute("aria-pressed", v.t==="M");
+    };
+  });
+  c.querySelectorAll(".vinc-remover").forEach(btn=>{
+    btn.onclick = ()=>{ novaErva.vinculos.splice(+btn.dataset.i,1); renderNovaErva(); };
+  });
+  document.getElementById("ervaAddVinculo").onclick = ()=>{
+    novaErva.vinculos.push({cod:"", t:""}); renderNovaErva();
+  };
+  document.getElementById("ervaSalvar").onclick = salvarNovaErva;
+}
+function salvarNovaErva(){
+  const inp = document.getElementById("ervaNome");
+  const nome = textoLivre(inp.value);
+  if(!nome){ avisoErvaForm("Escreva o nome da erva."); inp.focus(); return; }
+  const chave = sacode(nome);
+  if(DADOS_TOTAL.some(x=>x.k===chave)){ avisoErvaForm("Já existe uma erva com esse nome."); return; }
+
+  const vistos = new Set(), pares = [];
+  novaErva.vinculos.forEach(v=>{
+    if(!v.cod || !v.t) return;
+    const chaveP = v.cod+v.t;
+    if(vistos.has(chaveP)) return;
+    vistos.add(chaveP); pares.push([v.cod, v.t]);
+  });
+  if(!pares.length){ avisoErvaForm("Escolha ao menos um orixá e uma temperatura."); return; }
+
+  const orixasUnicos = [...new Set(pares.map(p=>p[0]))];
+  const temps = new Set(pares.map(p=>p[1]));
+  const t = (temps.has("Q")?"Q":"") + (temps.has("M")?"M":"");
+
+  estado.ervasProprias.push({ n: nome, k: chave, t, o: orixasUnicos, p: pares, propria: true });
+  salvar();
+  reconstruirIndices();
+  fecharNovaErva();
+  render();
+  toast("Erva própria cadastrada ✨", "add");
+}
+
 /* ---------- painel de tronos ---------- */
-function contaOrixa(cod){ return DADOS.filter(e=>e.o.includes(cod)).length; }
-function contaTrono(c){ const os=orixasDoTrono(c); return DADOS.filter(e=>e.o.some(x=>os.includes(x))).length; }
+function contaOrixa(cod){ return DADOS_TOTAL.filter(e=>e.o.includes(cod)).length; }
+function contaTrono(c){ const os=orixasDoTrono(c); return DADOS_TOTAL.filter(e=>e.o.some(x=>os.includes(x))).length; }
 
 function pintarTronos(){
   const alvo = document.getElementById("tronos"); alvo.innerHTML="";
@@ -1294,11 +1688,31 @@ function pintarTronos(){
   const n = totalVibra(), sel = selTronos.size + selOrixas.size;
   const rodape = document.getElementById("sheetPe");
   rodape.querySelector("#sheetConta").textContent =
-    sel ? n + (n===1?" erva selecionada":" ervas selecionadas") : "173 ervas — nenhum recorte";
+    sel ? n + (n===1?" erva selecionada":" ervas selecionadas") : n + " ervas — nenhum recorte";
   rodape.querySelector("#sheetLimpar").hidden = sel===0;
 }
-function abrirSheet(){ pintarTronos(); document.getElementById("sheet").hidden=false; }
-function fecharSheet(){ document.getElementById("sheet").hidden=true; }
+let focoFiltros = null, fundoFiltros = [];
+function abrirSheet(){
+  focoFiltros = document.activeElement;
+  pintarTronos(); pintarFiltrosBasicos(); atualizarFiltrosUX();
+  document.getElementById("sheet").hidden=false;
+  fundoFiltros=[...document.body.children].filter(el=>el.id!=="sheet" && el.tagName!=="SCRIPT").map(el=>[el,el.inert]);
+  fundoFiltros.forEach(([el])=>el.inert=true);
+  document.getElementById("sheet").querySelector(".sheet-in").scrollTop=0;
+  document.body.classList.add("filtros-abertos");
+  document.getElementById("abrirFiltros").setAttribute("aria-expanded","true");
+  document.getElementById("fecharSheet").focus();
+}
+function fecharSheet(){
+  const sheet=document.getElementById("sheet");
+  if(sheet.hidden) return;
+  sheet.hidden=true;
+  fundoFiltros.forEach(([el,inert])=>el.inert=inert); fundoFiltros=[];
+  document.body.classList.remove("filtros-abertos");
+  document.getElementById("abrirFiltros").setAttribute("aria-expanded","false");
+  const retorno=focoFiltros && focoFiltros!==document.body && focoFiltros.isConnected ? focoFiltros : document.getElementById(aba==="estoque"?"abrirFiltros":"btnTrono");
+  retorno.focus({preventScroll:true});
+}
 function atualizarBotao(){
   const b=document.getElementById("btnTrono"), t=document.getElementById("btnTronoTxt"),
         l=document.getElementById("limpar");
@@ -1309,9 +1723,11 @@ function atualizarBotao(){
   b.dataset.ativo="1"; l.hidden=false;
 }
 function limparVibra(){
+  if(aba==="estoque"){ filtro="todas"; temperatura=""; soFavoritas=false; }
   selTronos.clear(); selOrixas.clear();
+  pintarChips();
   atualizarBotao(); render();
-  if(!document.getElementById("sheet").hidden) pintarTronos();
+  if(!document.getElementById("sheet").hidden){ pintarTronos(); pintarFiltrosBasicos(); atualizarFiltrosUX(); }
 }
 
 /* ---------- cópia de segurança ---------- */
@@ -1371,6 +1787,114 @@ function painelBackup(){
   return box;
 }
 
+/* ---------- lembretes: gera um arquivo de calendário (.ics) para a Agenda do celular ---------- */
+let novoLembrete = null;
+const escaparHTML = s => String(s||"")
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const escaparICS = s => String(s||"")
+  .replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n");
+function dobrarICS(txt){
+  return txt.split("\r\n").map(linha=>{
+    if(linha.length<=75) return linha;
+    let out = linha.slice(0,75), resto = linha.slice(75);
+    while(resto.length){ out += "\r\n "+resto.slice(0,74); resto = resto.slice(74); }
+    return out;
+  }).join("\r\n");
+}
+function construirICS({titulo, itens, data, hora, repete, intervalo}){
+  const dt = data.replace(/-/g,"") + "T" + hora.replace(":","") + "00";
+  let rrule = "";
+  if(repete==="semanal") rrule = "RRULE:FREQ=WEEKLY\r\n";
+  else if(repete==="mensal") rrule = "RRULE:FREQ=MONTHLY\r\n";
+  else if(repete==="dias") rrule = "RRULE:FREQ=DAILY;INTERVAL="+Math.max(1,parseInt(intervalo)||1)+"\r\n";
+  const uid = "herbario-"+Date.now()+"-"+Math.random().toString(36).slice(2)+"@herbario2026";
+  const agora = new Date().toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
+  const corpo = "BEGIN:VCALENDAR\r\n"
+    + "VERSION:2.0\r\n"
+    + "PRODID:-//Herbario2026//lembretes//PT\r\n"
+    + "CALSCALE:GREGORIAN\r\n"
+    + "BEGIN:VEVENT\r\n"
+    + "UID:"+uid+"\r\n"
+    + "DTSTAMP:"+agora+"\r\n"
+    + "DTSTART:"+dt+"\r\n"
+    + rrule
+    + "SUMMARY:"+escaparICS(titulo)+"\r\n"
+    + "DESCRIPTION:"+escaparICS(itens)+"\r\n"
+    + "BEGIN:VALARM\r\n"
+    + "ACTION:DISPLAY\r\n"
+    + "DESCRIPTION:"+escaparICS(titulo)+"\r\n"
+    + "TRIGGER:-PT0M\r\n"
+    + "END:VALARM\r\n"
+    + "END:VEVENT\r\n"
+    + "END:VCALENDAR\r\n";
+  return dobrarICS(corpo);
+}
+function abrirLembrete(prefill){
+  const amanha = new Date(Date.now()+86400000).toISOString().slice(0,10);
+  novoLembrete = Object.assign({
+    titulo: "Lembrete do Herbário", itens: "", data: amanha, hora: "18:00",
+    repete: "nao", intervalo: 3
+  }, prefill||{});
+  renderLembrete();
+  document.getElementById("lembreteSheet").hidden = false;
+  document.querySelector("#lembreteSheet .sheet-in").scrollTop = 0;
+}
+function fecharLembrete(){
+  const sh = document.getElementById("lembreteSheet");
+  if(sh.hidden) return;
+  sh.hidden = true;
+  novoLembrete = null;
+}
+function renderLembrete(){
+  const c = document.getElementById("lembreteCorpo");
+  if(!novoLembrete) return;
+  const L = novoLembrete;
+  let html = '<p class="sheet-dica">Isso baixa um arquivo de calendário — abra-o para acrescentar o lembrete '
+    + 'na Agenda do celular, que avisa mesmo com o Herbário fechado.</p>'
+    + '<div class="campo campo-grande"><input type="text" id="lembTitulo" placeholder="Título do lembrete" '
+    + 'autocomplete="off" value="'+escaparHTML(L.titulo)+'"></div>'
+    + '<label class="lemb-rotulo">Itens necessários</label>'
+    + '<textarea id="lembItens" rows="4" placeholder="O que não pode faltar…">'+escaparHTML(L.itens)+'</textarea>'
+    + '<div class="lemb-linha">'
+      + '<label class="lemb-campo"><span>Data</span><input type="date" id="lembData" value="'+L.data+'"></label>'
+      + '<label class="lemb-campo"><span>Hora</span><input type="time" id="lembHora" value="'+L.hora+'"></label>'
+    + '</div>'
+    + '<label class="lemb-rotulo">Repetição</label>'
+    + '<select id="lembRepete" class="lemb-select">'
+      + '<option value="nao"'+(L.repete==="nao"?" selected":"")+'>Não repete</option>'
+      + '<option value="semanal"'+(L.repete==="semanal"?" selected":"")+'>Toda semana</option>'
+      + '<option value="mensal"'+(L.repete==="mensal"?" selected":"")+'>Todo mês</option>'
+      + '<option value="dias"'+(L.repete==="dias"?" selected":"")+'>Personalizada (a cada X dias)</option>'
+    + '</select>'
+    + (L.repete==="dias"
+        ? '<div class="campo campo-grande" id="lembIntervaloBox"><input type="number" min="1" inputmode="numeric" id="lembIntervalo" value="'+(parseInt(L.intervalo)||3)+'"><span>dias</span></div>'
+        : '')
+    + '<div class="ficha-acoes"><button class="btn btn-add" id="lembSalvar">'+sv(D.mais)+'BAIXAR LEMBRETE (.ICS)</button></div>';
+  c.innerHTML = html;
+
+  document.getElementById("lembTitulo").oninput = ev=>{ L.titulo = ev.target.value; };
+  document.getElementById("lembItens").oninput = ev=>{ L.itens = ev.target.value; };
+  document.getElementById("lembData").onchange = ev=>{ L.data = ev.target.value; };
+  document.getElementById("lembHora").onchange = ev=>{ L.hora = ev.target.value; };
+  document.getElementById("lembRepete").onchange = ev=>{ L.repete = ev.target.value; renderLembrete(); };
+  const campoInt = document.getElementById("lembIntervalo");
+  if(campoInt) campoInt.oninput = ev=>{ L.intervalo = ev.target.value; };
+  document.getElementById("lembSalvar").onclick = baixarLembrete;
+}
+function baixarLembrete(){
+  const L = novoLembrete;
+  const titulo = textoLivre(document.getElementById("lembTitulo").value) || "Lembrete do Herbário";
+  const itens = document.getElementById("lembItens").value;
+  const ics = construirICS({titulo, itens, data:L.data, hora:L.hora, repete:L.repete, intervalo:L.intervalo});
+  const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "lembrete-herbario.ics";
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  toast("Lembrete baixado ✨ abra o arquivo para adicionar na Agenda", "add");
+  fecharLembrete();
+}
+
 
 /* ---------- itens do banho ---------- */
 let toastTempo = null;
@@ -1424,18 +1948,34 @@ function alternaVerbo(v){
   if(i>=0) estado.verbos.splice(i,1); else estado.verbos.push(v);
   salvar();
   const q = estado.verbos.length;
-  const plural = q + " verbo" + (q!==1 ? "s" : "") + " de poder";
+  const plural = q + " verbo" + (q!==1 ? "s" : "");
   if(entrando){
-    toast(q >= LIMITE_VERBOS ? "Você escolheu " + plural + " ✨ é o máximo"
-                 : "Você escolheu " + plural + " ✨", "add");
+    toast("Entrou na intenção do banho ✨" + (q >= LIMITE_VERBOS ? " · " + plural + ", o máximo" : ""), "add");
   } else {
-    toast(q ? "Ficaram " + plural : "Nenhum verbo escolhido", "tira");
+    toast("Saiu da intenção · " + (q ? "ficaram " + plural : "nenhum verbo escolhido"), "tira");
   }
+}
+/* acrescenta um verbo próprio da casa a um par (orixá, temperatura) que já existe
+   no catálogo oficial — não cria orixá nem mexe nos verbos oficiais */
+function adicionarVerboProprio(cod, t, texto){
+  const v = texto.trim();
+  if(!v) return;
+  const chave = sacode(v);
+  if(verbosDe(cod,t).some(x=>sacode(x)===chave)){
+    toast("Esse verbo já existe neste orixá", "tira");
+    return;
+  }
+  estado.verbosProprios[cod] = estado.verbosProprios[cod] || {};
+  const lista = estado.verbosProprios[cod][t] = estado.verbosProprios[cod][t] || [];
+  lista.push(v);
+  salvar();
+  reconstruirIndices();
+  alternaVerbo(v);
 }
 /* ervas que carregam algum dos verbos escolhidos, das mais aderentes às menos */
 function ervasPorVerbo(){
   if(!estado.verbos.length) return [];
-  return DADOS.map(e=>{
+  return DADOS_TOTAL.map(e=>{
       const casam = estado.verbos.filter(v=>
         IDX[e.n].v.includes(v) ||
         (!verboDaCasa(v) && IDX[e.n].k.includes(sacode(v))));
@@ -1459,33 +1999,41 @@ function alternaBanho(n){
   if(i>=0) estado.banho.splice(i,1); else estado.banho.push(n);
   salvar(); render();
 }
-function ervaPor(n){ return DADOS.find(e=>e.n===n); }
+function ervaPor(n){ return DADOS_TOTAL.find(e=>e.n===n); }
 
 /* ══════════ GUIA DO BANHO — dois passos ══════════ */
 let passo = 1;
+let caminhoBanho = null;   /* "verbo" | "trono" | "erva" — qual porta de entrada do passo 1 está aberta */
+let caminhoBanhoAuto = false;   /* já tentamos advinhar o caminho a partir do que a pessoa já tinha? só uma vez */
 
 /* ervas que carregam um verbo, as do armário primeiro */
 const ORDEM_ESTADO = {3:0, 2:1, 0:2, 1:3};
 function ervasDoVerbo(v){
   const daCasa = verboDaCasa(v), alvo = sacode(v);
-  return DADOS.filter(e => daCasa ? IDX[e.n].v.includes(v) : IDX[e.n].k.includes(alvo))
+  return DADOS_TOTAL.filter(e => daCasa ? IDX[e.n].v.includes(v) : IDX[e.n].k.includes(alvo))
     .sort((a,b)=> (ORDEM_ESTADO[nivelDe(a.n)] - ORDEM_ESTADO[nivelDe(b.n)]) || a.k.localeCompare(b.k));
 }
 
 function telaBanho(alvo){
   const ab = document.createElement("div"); ab.className="abertura";
   ab.innerHTML = "<h2>"+sv(D.gotas,"ico-lg")+"Montar o banho</h2>"
-    + "<p>Escolha o que o banho deve fazer e, logo abaixo de cada verbo, as ervas que o carregam.</p>";
+    + "<p>Pelo verbo, pelo trono ou direto pelas ervas que você já tem — três caminhos para a mesma receita.</p>";
   alvo.appendChild(ab);
 
-  const st = document.createElement("div"); st.className="passos";
-  [[1,"Intenção e ervas", estado.verbos.length],
-   [2,"Receita",          estado.banho.length]].forEach(([n,rot,feito])=>{
-    const b=document.createElement("button"); b.className="passo";
-    b.setAttribute("aria-pressed", passo===n);
-    b.dataset.feito = feito>0 ? "1" : "0";
-    b.innerHTML = '<span class="ps-n">'+(feito>0 && passo!==n ? sv(D.visto,"ico-sm") : n)+'</span>'
-      + '<span class="ps-r">'+rot+'</span>';
+  const qtdBanho = estado.banho.length;
+  const st = document.createElement("div"); st.className="trilha";
+  [[1, "Escolher ervas",
+      qtdBanho ? qtdBanho+" erva"+(qtdBanho!==1?"s":"")+" escolhida"+(qtdBanho!==1?"s":"")+" até agora" : "Toque para começar"],
+   [2, "Ver a receita",
+      qtdBanho ? qtdBanho+" erva"+(qtdBanho!==1?"s":"")+" pronta"+(qtdBanho!==1?"s":"")+" — toque para conferir" : "Ainda vazio — escolha as ervas no passo 1"]]
+  .forEach(([n,titulo,legenda])=>{
+    const atual = passo===n, feito = qtdBanho>0;
+    const b=document.createElement("button"); b.className="trilha-passo";
+    b.dataset.atual = atual; b.dataset.feito = feito ? "1" : "0";
+    b.innerHTML = '<span class="trilha-col"><span class="trilha-n">'
+        + (feito && !atual ? sv(D.visto,"ico-sm") : n) + '</span>'
+        + (n===1 ? '<span class="trilha-linha"></span>' : '') + '</span>'
+      + '<span class="trilha-tx"><b>'+titulo+'</b><i>'+legenda+'</i></span>';
     b.onclick = ()=>{ passo=n; window.scrollTo(0,0); render(); };
     st.appendChild(b);
   });
@@ -1514,82 +2062,165 @@ function opcaoErva(e, contexto){
   return b;
 }
 
-/* ---------- passo 1: intenção com as ervas embaixo ---------- */
+/* ---------- escolha do caminho: três portas de entrada equivalentes ---------- */
+function renderEscolhaCaminho(alvo){
+  const perg = document.createElement("div"); perg.className="pergunta";
+  perg.innerHTML = "<h3>Por onde você quer começar?</h3>"
+    + "<p>Três jeitos de montar o mesmo banho — escolha o que fizer mais sentido agora.</p>";
+  alvo.appendChild(perg);
+
+  const box = document.createElement("div"); box.className="caminhos";
+  [["verbo", D.raio,  "Pelo que o banho deve fazer", "Escolha um verbo de poder — descarregar, abrir, curar, prosperar…"],
+   ["trono", D.cruz,  "Pelo trono ou orixá",          "Navegue pelos sete tronos e veja os verbos de cada um"],
+   ["erva",  D.folha, "Pelas ervas que já tenho",     "Monte direto com o que está marcado no seu herbário"]]
+  .forEach(([c, ico, tit, desc])=>{
+    const b = document.createElement("button"); b.className="caminho";
+    b.innerHTML = '<span class="ci">'+sv(ico)+'</span>'
+      + '<span class="ct"><b>'+tit+'</b><i>'+desc+'</i></span>'
+      + sv(D.seta,"ico-sm");
+    b.onclick = ()=>{ caminhoBanho=c; vBusca=""; vTrono=null; window.scrollTo(0,0); render(); };
+    box.appendChild(b);
+  });
+  alvo.appendChild(box);
+}
+
+/* linha de resultado de um verbo, usada nos caminhos "verbo" e "trono" */
+function itemVerbo(v){
+  const b2=document.createElement("button"); b2.className="v-item";
+  b2.setAttribute("aria-pressed", verboEscolhido(v));
+  const orix = [...new Set(VERBO_ORIGEM[v].map(([c])=>c))]
+    .map(c=>'<i class="ox" style="color:'+corOrixa(c)+'" title="'+(ORIXAS[c]||c)+'">'+c+'</i>').join(" ");
+  const temps = [...new Set(VERBO_ORIGEM[v].map(([,t2])=>t2))]
+    .map(t2=>'<i class="tp '+(t2==="Q"?"q":"m")+'">'+sv(t2==="Q"?D.chama:D.folha,"ico-sm")+(t2==="Q"?"quente":"morna")+'</i>').join("");
+  b2.innerHTML = '<span class="vi-nome">'+v+'</span>'
+    + '<span class="vi-meta">'+temps+orix+'<i class="vi-n">'+ervasDoVerbo(v).length+' ervas</i></span>'
+    + '<span class="vi-ico">'+sv(verboEscolhido(v)?D.visto:D.mais,"ico-sm")+'</span>';
+  b2.onclick = ()=>{ alternaVerbo(v); vBusca=""; render(); };
+  return b2;
+}
+
+/* ---------- caminho "pelas ervas que já tenho": pula direto pro estoque marcado ---------- */
+function renderCaminhoErva(alvo){
+  const perg = document.createElement("div"); perg.className="pergunta";
+  perg.innerHTML = "<h3>Quais ervas entram no banho?</h3>"
+    + "<p>Tudo o que está marcado no seu herbário — tenho, acabando ou a repor.</p>";
+  alvo.appendChild(perg);
+
+  const marcadas = DADOS_TOTAL.filter(e=>nivelDe(e.n)>0)
+    .sort((a,b)=> (ORDEM_ESTADO[nivelDe(a.n)] - ORDEM_ESTADO[nivelDe(b.n)]) || a.k.localeCompare(b.k));
+
+  if(!marcadas.length){
+    const p0=document.createElement("p"); p0.className="dica-vazia";
+    p0.innerHTML = "Você ainda não marcou nenhuma erva no herbário. Volte à aba Herbário e marque "
+      + "tenho, acabando ou a repor — elas aparecem aqui.";
+    alvo.appendChild(p0);
+    return;
+  }
+
+  const cont = document.createElement("p"); cont.className="vb-conta";
+  cont.textContent = marcadas.length + " erva" + (marcadas.length!==1?"s":"") + " marcada"
+    + (marcadas.length!==1?"s":"") + " no seu herbário";
+  alvo.appendChild(cont);
+
+  const lista = document.createElement("div"); lista.className="vb-lista";
+  marcadas.forEach(e=>lista.appendChild(opcaoErva(e)));
+  alvo.appendChild(lista);
+
+  const b=document.createElement("button"); b.className="btn btn-add avancar";
+  b.innerHTML = "VER A RECEITA ("+estado.banho.length+")" + sv(D.abaixo);
+  b.onclick = ()=>{ passo=2; window.scrollTo(0,0); render(); };
+  alvo.appendChild(b);
+}
+
+/* ---------- passo 1: escolher o caminho, depois intenção e ervas ---------- */
 function passoIntencao(alvo){
   const nv = estado.verbos.length, metaV = estado.alvoV;
 
-  /* ── a pergunta e o campo: primeira coisa da tela ── */
-  const perg = document.createElement("div"); perg.className="pergunta";
-  perg.innerHTML = "<h3>O que este banho deve fazer?</h3>"
-    + "<p>Escreva o verbo — descarregar, abrir, cortar, curar, prosperar…</p>";
-  alvo.appendChild(perg);
-
-  const campo = document.createElement("div"); campo.className="campo campo-grande";
-  campo.innerHTML = sv(D.lupa);
-  const inp = document.createElement("input");
-  inp.type="text"; inp.placeholder="Escreva aqui o verbo…"; inp.value=vBusca;
-  inp.setAttribute("aria-label","Escreva o verbo");
-  campo.appendChild(inp);
-  alvo.appendChild(campo);
-
-  const res = document.createElement("div"); res.className="v-res";
-  alvo.appendChild(res);
-
-  /* ── segunda porta: escolher por trono ── */
-  const alt = document.createElement("details"); alt.className="por-trono";
-  if(vTrono) alt.open = true;
-  alt.innerHTML = "<summary>"+sv(D.cruz,"ico-sm")+"ou veja os verbos de cada trono</summary>";
-  const tr = document.createElement("div"); tr.className="v-tronos";
-  const chipT = (cod, rot, cor)=>{
-    const b=document.createElement("button"); b.className="v-chipT";
-    b.setAttribute("aria-pressed", vTrono===cod);
-    b.textContent = rot;
-    if(cor){ b.style.color = vTrono===cod ? "#1A1917" : cor;
-             b.style.background = vTrono===cod ? cor : rgba(cor,.13); }
-    b.onclick = ()=>{ vTrono = (vTrono===cod ? null : cod); render(); };
-    return b;
-  };
-  TRONOS.forEach(t2=>tr.appendChild(chipT(t2.c, t2.nome, COR_TRONO[t2.c])));
-  alt.appendChild(tr);
-  alvo.appendChild(alt);
-
-  function resultados(){
-    const b = sacode(inp.value.trim());
-    res.innerHTML = "";
-    let lista = TODOS_VERBOS;
-    if(vTrono) lista = lista.filter(v=>VERBO_ORIGEM[v].some(([c])=>orixasDoTrono(vTrono).includes(c)));
-    if(b) lista = lista.filter(v=>sacode(v).includes(b));
-    if(!b && !vTrono) return;
-
-    lista.slice(0,24).forEach(v=>{
-      const b2=document.createElement("button"); b2.className="v-item";
-      b2.setAttribute("aria-pressed", verboEscolhido(v));
-      const orix = [...new Set(VERBO_ORIGEM[v].map(([c])=>c))]
-        .map(c=>'<i class="ox" style="color:'+corOrixa(c)+'" title="'+(ORIXAS[c]||c)+'">'+c+'</i>').join(" ");
-      const temps = [...new Set(VERBO_ORIGEM[v].map(([,t2])=>t2))]
-        .map(t2=>'<i class="tp '+(t2==="Q"?"q":"m")+'">'+sv(t2==="Q"?D.chama:D.folha,"ico-sm")+(t2==="Q"?"quente":"morna")+'</i>').join("");
-      b2.innerHTML = '<span class="vi-nome">'+v+'</span>'
-        + '<span class="vi-meta">'+temps+orix+'<i class="vi-n">'+ervasDoVerbo(v).length+' ervas</i></span>'
-        + '<span class="vi-ico">'+sv(verboEscolhido(v)?D.visto:D.mais,"ico-sm")+'</span>';
-      b2.onclick = ()=>{ alternaVerbo(v); vBusca=""; render(); };
-      res.appendChild(b2);
-    });
-    if(b && !lista.some(v=>sacode(v)===b)){
-      const novo=document.createElement("button"); novo.className="v-novo";
-      novo.innerHTML = sv(D.mais,"ico-sm")+'Acrescentar <b>'+inp.value.trim()+'</b> como verbo seu';
-      novo.onclick = ()=>{ const t2=inp.value.trim(); if(t2){ vBusca=""; alternaVerbo(t2); render(); } };
-      res.appendChild(novo);
-    }
+  if(caminhoBanho===null && !caminhoBanhoAuto){
+    caminhoBanhoAuto = true;
+    if(estado.verbos.length) caminhoBanho = "verbo";
+    else if(estado.banho.length) caminhoBanho = "erva";
   }
-  inp.oninput = ()=>{ vBusca = inp.value; resultados(); };
-  resultados();
+  if(caminhoBanho===null){ renderEscolhaCaminho(alvo); return; }
 
-  if(!nv){
-    const p0=document.createElement("p"); p0.className="dica-vazia";
-    p0.innerHTML = "Escreva um verbo acima ou escolha um trono. Assim que você escolher, "
-      + "as ervas que carregam aquele verbo aparecem logo abaixo dele.";
-    alvo.appendChild(p0);
-    return;
+  const trocar = document.createElement("button"); trocar.className="trocar-caminho";
+  trocar.innerHTML = sv(D.seta,"ico-sm")+"Escolher outro caminho";
+  trocar.onclick = ()=>{ caminhoBanho=null; vBusca=""; vTrono=null; window.scrollTo(0,0); render(); };
+  alvo.appendChild(trocar);
+
+  if(caminhoBanho==="erva"){ renderCaminhoErva(alvo); return; }
+
+  if(caminhoBanho==="verbo"){
+    const perg = document.createElement("div"); perg.className="pergunta";
+    perg.innerHTML = "<h3>O que este banho deve fazer?</h3>"
+      + "<p>Escreva o verbo — descarregar, abrir, cortar, curar, prosperar…</p>";
+    alvo.appendChild(perg);
+
+    const campo = document.createElement("div"); campo.className="campo campo-grande";
+    campo.innerHTML = sv(D.lupa);
+    const inp = document.createElement("input");
+    inp.type="text"; inp.placeholder="Escreva aqui o verbo…"; inp.value=vBusca;
+    inp.setAttribute("aria-label","Escreva o verbo");
+    campo.appendChild(inp);
+    alvo.appendChild(campo);
+
+    const res = document.createElement("div"); res.className="v-res";
+    alvo.appendChild(res);
+
+    function resultados(){
+      const b = sacode(inp.value.trim());
+      res.innerHTML = "";
+      if(!b) return;
+      const lista = TODOS_VERBOS.filter(v=>sacode(v).includes(b) || sinonimosDe(v).some(s=>sacode(s).includes(b)));
+      lista.slice(0,24).forEach(v=>res.appendChild(itemVerbo(v)));
+      if(!lista.some(v=>sacode(v)===b)){
+        const novo=document.createElement("button"); novo.className="v-novo";
+        novo.innerHTML = sv(D.mais,"ico-sm")+'Acrescentar <b>'+textoLivre(inp.value.trim())+'</b> como verbo seu';
+        novo.onclick = ()=>{ const t2=textoLivre(inp.value); if(t2){ vBusca=""; alternaVerbo(t2); render(); } };
+        res.appendChild(novo);
+      }
+    }
+    inp.oninput = ()=>{ vBusca = inp.value; resultados(); };
+    resultados();
+
+    if(!nv){
+      const p0=document.createElement("p"); p0.className="dica-vazia";
+      p0.innerHTML = "Escreva um verbo acima. Assim que você escolher, as ervas que carregam aquele verbo aparecem logo abaixo dele.";
+      alvo.appendChild(p0);
+      return;
+    }
+  } else {
+    const perg = document.createElement("div"); perg.className="pergunta";
+    perg.innerHTML = "<h3>Qual trono ou orixá este banho serve?</h3>"
+      + "<p>Toque num trono para ver os verbos que ele carrega.</p>";
+    alvo.appendChild(perg);
+
+    const tr = document.createElement("div"); tr.className="v-tronos v-tronos-abertos";
+    TRONOS.forEach(t2=>{
+      const b=document.createElement("button"); b.className="v-chipT";
+      const cor = COR_TRONO[t2.c];
+      b.setAttribute("aria-pressed", vTrono===t2.c);
+      b.textContent = t2.nome;
+      b.style.color = vTrono===t2.c ? "#1A1917" : cor;
+      b.style.background = vTrono===t2.c ? cor : rgba(cor,.13);
+      b.onclick = ()=>{ vTrono = (vTrono===t2.c ? null : t2.c); render(); };
+      tr.appendChild(b);
+    });
+    alvo.appendChild(tr);
+
+    const res = document.createElement("div"); res.className="v-res";
+    if(vTrono){
+      TODOS_VERBOS.filter(v=>VERBO_ORIGEM[v].some(([c])=>orixasDoTrono(vTrono).includes(c)))
+        .forEach(v=>res.appendChild(itemVerbo(v)));
+    }
+    alvo.appendChild(res);
+
+    if(!nv){
+      const p0=document.createElement("p"); p0.className="dica-vazia";
+      p0.innerHTML = "Toque num trono acima para ver os verbos que ele carrega e escolher um ou mais.";
+      alvo.appendChild(p0);
+      return;
+    }
   }
 
   /* ── quantos verbos quero ── */
@@ -1885,7 +2516,13 @@ function passoReceita(alvo){
   const bl=document.createElement("button"); bl.className="btn btn-sec";
   bl.innerHTML = sv(D.x)+"Esvaziar composição";
   bl.onclick = ()=>{ estado.banho=[]; salvar(); render(); };
-  acao.appendChild(br); acao.appendChild(bc); acao.appendChild(bl);
+  const blmb=document.createElement("button"); blmb.className="btn btn-sec";
+  blmb.innerHTML = sv(D.nota,"ico-sm")+"Lembrar deste banho";
+  blmb.onclick = ()=>abrirLembrete({
+    titulo: "Tomar banho" + (estado.verbos.length ? " — "+estado.verbos.join(", ") : ""),
+    itens: estado.banho.map(nome=>"• "+nome).join("\n")
+  });
+  acao.appendChild(br); acao.appendChild(bc); acao.appendChild(blmb); acao.appendChild(bl);
   alvo.appendChild(acao);
 
   if(estado.receitas.length){
@@ -1967,7 +2604,7 @@ function telaDiario(alvo){
     + "<p>O que você registrou: banhos tomados e as ervas que ganharam anotação sua.</p>";
   alvo.appendChild(ab);
 
-  const anotadas = DADOS.filter(e=>estado.notas[e.n]);
+  const anotadas = DADOS_TOTAL.filter(e=>estado.notas[e.n]);
 
   if(!estado.receitas.length && !anotadas.length){
     const v=document.createElement("div"); v.className="vazio";
@@ -2004,7 +2641,9 @@ function telaDiario(alvo){
 
 /* ---------- render ---------- */
 function render(){
-  const c = contar(), T = DADOS.length;
+  document.body.dataset.aba=aba;
+  document.getElementById("tituloHerbario").innerHTML=aba==="estoque" ? "Herbário de<span>[Nome da pessoa aqui]</span>" : "Herbário";
+  const c = contar(), T = DADOS_TOTAL.length;
   document.getElementById("barra").innerHTML =
       '<i class="b-cheio" style="width:'+(c[3]/T*100)+'%"></i>'
     + '<i class="b-acab"  style="width:'+(c[2]/T*100)+'%"></i>'
@@ -2030,8 +2669,92 @@ function render(){
   else if(aba==="banho") telaBanho(alvo);
   else if(aba==="diario") telaDiario(alvo);
   else telaComprar(alvo);
+  atualizarFiltrosUX(); pintarIndice();
 }
 
+/* Inventory filters: transient UI state; saved data and storage schema stay unchanged. */
+function filtrosAtivos(){
+  const itens=[];
+  if(filtro!=="todas") itens.push([FILTROS.find(x=>x[0]===filtro)[1],()=>{filtro="todas";}]);
+  if(temperatura) itens.push([temperatura==="Q"?"Quentes":"Mornas",()=>{temperatura="";}]);
+  if(soFavoritas) itens.push(["Preferidas",()=>{soFavoritas=false;}]);
+  selTronos.forEach(c=>itens.push([TRONOS.find(t=>t.c===c).nome,()=>selTronos.delete(c)]));
+  selOrixas.forEach(c=>itens.push([ORIXAS[c]||c,()=>selOrixas.delete(c)]));
+  return itens;
+}
+function pintarFiltrosBasicos(){
+  const el=document.getElementById("filtrosBasicos"); el.replaceChildren();
+  el.hidden=aba!=="estoque";
+  document.getElementById("tituloFiltros").textContent=aba==="estoque"?"Filtros":"Os sete tronos";
+  if(aba!=="estoque") return;
+  const grupo=(rotulo,opcoes,valor,mudar)=>{
+    const field=document.createElement("fieldset"), legend=document.createElement("legend"), fila=document.createElement("div");
+    legend.textContent=rotulo; fila.className="filtro-opcoes";
+    opcoes.forEach(([id,texto])=>{
+      const b=document.createElement("button"); b.className="chip"; b.textContent=texto;
+      b.setAttribute("aria-pressed",valor===id);
+      b.onclick=()=>{
+        mudar(id);
+        [...fila.children].forEach((x,i)=>x.setAttribute("aria-pressed",opcoes[i][0]===id));
+        pintarChips(); render();
+      };
+      fila.appendChild(b);
+    });
+    field.append(legend,fila); el.appendChild(field);
+  };
+  grupo("Estoque",[["todas","Todos"],["cheio","Tenho"],["acabando","Acabando"],["falta","Repor"]],filtro,id=>filtro=id);
+  grupo("Temperatura",[["","Todas"],["Q","Quentes"],["M","Mornas"]],temperatura,id=>temperatura=id);
+  grupo("Preferidas",[[false,"Todas"],[true,"Só preferidas"]],soFavoritas,id=>soFavoritas=id);
+}
+function atualizarFiltrosUX(){
+  const itens=filtrosAtivos(), el=document.getElementById("filtrosAtivos"); el.replaceChildren();
+  document.getElementById("abrirFiltros").textContent="Filtros"+(itens.length?" "+itens.length:"");
+  itens.forEach(([nome,remover])=>{
+    const b=document.createElement("button"); b.className="chip"; b.textContent=nome+" ×";
+    b.setAttribute("aria-label","Remover filtro "+nome);
+    b.onclick=()=>{remover(); pintarChips(); render(); document.getElementById("abrirFiltros").focus({preventScroll:true});};
+    el.appendChild(b);
+  });
+  if(aba==="estoque"){
+    const n=filtrada().length;
+    document.getElementById("sheetVer").textContent="Ver "+n+" erva"+(n===1?"":"s");
+    document.getElementById("sheetConta").textContent="";
+    document.getElementById("sheetLimpar").hidden=false;
+    document.getElementById("sheetLimpar").textContent="Limpar";
+  } else document.getElementById("sheetVer").textContent="Ver ervas";
+}
+function posicionarIndice(){
+  const top=document.querySelector(".top");
+  document.documentElement.style.setProperty("--indice-offset",(top.offsetHeight+10)+"px");
+}
+function pintarIndice(){
+  const select=document.getElementById("indiceAZ"), grupo=document.getElementById("atalhoLetras");
+  grupo.hidden=aba!=="estoque";
+  if(grupo.hidden) return;
+  select.replaceChildren(new Option("A–Z",""));
+  const headers=[...document.querySelectorAll("#conteudo .letra")];
+  for(const h of headers){const L=h.id.slice(6);select.add(new Option(L,L));}
+  select.disabled=!headers.length;
+  const total=document.querySelectorAll("#conteudo .linha").length;
+  document.getElementById("totalErvas").textContent=total+" erva"+(total===1?"":"s");
+  posicionarIndice();
+}
+document.getElementById("indiceAZ").addEventListener("change",ev=>{
+  const h=document.getElementById("letra-"+ev.target.value); if(!h) return;
+  posicionarIndice();
+  h.scrollIntoView({block:"start",behavior:"instant"});
+  h.tabIndex=-1;h.focus({preventScroll:true});
+  ev.target.value="";
+});
+window.addEventListener("resize",posicionarIndice);
+document.getElementById("abrirFiltros").onclick=abrirSheet;
+document.getElementById("sheet").addEventListener("keydown",ev=>{
+  if(ev.key!=="Tab") return;
+  const focos=[...ev.currentTarget.querySelectorAll("button")].filter(b=>!b.disabled && b.getClientRects().length);
+  const primeiro=focos[0], ultimo=focos[focos.length-1];
+  if(ev.shiftKey && document.activeElement===primeiro){ev.preventDefault();ultimo.focus();}
+  else if(!ev.shiftKey && document.activeElement===ultimo){ev.preventDefault();primeiro.focus();}
+});
 /* ---------- eventos ---------- */
 document.getElementById("busca").addEventListener("input", ev=>{ busca=ev.target.value; render(); });
 function irPara(nome){
@@ -2050,7 +2773,12 @@ document.getElementById("sheetVer").onclick = fecharSheet;
 document.getElementById("fecharFicha").onclick = fecharFicha;
 document.getElementById("ficha").addEventListener("click", ev=>{ if(ev.target.id==="ficha") fecharFicha(); });
 document.getElementById("registro").addEventListener("click", ev=>{ if(ev.target.id==="registro") fecharRegistro(); });
-document.addEventListener("keydown", ev=>{ if(ev.key==="Escape"){ fecharSheet(); fecharFicha(); fecharRegistro(); } });
+document.getElementById("fabNovaErva").onclick = ()=>abrirNovaErva(null, {});
+document.getElementById("fecharErvaSheet").onclick = fecharNovaErva;
+document.getElementById("fecharLembreteSheet").onclick = fecharLembrete;
+document.getElementById("lembreteSheet").addEventListener("click", ev=>{ if(ev.target.id==="lembreteSheet") fecharLembrete(); });
+document.getElementById("ervaSheet").addEventListener("click", ev=>{ if(ev.target.id==="ervaSheet") fecharNovaErva(); });
+document.addEventListener("keydown", ev=>{ if(ev.key==="Escape"){ fecharSheet(); fecharFicha(); fecharRegistro(); fecharNovaErva(); fecharLembrete(); } });
 
 function fecharSplash(){
   const sp = document.getElementById("splash");
